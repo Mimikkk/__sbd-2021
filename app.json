@@ -1,11 +1,8 @@
 {
-  "name": "Sbd Tennis",
+  "name": "AspNet5DemoApp",
   "description": "Demo app on ASP.NET Core",
   "repository": "https://github.com/Mimikkk/sadsad",
-  "keywords": [
-    "aspnet",
-    "core"
-  ],
+  "keywords": ["aspnet", "core"],
   "stack": "heroku-20",
   "buildpacks": [
     {
