@@ -8,21 +8,18 @@ namespace Backend.Controllers
 [Route("api/[controller]")]
 public class ValuesController : ControllerBase
 {
-    // GET: api/values
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-        Console.WriteLine(Request.GetDisplayUrl());
-        Console.WriteLine(Request.GetEncodedUrl());
+  // GET: api/values
+  [HttpGet]
+  public IEnumerable<int> Get()
+  {
+    Console.WriteLine(Request.GetDisplayUrl());
+    Console.WriteLine(Request.GetEncodedUrl());
 
-        return new[] { "value1", "value2" };
-    }
+    return new[] { 1, 2 };
+  }
 
-    // GET api/values/5
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-        return "value";
-    }
+  // POST api/values/5
+  [HttpPost("{id:int}")]
+  public int Post(int id) => id;
 }
 }
