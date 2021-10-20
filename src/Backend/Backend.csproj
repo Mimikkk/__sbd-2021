@@ -2,8 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Backend</RootNamespace>
+        <RootNamespace>sbd-tennis</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\"/>
+    </ItemGroup>
 
     <Target Name="PrePublishTarget" BeforeTargets="PrepareForPublish" Condition="$(DOTNET_RUNNING_IN_CONTAINER) != 'true'">
         <Exec Command="npm install"/>
@@ -11,5 +15,6 @@
         <ItemGroup>
             <Dist Include="../../build/**"/>
         </ItemGroup>
+        <Copy SourceFiles="@(Dist)" DestinationFolder="$(PublishDir)\wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true"/>
     </Target>
 </Project>
