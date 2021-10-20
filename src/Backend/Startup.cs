@@ -32,6 +32,8 @@ public class Startup
 
     if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DYNO")))
     {
+
+
       Console.WriteLine("Use https redirection");
       app.UseHttpsRedirection();
     }

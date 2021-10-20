@@ -5,15 +5,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot\"/>
+        <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql" Version="6.0.0-rc.2" />
     </ItemGroup>
 
     <Target Name="PrePublishTarget" BeforeTargets="PrepareForPublish" Condition="$(DOTNET_RUNNING_IN_CONTAINER) != 'true'">
-        <Exec Command="npm install"/>
-        <Exec Command="npm run build"/>
+        <Exec Command="npm install" />
+        <Exec Command="npm run build" />
         <ItemGroup>
-            <Dist Include="../../build/**"/>
+            <Dist Include="../../build/**" />
         </ItemGroup>
-        <Copy SourceFiles="@(Dist)" DestinationFolder="$(PublishDir)\wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="@(Dist)" DestinationFolder="$(PublishDir)\wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true" />
     </Target>
 </Project>

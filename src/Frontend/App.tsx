@@ -18,24 +18,27 @@ const App = () => {
   console.log('hah');
 
   return (
-    <Box sx={{ display:'flex' }}>
-      <Button onClick={async () => {
-        console.log('haha');
-        console.log(await ValuesService.getAll());
-        setNum(await ValuesService.get(faker.datatype.number()));
-      }}>{`Show random number Here ! ${num} !`}</Button>
+    <Box sx={{ display: 'flex' }}>
+      <Button
+        onClick={async () => {
+          console.log('haha');
+          console.log(await ValuesService.getAll());
+          console.log(await ValuesService.getDatabase());
+          setNum(await ValuesService.get(faker.datatype.number()));
+        }}
+      >{`Show random number Here ! ${num} !`}</Button>
       <NavigationMenu>
         <NavigationMenuHeader />
         <MenuBar
-          title='Obiekty sportowe'
-          path='sportObjects'
-          description='Lista obiektów sportowych'
+          title="Obiekty sportowe"
+          path="sportObjects"
+          description="Lista obiektów sportowych"
           icon={<TennisIcon />}
         />
 
-        <MenuBar title='somewhere'>
-          <SubBar title='somewhere' path='somewhere' icon={<MailIcon />} />
-          <SubBar title='somewhere' path='somewhere' icon={<MailIcon />} />
+        <MenuBar title="somewhere">
+          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
+          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
         </MenuBar>
       </NavigationMenu>
       <ViewHandler />
