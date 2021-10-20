@@ -5,6 +5,8 @@
 *.suo
 *.user
 *.sln.docstates
+package-lock.json
+/.idea
 
 # Build results
 [Dd]ebug/
