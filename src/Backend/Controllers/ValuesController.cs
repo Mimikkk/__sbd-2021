@@ -23,14 +23,25 @@ public class ValuesController : ControllerBase
   [HttpPost("{id:int}")]
   public int Post(int id) => id;
 
-  [HttpGet("do")]
-  public int[] GetGet()
-  {
-    var cmd = new NpgsqlCommand("select * from test;", App.DB);
 
-    var list = new List<int>();
-    using (var reader = cmd.ExecuteReader()) list.Add(reader.GetInt32(0));
-    return list.ToArray();
+  [HttpGet("do")]
+  public List<object[]> GetGet()
+  {
+    var sqlCommand = new NpgsqlCommand("SELECT * FROM test", App.DB);
+
+    var result = new List<object[]>();
+    using var dataReader = sqlCommand.ExecuteReader();
+
+    while (dataReader.Read())
+    {
+      var values = new object[dataReader.FieldCount];
+      for (var i = 0; i < dataReader.FieldCount; i++) values[i] = dataReader[i];
+      result.Add(values);
+    }
+    
+    Console.WriteLine(1);
+    
+    return result;
   }
 }
 }
