@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend
-{
+namespace Backend;
+
 public class Startup
 {
   public void ConfigureServices(IServiceCollection services)
@@ -47,5 +47,4 @@ public class Startup
         endpoints.MapDefaultControllerRoute();
       });
   }
-}
 }
