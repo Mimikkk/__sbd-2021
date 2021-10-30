@@ -1,13 +1,12 @@
 ﻿using System;
 using Npgsql;
 
-namespace Backend
-{
+namespace Backend;
+
 public static partial class App
 {
   private static readonly string DatabaseUri = CalculateDatabaseUri();
   public static readonly NpgsqlConnection DB = EstablishConnection();
-
 
   private static NpgsqlConnection EstablishConnection()
   {
@@ -31,5 +30,4 @@ public static partial class App
       Database = databaseUri.LocalPath.TrimStart('/')
     }.ToString();
   }
-}
 }

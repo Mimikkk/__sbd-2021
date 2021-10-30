@@ -38,9 +38,9 @@ public class ValuesController : ControllerBase
       for (var i = 0; i < dataReader.FieldCount; i++) values[i] = dataReader[i];
       result.Add(values);
     }
-    
+
     Console.WriteLine(1);
-    
+
     return result;
   }
 }
