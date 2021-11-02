@@ -20,6 +20,8 @@ public static partial class Application
   }
   private static string CalculateDatabaseUri()
   {
+    Console.WriteLine($"ENV: {Environment.GetEnvironmentVariable("DATABASE_URL")}");
+  
     var database = Environment
       .GetEnvironmentVariable("DATABASE_URL")!
       .Split(' ')
