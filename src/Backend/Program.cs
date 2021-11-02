@@ -1,3 +1,3 @@
-﻿using static Backend.Applications.Application;
+﻿using Backend.Applications;
 
-App.Run();
+Application.App.Run();
