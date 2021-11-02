@@ -20,20 +20,17 @@ public static partial class Application
   }
   private static string CalculateDatabaseUri()
   {
-    Console.WriteLine($"ENV: {Environment.GetEnvironmentVariable("DATABASE_URL")}");
-  
-    var database = Environment
-      .GetEnvironmentVariable("DATABASE_URL")!
-      .Split(' ')
-      .Select(item => item.Split("="))
-      .ToDictionary(item => item[0], item => item[1]);
+    var uri = new Uri(Environment.GetEnvironmentVariable("DATABASE_URL")!);
+
+    var userInfo = uri.UserInfo.Split(':');
+    var (username, password) = (userInfo[0], userInfo[1]);
 
     return new NpgsqlConnectionStringBuilder {
-      Host = database["host"],
-      Port = int.Parse(database["port"]),
-      Username = database["user"],
-      Password = database["password"],
-      Database = database["dbname"]
+      Host = uri.Host,
+      Port = uri.Port,
+      Username = username,
+      Password = password,
+      Database = uri.LocalPath.TrimStart('/')
     }.ToString();
   }
 }
