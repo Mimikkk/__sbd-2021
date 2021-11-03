@@ -1,1 +1,1 @@
-export * from './sportObject.translation';
+export * from './court.translation';

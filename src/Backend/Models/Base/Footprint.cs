@@ -4,7 +4,7 @@ namespace Backend.Models.Base;
 
 public abstract record Footprint
 {
-  public Guid id = Guid.NewGuid();
-  public DateTime createdAt = DateTime.Now;
-  public DateTime updatedAt = DateTime.Now;
+  public Guid id { get; set; } = Guid.NewGuid();
+  public DateTime createdAt { get; set; } = DateTime.Now;
+  public DateTime updatedAt { get; set; } = DateTime.Now;
 }
