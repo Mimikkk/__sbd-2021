@@ -1,1 +1,1 @@
-export * from 'Frontend/shared/services/court.service';
+export * from './court.service';

@@ -1,1 +1,1 @@
-export * from 'Frontend/shared/models/translations/court.translation';
+export * from './court.translation';

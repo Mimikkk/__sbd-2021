@@ -1,18 +1,21 @@
 import styled from 'styled-components';
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 interface Props {
-  rotate: boolean;
+  shouldRotate: boolean;
 }
 
-const Rotate = styled.div`
+const Rotate = styled.div<Props>`
   align-content: center;
   display: flex;
   transition: all 0.1s ease-out;
-  transform: ${({ rotate }: Props) => (rotate ? `rotate(90deg)` : '')};
+  transform: ${({ shouldRotate }) =>
+    shouldRotate ? `rotate(90deg)` : undefined};
 `;
 
-export const RotatingArrow: VFC<Props> = ({ rotate }) => (
-  <Rotate rotate={rotate} children={<ArrowRightIcon />} />
+export const RotatingArrow: VFC<Props> = ({ shouldRotate }) => (
+  <Rotate shouldRotate={shouldRotate}>
+    <ArrowRightIcon />
+  </Rotate>
 );

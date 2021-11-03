@@ -29,7 +29,7 @@ export const MenuBar: FC<Props> = ({ title, icon, children, path }) => {
       {isExpandable ? (
         <ListItem button onClick={toggleOpen}>
           <ListItemIcon>
-            <RotatingArrow rotate={isOpen} />
+            <RotatingArrow shouldRotate={isOpen} />
           </ListItemIcon>
           <ListItemText primary={title} sx={{ textAlign: 'left' }} />
           <Redirect to={`/${path}`} />
