@@ -1,1 +1,1 @@
-export * from './SportObject.values';
+export * from 'Frontend/shared/models/values/court.values';

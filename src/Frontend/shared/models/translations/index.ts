@@ -1,1 +1,1 @@
-export * from './sportObject.translation';
+export * from 'Frontend/shared/models/translations/court.translation';

@@ -10,8 +10,8 @@ import {
 import MailIcon from '@mui/icons-material/Mail';
 import TennisIcon from '@mui/icons-material/SportsTennis';
 import { ViewHandler } from 'Frontend/components/views';
-import { ValuesService } from 'Frontend/shared/services/Values.service';
 import * as faker from 'faker';
+import { CourtService } from 'Frontend/shared/services';
 
 const App = () => {
   const [num, setNum] = useState(0);
@@ -21,10 +21,21 @@ const App = () => {
     <Box sx={{ display: 'flex' }}>
       <Button
         onClick={async () => {
-          console.log('haha');
-          console.log(await ValuesService.getAll());
-          console.log(await ValuesService.getDatabase());
-          setNum(await ValuesService.get(faker.datatype.number()));
+          await CourtService.delete(faker.datatype.uuid());
+
+          await CourtService.update(faker.datatype.uuid(), {
+            floor: 'some',
+            isUnderMaintenance: true,
+            isCovered: true,
+          });
+
+          console.log(await CourtService.readAll());
+
+          await CourtService.create({
+            floor: 'any',
+            isCovered: true,
+            isUnderMaintenance: true,
+          });
         }}
       >{`Show random number Here ! ${num} !`}</Button>
       <NavigationMenu>

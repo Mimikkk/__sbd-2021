@@ -1,1 +1,1 @@
-export * from './SportObject.service';
+export * from 'Frontend/shared/services/court.service';
