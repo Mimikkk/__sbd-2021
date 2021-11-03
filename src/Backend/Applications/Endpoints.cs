@@ -11,7 +11,9 @@ public static partial class Application
 
 
   internal static readonly IReadOnlyList<Endpoint> Endpoints = new List<Endpoint> {
-    new("/hello", RequestType.Get, SportObjectService.Get),
-    new("/hello/{id:guid}", RequestType.Get, SportObjectService.GetById),
+    new("/courts", RequestType.Get, CourtService.Get),
+    new("/courts", RequestType.Post, CourtService.Post),
+    new("/courts/{id:guid}", RequestType.Put, CourtService.Put),
+    new("/courts/{id:guid}", RequestType.Delete, CourtService.Delete),
   };
 }

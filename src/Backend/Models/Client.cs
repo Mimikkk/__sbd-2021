@@ -5,5 +5,5 @@ namespace Backend.Models;
 
 public record Client(string name, string surname, DateOnly birthdate, string phoneNumber) : Person(name, surname, birthdate, phoneNumber)
 {
-  public bool isPermanent = false;
+  public bool isPermanent { get; set; } = false;
 }

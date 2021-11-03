@@ -10,6 +10,5 @@ public static partial class Application
     .UseDefaultFiles()
     .UseStaticFiles()
     .UseCors("CorsPolicy")
-    .UseEndpoints(EndpointsPolicy);
- 
+    .UseEndpoints(EndpointsPolicy); 
 }
