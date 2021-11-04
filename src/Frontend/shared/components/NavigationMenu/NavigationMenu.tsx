@@ -6,8 +6,11 @@ export const NavigationMenu: FC = ({ children }) => {
     <Drawer
       variant="permanent"
       open
-      sx={{ width: 200, '& .MuiDrawer-paper': { width: 200 } }}
-      PaperProps={{ elevation: 2 }}
+      sx={{
+        width: 200,
+        '& .MuiDrawer-paper': { width: 200, borderRight: 0 },
+      }}
+      PaperProps={{ elevation: 0 }}
     >
       <Container style={{ padding: '0' }}>
         {children}
