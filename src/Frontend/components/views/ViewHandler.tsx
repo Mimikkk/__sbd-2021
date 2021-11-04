@@ -1,18 +1,27 @@
 import { Redirect, Route } from 'react-router-dom';
 import { Views } from 'Frontend/components/views/values';
+import { Grid } from '@mui/material';
 
 export const ViewHandler = () => {
   return (
-    <div>
-      Page Contents
+    <Grid
+      sx={{
+        justifyContent: 'center',
+        display: 'flex',
+        justifyItems: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100vw',
+      }}
+    >
       <Route path="/:path">
         {({ match }) => {
           if (!match) return <Redirect to="home" />;
           const path = match.params.path;
-
-          return Views[path] ? Views[path] : <Redirect to="pageNotFound" />;
+          console.log(match);
+          return Views[path] ?? <Redirect to="pageNotFound" />;
         }}
       </Route>
-    </div>
+    </Grid>
   );
 };

@@ -2,18 +2,16 @@ import { Court } from 'Frontend/shared/models';
 import { uuid } from 'Frontend/shared/types';
 import { servicant } from './servicant';
 
-const ApiUrl = '/courts';
+const url = '/courts';
 
 export const CourtService = {
-  create: async (item: Court.Model) => await servicant.post(ApiUrl, item),
+  create: (item: Court.Model) =>
+    servicant.create({ url, item, successMessage: 'super' }),
 
-  readAll: async () => await servicant.get<undefined, Court.Model[]>(ApiUrl),
+  readAll: () => servicant.read<Court.Model[]>({ url }),
 
-  update: async (id: uuid, item: Court.Model) =>
-    await servicant.put<uuid, Court.Model>(`${ApiUrl}/${id}`, item),
+  update: (id: uuid, item: Court.Model) =>
+    servicant.update<Court.Model>({ url, item, id }),
 
-  delete: async (id: uuid) =>
-    await servicant.delete<undefined, undefined, uuid>(`${ApiUrl}/${id}`, {
-      data: id,
-    }),
+  delete: (id: uuid) => servicant.delete({ url, id }),
 };
