@@ -1,2 +1,2 @@
 export * from './ViewHandler';
-export * from './SportObjects.view';
+export * from './Court.view';

@@ -9,7 +9,6 @@ export const ViewHandler = () => {
         {({ match }) => {
           if (!match) return <Redirect to="home" />;
           const path = match.params.path;
-
           return Views[path] ? Views[path] : <Redirect to="pageNotFound" />;
         }}
       </Route>

@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
+import { Tile } from 'Frontend/shared/components/Tile';
 
 export const HomeView = () => {
-  return <Box>Love</Box>;
+  return <Tile/>;
 };

@@ -1,5 +1,5 @@
 import React, { VFC } from 'react';
-import { Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import {ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 
 export const SubBar: VFC<Props> = ({ description, icon, title, path }) => (
   <>
-    <Divider variant="middle" />
     <Link
       to={`/${path}`}
       style={{ color: 'inherit', textDecoration: 'inherit' }}

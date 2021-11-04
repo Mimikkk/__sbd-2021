@@ -1,56 +1,36 @@
-import React, { useState } from 'react';
 import './App.css';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import {
   MenuBar,
   NavigationMenu,
   NavigationMenuHeader,
-  SubBar,
 } from 'Frontend/shared/components';
-import MailIcon from '@mui/icons-material/Mail';
-import TennisIcon from '@mui/icons-material/SportsTennis';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { ViewHandler } from 'Frontend/components/views';
-import * as faker from 'faker';
-import { CourtService } from 'Frontend/shared/services';
 
 const App = () => {
-  const [num, setNum] = useState(0);
-  console.log('hah');
-
   return (
     <Box sx={{ display: 'flex' }}>
-      <Button
-        onClick={async () => {
-          await CourtService.delete(faker.datatype.uuid());
-
-          await CourtService.update(faker.datatype.uuid(), {
-            floor: 'some',
-            isUnderMaintenance: true,
-            isCovered: true,
-          });
-
-          console.log(await CourtService.readAll());
-
-          await CourtService.create({
-            floor: 'any',
-            isCovered: true,
-            isUnderMaintenance: true,
-          });
-        }}
-      >{`Show random number Here ! ${num} !`}</Button>
       <NavigationMenu>
         <NavigationMenuHeader />
         <MenuBar
-          title="Obiekty sportowe"
+          title="Calendar"
+          subtitle="Show calendar"
+          icon={<CalendarTodayIcon />}
           path="sportObjects"
           description="Lista obiektów sportowych"
-          icon={<TennisIcon />}
         />
-
-        <MenuBar title="somewhere">
-          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
-          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
-        </MenuBar>
+        <MenuBar
+          title="Reservations"
+          subtitle="Show list of all reservations"
+          icon={<FormatListBulletedIcon />}/>
+        <MenuBar title="Courts"
+                 subtitle="Show info about courts"
+                 icon={<CalendarTodayIcon />}/>
+        <MenuBar title="Clients" subtitle="Show list of clients"/>
+        <MenuBar title="Equipment" subtitle="Aviable equipment "/>
+        <MenuBar title="Prices & discounts" subtitle="Show info about courts"/>
       </NavigationMenu>
       <ViewHandler />
     </Box>
