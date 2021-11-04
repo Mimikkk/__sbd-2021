@@ -2,7 +2,6 @@ import { FC, ReactElement, ReactNode } from 'react';
 import { useToggle } from 'Frontend/shared/hooks';
 import {
   Collapse,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
