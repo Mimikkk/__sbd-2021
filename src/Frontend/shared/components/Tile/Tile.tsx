@@ -1,6 +1,7 @@
-import { Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
+import React, { FC } from 'react';
 
-export const Tile = () => {
+export const Tile: FC = ({ children }) => {
   return (
     <Grid
       sx={{
@@ -12,6 +13,9 @@ export const Tile = () => {
         width: '100vw',
       }}
     >
+      <Container style={{ padding: '0', margin: '5'}}>
+        {children}
+      </Container>
     </Grid>
   );
 };
