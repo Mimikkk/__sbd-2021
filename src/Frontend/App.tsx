@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Box, Button } from '@mui/material';
-import {
-  MenuBar,
-  NavigationMenu,
-  NavigationMenuHeader,
-  SubBar,
-} from 'Frontend/shared/components';
-import MailIcon from '@mui/icons-material/Mail';
-import TennisIcon from '@mui/icons-material/SportsTennis';
+import { NavBar } from 'Frontend/shared/components';
 import { ViewHandler } from 'Frontend/components/views';
 import * as faker from 'faker';
 import { CourtService } from 'Frontend/shared/services';
@@ -38,20 +31,7 @@ const App = () => {
           });
         }}
       >{`Show random number Here ! ${num} !`}</Button>
-      <NavigationMenu>
-        <NavigationMenuHeader />
-        <MenuBar
-          title="Obiekty sportowe"
-          path="sportObjects"
-          description="Lista obiektów sportowych"
-          icon={<TennisIcon />}
-        />
-
-        <MenuBar title="somewhere">
-          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
-          <SubBar title="somewhere" path="somewhere" icon={<MailIcon />} />
-        </MenuBar>
-      </NavigationMenu>
+      <NavBar/>
       <ViewHandler />
     </Box>
   );
