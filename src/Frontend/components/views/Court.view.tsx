@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { CourtService } from 'Frontend/shared/services';
 
-export const SportObjectsView = () => {
+export const CourtView = () => {
   const [items, setItems] = useReducer((items) => [...items], []);
 
   useEffect(() => {
