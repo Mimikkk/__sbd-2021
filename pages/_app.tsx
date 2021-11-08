@@ -2,6 +2,7 @@ import { CssBaseline, Grid } from '@mui/material';
 import { Navigator, Toaster } from 'shared/components';
 import { AppProps } from 'next/app';
 import { VFC } from 'react';
+import 'styles/Navigator.scss';
 import 'styles/App.scss';
 
 const App: VFC<AppProps> = ({ Component, pageProps }) => {

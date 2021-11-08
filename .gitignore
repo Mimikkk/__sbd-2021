@@ -7,7 +7,7 @@
 *.sln.docstates
 package-lock.json
 /.idea
-/.next
+/**/.next
 
 # Build results
 [Dd]ebug/
@@ -199,3 +199,4 @@ project.lock.json
 
 node_modules
 **/wwwroot/**/*
+/src/.next/
