@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/Mimikkk/sbd-tennis.git"
   },
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -60,7 +63,7 @@
     "prestart": "next build",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "next lint"
   },
   "eslintConfig": {
