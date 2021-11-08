@@ -9,9 +9,7 @@
   "cacheDirectories": [
     ".next/cache"
   ],
-  "engines": {
-    "node": "10"
-  },  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
