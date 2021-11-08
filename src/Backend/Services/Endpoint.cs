@@ -16,10 +16,10 @@ public readonly record struct Endpoint(string path, RequestType type, Delegate a
 {
   public static void Register(Endpoint endpoint) => endpoint.Register();
   public void Register() => Voided(type switch {
-    RequestType.Get    => App.MapGet(path, action),
-    RequestType.Post   => App.MapPost(path, action),
-    RequestType.Put    => App.MapPut(path, action),
-    RequestType.Delete => App.MapDelete(path, action),
+    RequestType.Get    => Layout.MapGet(path, action),
+    RequestType.Post   => Layout.MapPost(path, action),
+    RequestType.Put    => Layout.MapPut(path, action),
+    RequestType.Delete => Layout.MapDelete(path, action),
     _                  => throw new ArgumentOutOfRangeException(path)
   });
 }

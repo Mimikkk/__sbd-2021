@@ -4,7 +4,7 @@ namespace Backend.Applications;
 
 public static partial class Application 
 {
-  private static void RegisterUses() => App
+  private static void RegisterUses() => Layout
     .UseForwardedHeaders()
     .UseRouting()
     .UseDefaultFiles()

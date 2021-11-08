@@ -6,10 +6,10 @@ public static partial class Application
 {
   static Application()
   {
-    App = Build();
+    Layout = Build();
     RegisterEndpoints();
     RegisterUses();
   }
 
-  internal static readonly WebApplication App = null!;
+  internal static readonly WebApplication Layout = null!;
 }
