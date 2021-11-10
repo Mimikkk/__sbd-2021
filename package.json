@@ -64,7 +64,8 @@
     "prestart": "next build",
     "dev": "next dev",
     "build": "next build",
-    "start": "concurrently \"cd ./src/Backend && dotnet run\" \"next start -p $PORT\""
+    "start": "next start -p $PORT",
+    "postinstall": "next build"
   },
   "main": "pages/index.tsx",
   "eslintConfig": {
