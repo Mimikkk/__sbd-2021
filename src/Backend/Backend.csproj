@@ -11,6 +11,8 @@
 
     <ItemGroup>
         <PackageReference Include="Bogus" Version="33.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="5.0.0-preview.8.20414.8" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.0" />
         <PackageReference Include="Npgsql" Version="6.0.0-rc.2" />
     </ItemGroup>
 
