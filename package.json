@@ -9,7 +9,6 @@
   "cacheDirectories": [
     ".next/cache"
   ],
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -61,11 +60,9 @@
     "yup": "^0.31.1"
   },
   "scripts": {
-    "prestart": "next build",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
-    "postinstall": "next build"
+    "start": "next start -p $PORT"
   },
   "main": "pages/index.tsx",
   "eslintConfig": {
