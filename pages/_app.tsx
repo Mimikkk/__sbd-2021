@@ -4,17 +4,21 @@ import { AppProps } from 'next/app';
 import { VFC } from 'react';
 import 'styles/Navigator.scss';
 import 'styles/App.scss';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 const App: VFC<AppProps> = ({ Component, pageProps }) => {
   return (
     <CssBaseline>
-      <Grid className="App" display="flex">
-        <Navigator />
-        <Grid container item justifyContent="center">
-          <Component {...pageProps} />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Grid className="App" display="flex" xs={12}>
+          <Navigator />
+          <Grid container item justifyContent="center" className="View">
+            <Component {...pageProps} />
+          </Grid>
+          <Toaster />
         </Grid>
-        <Toaster />
-      </Grid>
+      </LocalizationProvider>
     </CssBaseline>
   );
 };

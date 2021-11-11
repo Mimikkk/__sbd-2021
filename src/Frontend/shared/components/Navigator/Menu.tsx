@@ -37,12 +37,12 @@ export const Menu: FC<Props> = ({ title, subtitle, icon, path }) => {
       </ListItemIcon>
       <ListItemText
         primary={
-          <Typography sx={{ color: 'rgba(0, 0, 0, 0.87)', fontSize: 16 }}>
-            {title}
-          </Typography>
+          // TODO fix fontSize to be 16 across all screens
+          <Typography sx={{ color: 'rgba(0, 0, 0, 0.87)' }}>{title}</Typography>
         }
         secondary={
-          <Typography sx={{ color: 'rgba(94, 99, 102, 1)', fontSize: 12 }}>
+          // TODO fix fontSize to be 12 across all screens
+          <Typography sx={{ color: 'rgba(94, 99, 102, 1)' }}>
             {subtitle}
           </Typography>
         }

@@ -56,6 +56,8 @@ const Courts = () => {
     console.log({ items });
   }, []);
 
+  const a: any[] = [];
+
   return (
     <Tile>
       <List rows={mockRows} columns={mockColumns} />

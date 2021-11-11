@@ -10,6 +10,8 @@ export const Tile: FC = ({ children }) => {
         alignContent: 'center',
         justifyItems: 'center',
         justifyContent: 'center',
+        minWidth: '100%',
+        padding: '2em 4em 2em 4em',
       }}
     >
       {children}
