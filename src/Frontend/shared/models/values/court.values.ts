@@ -1,4 +1,4 @@
-import { Court } from 'Frontend/shared/models';
+import { Court } from 'shared/models';
 
 export const createCourt = (initial: Partial<Court.Model>): Court.Model => {
   return {

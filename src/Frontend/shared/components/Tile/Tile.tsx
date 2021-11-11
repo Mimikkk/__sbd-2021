@@ -1,21 +1,18 @@
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import React, { FC } from 'react';
 
 export const Tile: FC = ({ children }) => {
   return (
     <Grid
+      item
       sx={{
-        justifyContent: 'center',
-        display: 'flex',
-        justifyItems: 'center',
         alignItems: 'center',
-        height: '100vh',
-        width: '100vw',
+        alignContent: 'center',
+        justifyItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Container style={{ padding: '0', margin: '5'}}>
-        {children}
-      </Container>
+      {children}
     </Grid>
   );
 };

@@ -1,15 +1,28 @@
-import * as React from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
+import { CourtService } from 'shared/services';
+import { Tile } from 'shared/components';
+import { List } from 'shared/components/List';
+import { GridColDef as Column, GridValueGetterParams } from '@mui/x-data-grid';
+import { Court } from 'shared/models';
 
-const columns: GridColDef[] = [
-  { field: 'firstName', headerName: 'First name', width: 150, align: 'left'},
-  { field: 'lastName', headerName: 'Last name', width: 150 },
+const mockColumns: Column[] = [
+  {
+    field: 'firstName',
+    headerName: 'First name',
+    width: 150,
+    align: 'left',
+  },
+  {
+    field: 'lastName',
+    headerName: 'Last name',
+    width: 150,
+  },
   {
     field: 'age',
     headerName: 'Age',
     type: 'number',
     width: 100,
-    align: 'left'
+    align: 'left',
   },
   {
     field: 'fullName',
@@ -23,7 +36,7 @@ const columns: GridColDef[] = [
       }`,
   },
 ];
-const rows = [
+const mockRows = [
   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
@@ -35,16 +48,19 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-export const  ListTable = () => {
+const Courts = () => {
+  const [items, setItems] = useState<Court.Model[]>([]);
+
+  useEffect(() => {
+    CourtService.readAll().then(setItems).catch(console.log);
+    console.log({ items });
+  }, []);
+
   return (
-    <div style={{ height: 700, width: 950}}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[7]}
-        style = {{border: 0}}
-      />
-    </div>
+    <Tile>
+      <List rows={mockRows} columns={mockColumns} />
+    </Tile>
   );
-}
+};
+
+export default Courts;

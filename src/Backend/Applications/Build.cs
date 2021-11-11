@@ -15,5 +15,6 @@ public static partial class Application
     .Configure<ForwardedHeadersOptions>(ForwardedHeadersOptionsPolicy)
     .AddHttpsRedirection(HttpsRedirectionPolicy)
     .AddCors(CorsPolicy)
+    
     .AddMvcCore();
 }

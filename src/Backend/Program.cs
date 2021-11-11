@@ -1,3 +1,3 @@
 ﻿using Backend.Applications;
 
-Application.App.Run();
+Application.Layout.Run();

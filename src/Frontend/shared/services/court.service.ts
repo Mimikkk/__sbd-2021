@@ -1,5 +1,5 @@
-import { Court } from 'Frontend/shared/models';
-import { uuid } from 'Frontend/shared/types';
+import { Court } from 'shared/models';
+import { uuid } from 'shared/types';
 import { servicant } from './servicant';
 
 const url = '/courts';

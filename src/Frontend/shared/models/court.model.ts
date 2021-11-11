@@ -1,4 +1,4 @@
-import { BaseModel } from 'Frontend/shared/models';
+import { BaseModel } from 'shared/models';
 
 export module Court {
   export interface Model {

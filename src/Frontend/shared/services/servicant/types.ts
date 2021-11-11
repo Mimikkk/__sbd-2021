@@ -1,4 +1,4 @@
-import { uuid } from 'Frontend/shared/types';
+import { uuid } from 'shared/types';
 export interface ApiProps {
   url: string;
   errorMessage?: string;

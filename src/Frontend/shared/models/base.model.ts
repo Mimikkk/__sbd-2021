@@ -1,4 +1,4 @@
-import { uuid } from 'Frontend/shared/types';
+import { uuid } from 'shared/types';
 
 export interface BaseModel {
   id: uuid;
