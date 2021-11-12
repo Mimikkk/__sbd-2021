@@ -1,6 +1,6 @@
 {
   "include": [
-    "typing.d.ts", "src"
+    "typing.d.ts", "src", "pages"
   ],
   "compilerOptions": {
     "baseUrl": "src/Frontend",
