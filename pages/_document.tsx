@@ -5,10 +5,7 @@ export const DocumentComponent: FC<DocumentProps> = () => {
   return (
     <Html>
       <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
-          rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com"/>
         <title>Sbd-Tennis</title>
       </Head>
       <body>

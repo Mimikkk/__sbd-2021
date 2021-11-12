@@ -10,7 +10,7 @@ import './document.scss';
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'serif',
+      fontFamily: 'Quicksand, sans-serif',
     },
   },
 });
