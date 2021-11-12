@@ -6,6 +6,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { App as AppStyle } from './App.module.scss';
 import './document.scss';
+import Head from 'next/head';
 
 const theme = createTheme({
   typography: {
@@ -17,19 +18,24 @@ const theme = createTheme({
 
 const App: VFC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <CssBaseline>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Grid className={AppStyle} display="flex">
-            <Navigator />
-            <Grid container item justifyContent="center" className="View">
-              <Component {...pageProps} />
+    <>
+      <Head>
+        <title>Sbd-tennis</title>
+      </Head>
+      <CssBaseline>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Grid className={AppStyle} display="flex">
+              <Navigator />
+              <Grid container item justifyContent="center" className="View">
+                <Component {...pageProps} />
+              </Grid>
+              <Toaster />
             </Grid>
-            <Toaster />
-          </Grid>
-        </LocalizationProvider>
-      </ThemeProvider>
-    </CssBaseline>
+          </LocalizationProvider>
+        </ThemeProvider>
+      </CssBaseline>
+    </>
   );
 };
 
