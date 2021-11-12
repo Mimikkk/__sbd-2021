@@ -1,6 +1,7 @@
 import { Divider, styled, Typography } from '@mui/material';
 import { Grid } from '@material-ui/core';
-import { courtHours } from 'shared/components/Scheduler/values';
+import { courtDates } from 'shared/components/Scheduler/values';
+import { format } from 'date-fns';
 
 export const SchedulerBody = () => {
   const TypographyCell = styled(Typography)`
@@ -16,6 +17,23 @@ export const SchedulerBody = () => {
 
     border-left: 1px solid grey;
   `;
+
+  Date.parse('mm:ss');
+
+  return (
+    <p>
+      <Grid container spacing={1}>
+        {courtDates(new Date()).map((hour, index) => (
+          <Grid item xs={12} key={index}>
+            <TypographyCell variant="h6">
+              {format(hour, 'HH:mm')}
+            </TypographyCell>
+            <Divider />
+          </Grid>
+        ))}
+      </Grid>
+    </p>
+  );
 
   return (
     <Grid container>
@@ -36,32 +54,34 @@ export const SchedulerBody = () => {
           </Grid>
         </Grid>
       </Grid>
-      {courtHours.map((hour) => (
-        <>
-          <Grid item xs={1}>
-            <Typography>{hour}</Typography>
-          </Grid>
-          <Grid item container xs={11}>
-            <Grid item xs={3}>
-              <TypographyCell>{hour}</TypographyCell>
+      {courtDates(new Date()).map((hour) => {
+        return null;
+
+        return (
+          <>
+            <Grid item xs={1}>
+              <Typography>{hour}</Typography>
             </Grid>
-            <Grid item xs={3}>
-              <TypographyCell>{hour}</TypographyCell>
+            <Grid item container xs={11}>
+              <Grid item xs={3}>
+                <TypographyCell>{hour}</TypographyCell>
+              </Grid>
+              <Grid item xs={3}>
+                <TypographyCell>{hour}</TypographyCell>
+              </Grid>
+              <Grid item xs={3}>
+                <TypographyCell>{hour}</TypographyCell>
+              </Grid>
+              <Grid item xs={3}>
+                <TypographyCell>{hour}</TypographyCell>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <TypographyCell>{hour}</TypographyCell>
-            </Grid>
-            <Grid item xs={3}>
-              <TypographyCell>{hour}</TypographyCell>
-            </Grid>
-          </Grid>
-          {hour < 22 ? (
             <Grid item xs={12}>
               <Divider />
             </Grid>
-          ) : null}
-        </>
-      ))}
+          </>
+        );
+      })}
     </Grid>
   );
 };
