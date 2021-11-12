@@ -11,7 +11,7 @@ const App: VFC<AppProps> = ({ Component, pageProps }) => {
   return (
     <CssBaseline>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Grid className="App" display="flex" xs={12}>
+        <Grid className="App" display="flex">
           <Navigator />
           <Grid container item justifyContent="center" className="View">
             <Component {...pageProps} />

@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { Divider, Typography } from '@mui/material';
+import { Divider, styled, Typography } from '@mui/material';
 import { Grid } from '@material-ui/core';
 import { courtHours } from 'shared/components/Scheduler/values';
 
