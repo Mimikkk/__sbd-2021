@@ -1,10 +1,10 @@
-.MuiDrawer-root.Navigator {
+.Navigator {
   width: 250px;
   height: 100vh;
-  .MuiDrawer-paper {
+
+  [class*="-MuiPaper"] {
     width: 250px;
     height: 100vh;
-    elevation: 0;
     border-right: 0;
     position: static;
   }
