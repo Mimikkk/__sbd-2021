@@ -1,0 +1,9 @@
+.List {
+  width: 100%;
+  border-collapse: collapse;
+  .ListHeader{
+    thead tr th {
+          border-bottom: solid 3px rgba(227, 229, 229, 1);
+        }
+  }
+}
