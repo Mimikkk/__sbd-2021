@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row } from 'react-table';
+import { ListRow as ListRowStyle } from 'shared/components/List/List.module.scss';
 
 export interface ListRowProps<T extends object> {
   row: Row<T>;
@@ -8,14 +9,11 @@ export interface ListRowProps<T extends object> {
 export const ListRow = <T extends object>({ row }: ListRowProps<T>) => {
   return (
     <tr {...row.getRowProps()}
-        style={{
-          borderBottom: 'solid 1px rgba(227, 229, 229, 1)',
-          background: 'white',
-          color: 'black',
-        }}> {row.cells.map(cell => {
+        className={ListRowStyle}>
+      {row.cells.map(cell => {
       return (
         <td {...cell.getCellProps()}
-        style={{padding: '5px'}}>
+            style={{ padding: '5px' }}>
           {cell.render('Cell')}
         </td>
       );

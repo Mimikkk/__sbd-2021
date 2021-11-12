@@ -1,5 +1,6 @@
 import { HeaderGroup } from 'react-table';
 
+
 export interface ListHeaderProps<T extends object> {
   headerGroups: HeaderGroup<T>[];
 }
