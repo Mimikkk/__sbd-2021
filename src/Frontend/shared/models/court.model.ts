@@ -7,5 +7,7 @@ export module Court {
     isUnderMaintenance: boolean;
   }
 
-  export interface Entity extends Model, BaseModel {}
+  export interface Entity extends Model, BaseModel {
+  }
+  export type Row = Model & Pick<BaseModel, 'id'>
 }

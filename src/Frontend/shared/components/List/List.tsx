@@ -1,20 +1,26 @@
-import { DataGrid, GridColDef as Column } from '@mui/x-data-grid';
+import { Column, useTable } from 'react-table';
+import React from 'react';
+import { ListHeader } from 'shared/components/List/ListHeader';
+import { ListBody } from 'shared/components/List/ListBody';
 
-interface Props<T extends object> {
-  rows: T[];
-  columns: Column[];
+export interface Props <T extends object> {
+  columns: Column<T>[];
+  items: T[]
 }
 
-export const List = <T extends object>({ rows, columns }: Props<T>) => {
+export const List = <T extends object> ({columns, items}: Props<T>) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data: items})
+
   return (
-    <div style={{ height: 700, width: 950 }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={columns.length}
-        rowsPerPageOptions={[5]}
-        style={{ border: 0 }}
-      />
-    </div>
-  );
-};
+    <table {...getTableProps()} style={{width: '100%', borderCollapse: 'collapse'}}>
+      <ListHeader headerGroups={headerGroups}/>
+      <ListBody rows={rows} prepareRow={prepareRow} getTableBodyProps={getTableBodyProps}/>
+    </table>
+  )
+}

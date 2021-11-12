@@ -2,65 +2,54 @@ import { useEffect, useState } from 'react';
 import { CourtService } from 'shared/services';
 import { Tile } from 'shared/components';
 import { List } from 'shared/components/List';
-import { GridColDef as Column, GridValueGetterParams } from '@mui/x-data-grid';
 import { Court } from 'shared/models';
+import { Column } from 'react-table';
+import faker from 'faker';
 
-const mockColumns: Column[] = [
+
+const mockColumns: Column<Court.Row>[] = [
   {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    align: 'left',
+    accessor: 'floor',
+    Header: 'Floor type',
+  },
+{
+    accessor: 'isCovered',
+    Header: 'Cover',
+    Cell: ({value}) => {
+    return value ? "Yes" : "No"}
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 100,
-    align: 'left',
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.getValue(params.id, 'firstName') || ''} ${
-        params.getValue(params.id, 'lastName') || ''
-      }`,
+    accessor: 'isUnderMaintenance',
+    Header: 'Available',
+    Cell: ({value}) => {return value ? "Yes" : "No"}
   },
 ];
-const mockRows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+
+export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({
+  id: faker.datatype.uuid(),
+  updatedAt: '',
+  createdAt: '',
+  floor: faker.lorem.word(),
+  isCovered: faker.datatype.boolean(),
+  isUnderMaintenance: faker.datatype.boolean(),
+  ...initial,
+});
+
+const  mockRows = [mockCourt(), mockCourt(), mockCourt(), mockCourt()]
+
 
 const Courts = () => {
   const [items, setItems] = useState<Court.Model[]>([]);
 
   useEffect(() => {
-    CourtService.readAll().then(setItems).catch(console.log);
+    // CourtService.readAll().then(setItems).catch(console.log);
     console.log({ items });
   }, []);
 
-  const a: any[] = [];
 
   return (
     <Tile>
-      <List rows={mockRows} columns={mockColumns} />
+      <List columns={mockColumns} items={mockRows} />
     </Tile>
   );
 };

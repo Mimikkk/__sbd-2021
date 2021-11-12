@@ -29,7 +29,6 @@ const addDays = (date: Date, days: number): Date => {
 
 const SchedulerHeader = () => {
   const [date, setDate] = useState<Nullable<Date>>(new Date());
-
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={3}>
@@ -78,7 +77,7 @@ export const courtHours = range(7, 22 + 1);
 const SchedulerBody = () => {
   const TypographyCell = styled(Typography)`
     &:hover {
-      background: darkred;
+      background: rgba(124, 77, 255, 0.08);
     }
 
     border-left: 1px solid grey;
@@ -124,7 +123,7 @@ const SchedulerBody = () => {
           </Grid>
           {hour < 22 ? (
             <Grid item xs={12}>
-              <Divider />
+              <Divider style={{'color': 'grey'}} />
             </Grid>
           ) : null}
         </>

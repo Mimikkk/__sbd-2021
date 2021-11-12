@@ -2,7 +2,7 @@ import { Court } from 'shared/models';
 import { uuid } from 'shared/types';
 import { servicant } from './servicant';
 
-const url = '/courts';
+const url = 'api/v2/courts';
 
 export const CourtService = {
   create: (item: Court.Model) =>
