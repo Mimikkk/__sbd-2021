@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CourtService } from 'shared/services';
+import { courtService } from 'shared/services';
 import { Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { GridColDef as Column, GridValueGetterParams } from '@mui/x-data-grid';
@@ -52,11 +52,8 @@ const Courts = () => {
   const [items, setItems] = useState<Court.Model[]>([]);
 
   useEffect(() => {
-    CourtService.readAll().then(setItems).catch(console.log);
-    console.log({ items });
+    courtService.readAll().then(setItems).catch(console.log);
   }, []);
-
-  const a: any[] = [];
 
   return (
     <Tile>

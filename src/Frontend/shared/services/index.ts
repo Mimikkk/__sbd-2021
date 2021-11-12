@@ -1,2 +1,2 @@
 export * from './court.service';
-export { servicant } from './servicant';
+export * from './scheduler.service';
