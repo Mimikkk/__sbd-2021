@@ -3,9 +3,9 @@ import { VFC } from 'react';
 import { Menu } from 'shared/components/Navigator/Menu';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { Props as MenuProps } from './Menu';
+import { Props as MenuProps } from 'shared/components/Navigator/Menu';
 import { useFactory } from 'shared/hooks';
-import { Navigator as NavigatorStyle } from './Navigator.module.scss';
+import { Navigator as NavigatorStyle } from 'shared/components/Navigator/Navigator.module.scss';
 
 const development: MenuProps[] = [
   {

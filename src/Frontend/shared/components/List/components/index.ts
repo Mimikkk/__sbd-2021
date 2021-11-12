@@ -1,1 +1,1 @@
-export * from './cells';
+export * from 'shared/components/List/components/cells';

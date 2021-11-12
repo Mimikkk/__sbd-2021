@@ -1,6 +1,6 @@
-import { ApiCreateProps } from './types';
+import { ApiCreateProps } from 'shared/services/servicant/types';
 import axios from 'axios';
-import { handleError, handleSuccess } from './utils';
+import { handleError, handleSuccess } from 'shared/services/servicant/utils';
 
 export const create = async <T>({
   url,

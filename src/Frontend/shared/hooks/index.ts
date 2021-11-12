@@ -1,2 +1,2 @@
-export * from './useToggle';
-export * from './useFactory';
+export * from 'shared/hooks/useToggle';
+export * from 'shared/hooks/useFactory';

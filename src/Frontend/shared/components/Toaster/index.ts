@@ -1,1 +1,1 @@
-export * from './Toaster';
+export * from 'shared/components/Toaster/Toaster';

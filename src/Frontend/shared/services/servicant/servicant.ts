@@ -1,7 +1,7 @@
-import { $delete } from './delete';
-import { create } from './create';
-import { update } from './update';
-import { read } from './read';
+import { $delete } from 'shared/services/servicant/delete';
+import { create } from 'shared/services/servicant/create';
+import { update } from 'shared/services/servicant/update';
+import { read } from 'shared/services/servicant/read';
 
 export const servicant = {
   create,

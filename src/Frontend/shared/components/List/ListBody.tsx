@@ -1,21 +1,27 @@
 import React from 'react';
-import { Row, TableBodyPropGetter, TableBodyProps} from 'react-table';
+// @ts-ignore
+import { Row, TableBodyPropGetter, TableProps } from 'react-table';
 import { ListRow } from 'shared/components/List/ListRow';
 
 export interface ListBodyProps<T extends object> {
-  rows:  Row<T>[];
-  prepareRow:  (row: Row<T>) => void;
-  getTableBodyProps: (propGetter?: (TableBodyPropGetter<T> | undefined)) => TableBodyProps;
+  page: Row[];
+  prepareRow: (row: Row) => void;
+  getTableBodyProps: (
+    propGetter?: TableBodyPropGetter<T> | undefined,
+  ) => TableProps;
 }
 
-export const ListBody = <T extends object>({ rows, prepareRow, getTableBodyProps }: ListBodyProps<T>) => {
+export const ListBody = <T extends object>({
+  page,
+  prepareRow,
+  getTableBodyProps,
+}: ListBodyProps<T>) => {
   return (
     <tbody {...getTableBodyProps()}>
-    {rows.map(row => {prepareRow(row)
-      return (
-        <ListRow row={row} />
-      )
-    })}
+      {page.map((row) => {
+        prepareRow(row);
+        return <ListRow row={row} />;
+      })}
     </tbody>
-  )
-}
+  );
+};

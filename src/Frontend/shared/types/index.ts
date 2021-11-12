@@ -1,2 +1,2 @@
-export * from './uuid';
-export * from './nullable';
+export * from 'shared/types/uuid';
+export * from 'shared/types/nullable';

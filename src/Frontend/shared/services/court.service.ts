@@ -1,6 +1,6 @@
 import { Court } from 'shared/models';
 import { uuid } from 'shared/types';
-import { servicant } from './servicant';
+import { servicant } from 'shared/services/servicant';
 
 const url = 'api/v2/courts';
 
