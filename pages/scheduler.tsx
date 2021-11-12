@@ -1,9 +1,12 @@
 import { Tile, Scheduler } from 'shared/components';
+import { Grid } from '@material-ui/core';
 
 const ReservationSchedulerView = () => {
   return (
     <Tile>
-      <Scheduler />
+      <Grid container item justifyContent={'center'}>
+        <Scheduler />
+      </Grid>
     </Tile>
   );
 };
