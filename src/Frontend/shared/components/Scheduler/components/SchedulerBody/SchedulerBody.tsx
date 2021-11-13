@@ -1,53 +1,41 @@
-import { Column, useTable } from 'react-table';
-import { scheduler__body as styling } from 'styles/Scheduler.module.scss';
-import { ListBody, ListHeader } from 'shared/components/List/components';
+import { Column } from 'react-table';
+import { mockCourt } from 'shared/models/values';
+import { Scheduler } from 'shared/models/scheduler.model';
+import { List } from 'shared/components/List';
 
-export const SchedulerBody = <T extends object>() => {
-  const data: T[] = [
-    {
-      time: '8:00',
-      courts: [
-        { name: 'Dane 1' },
-        { name: 'Dane 2' },
-        { name: 'Dane 3' },
-        { name: 'Dane 4' },
-      ],
-    },
-  ] as any;
-  const columns: Column<T>[] = [
-    {
-      accessor: 'time',
-      Header: 'Czas',
-    },
-    {
-      accessor: 'courts.0.name',
-      Header: 'Kort 1',
-    },
-    {
-      accessor: 'courts.1.name',
-      Header: 'Kort 2',
-    },
-    {
-      accessor: 'courts.2.name',
-      Header: 'Kort 3',
-    },
-    {
-      accessor: 'courts.3.name',
-      Header: 'Kort 4',
-    },
-  ] as any;
+const items: Scheduler.Row[] = [
+  {
+    time: '8:00',
+    courts: [mockCourt(), mockCourt(), mockCourt(), mockCourt()],
+  },
+];
+const columns: Column<Scheduler.Row>[] = [
+  {
+    accessor: 'time',
+    Header: 'Czas',
+  },
+  {
+    //@ts-ignore
+    accessor: 'courts.0.name',
+    Header: 'Kort 1',
+  },
+  {
+    //@ts-ignore
+    accessor: 'courts.1.name',
+    Header: 'Kort 2',
+  },
+  {
+    //@ts-ignore
+    accessor: 'courts.2.name',
+    Header: 'Kort 3',
+  },
+  {
+    //@ts-ignore
+    accessor: 'courts.3.name',
+    Header: 'Kort 4',
+  },
+];
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
-
-  return (
-    <table className={styling} {...getTableProps()}>
-      <ListHeader groups={headerGroups} />
-      <ListBody
-        rows={rows}
-        prepareRow={prepareRow}
-        getTableBodyProps={getTableBodyProps}
-      />
-    </table>
-  );
+export const SchedulerBody = () => {
+  return <List columns={columns} items={items} />;
 };

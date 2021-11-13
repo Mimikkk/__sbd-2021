@@ -122,7 +122,7 @@ const Courts = () => {
           </Grid>
         </Grid>
         <Grid item style={{ width: '100%' }}>
-          <List columns={mockColumns} items={mockRows} />
+          <List columns={mockColumns} items={mockRows} pagination />
         </Grid>
       </Grid>
     </Tile>
