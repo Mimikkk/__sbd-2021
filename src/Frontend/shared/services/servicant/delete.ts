@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ApiDeleteProps } from './types';
-import { handleError, handleSuccess } from './utils';
+import { ApiDeleteProps } from 'shared/services/servicant/types';
+import { handleError, handleSuccess } from 'shared/services/servicant/utils';
 
 export const $delete = async ({
   url,

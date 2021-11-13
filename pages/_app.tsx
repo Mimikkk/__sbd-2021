@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
-import { Navigator, Toaster } from 'shared/components';
+import { Navigator, Toaster } from '../src/Frontend/shared/components';
 import { AppProps } from 'next/app';
 import { VFC } from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -11,7 +11,7 @@ import Head from 'next/head';
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'serif',
+      fontFamily: 'Quicksand, sans-serif',
     },
   },
 });

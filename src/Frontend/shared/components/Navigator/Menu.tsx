@@ -24,7 +24,7 @@ export const Menu: FC<Props> = ({ title, subtitle, icon, path }) => {
         borderRadius: '15px',
         '&:hover': {
           background: 'rgba(124, 77, 255, 0.08)',
-          borderRadius: '15px',
+          borderRadius: '4px;',
         },
       }}
       button

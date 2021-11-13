@@ -1,1 +1,1 @@
-export * from './servicant';
+export * from 'shared/services/servicant/servicant';

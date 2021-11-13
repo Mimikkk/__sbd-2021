@@ -1,6 +1,6 @@
-import { ApiReadProps } from './types';
+import { ApiReadProps } from 'shared/services/servicant/types';
 import axios from 'axios';
-import { handleError, handleSuccess } from './utils';
+import { handleError, handleSuccess } from 'shared/services/servicant/utils';
 
 export const read = async <T>({
   url,

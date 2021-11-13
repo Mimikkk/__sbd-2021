@@ -1,4 +1,4 @@
-import { Court } from 'shared/models';
+import { Court } from 'shared/models/index';
 import faker from 'faker';
 
 export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({

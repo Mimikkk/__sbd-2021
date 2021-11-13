@@ -1,4 +1,4 @@
-import { Tile } from 'shared/components';
+import { Tile } from '../src/Frontend/shared/components';
 
 const Index = () => (
   <Tile>

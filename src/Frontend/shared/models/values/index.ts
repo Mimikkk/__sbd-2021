@@ -1,1 +1,1 @@
-export * from './court.values';
+export * from 'shared/models/values/court.values';

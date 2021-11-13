@@ -1,1 +1,1 @@
-export * from './Navigator';
+export * from 'shared/components/Navigator/Navigator';
