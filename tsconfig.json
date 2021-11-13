@@ -1,6 +1,5 @@
 {
   "include": [
-    "next.config.js",
     "typing.d.ts",
     "src",
     "pages",

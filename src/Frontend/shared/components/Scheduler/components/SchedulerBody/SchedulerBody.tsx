@@ -1,12 +1,19 @@
-import { Cell, Column, HeaderGroup, Row, useTable } from 'react-table';
+import {
+  Cell,
+  Column,
+  HeaderGroup,
+  Row,
+  TableBodyPropGetter,
+  TableBodyProps,
+  useTable,
+} from 'react-table';
 import { each } from 'lodash';
 import { useFactory } from 'shared/hooks';
-import { VFC } from 'react';
 import { elements } from 'shared/utils/elements';
 import { scheduler__body as styling } from 'styles/Scheduler.module.scss';
 
-export const SchedulerBody = () => {
-  const data: any[] = [
+export const SchedulerBody = <T extends object>() => {
+  const data: T[] = [
     {
       time: '8:00',
       courts: [
@@ -16,8 +23,8 @@ export const SchedulerBody = () => {
         { name: 'Dane 4' },
       ],
     },
-  ];
-  const columns: Column<any>[] = [
+  ] as any;
+  const columns: Column<T>[] = [
     {
       accessor: 'time',
       Header: 'Czas',
@@ -38,71 +45,106 @@ export const SchedulerBody = () => {
       accessor: 'courts.3.name',
       Header: 'Kort 4',
     },
-  ];
+  ] as any;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
-  const ListHeaderGroup = ({
-    group: { getHeaderGroupProps, headers },
-  }: ListHeaderGroupProps) => {
-    const ListHeader = ({ render, getHeaderProps }: HeaderGroup<any>) => (
-      <th {...getHeaderProps()}>{render('Header')}</th>
-    );
-
-    return <tr {...getHeaderGroupProps()}>{headers.map(ListHeader)}</tr>;
-  };
-
-  const ListHeader = ({ groups }: ListHeaderProps) => (
-    <thead>
-      {groups.map((group) => (
-        <ListHeaderGroup group={group} />
-      ))}
-    </thead>
-  );
-
-  interface ListRowProps {
-    row: Row<any>;
-  }
-
-  interface ListCellProps {
-    cell: Cell<any>;
-  }
-
-  const ListCell: VFC<ListCellProps> = ({ cell: { getCellProps, render } }) => (
-    <td {...getCellProps()}>{render('Cell')}</td>
-  );
-  const ListRow: VFC<ListRowProps> = ({ row: { getRowProps, cells } }) => {
-    const [Cells] = useFactory(ListCell);
-
-    return (
-      <tr {...getRowProps()}>
-        <Cells items={elements(cells, 'cell')} />
-      </tr>
-    );
-  };
-
-  const ListBody = () => {
-    const [Rows] = useFactory(ListRow);
-
-    return (
-      <tbody {...getTableBodyProps()}>
-        <Rows items={elements(each(rows, prepareRow), 'row')} />
-      </tbody>
-    );
-  };
   return (
     <table className={styling} {...getTableProps()}>
       <ListHeader groups={headerGroups} />
-      <ListBody />
+      <ListBody
+        rows={rows}
+        prepareRow={prepareRow}
+        getTableBodyProps={getTableBodyProps}
+      />
     </table>
   );
 };
 
-interface ListHeaderProps {
-  groups: HeaderGroup<any>[];
+export interface ListBodyProps<T extends object> {
+  rows: Row<T>[];
+  prepareRow: (row: Row<T>) => void;
+  getTableBodyProps: (propGetter?: TableBodyPropGetter<T>) => TableBodyProps;
 }
 
-interface ListHeaderGroupProps {
-  group: HeaderGroup<any>;
+export const ListBody = <T extends object>({
+  rows,
+  prepareRow,
+  getTableBodyProps,
+}: ListBodyProps<T>) => {
+  const [Rows] = useFactory<ListRowProps<T>>(ListRow);
+
+  return (
+    <tbody {...getTableBodyProps()}>
+      <Rows items={elements(each(rows, prepareRow), 'row')} />
+    </tbody>
+  );
+};
+
+export interface ListHeaderGroupProps<T extends object> {
+  header: HeaderGroup<T>;
 }
+
+export const ListHeaderGroup = <T extends object>({
+  header: { render, getHeaderProps },
+}: ListHeaderGroupProps<T>) => (
+  <th {...getHeaderProps()}>{render('Header')}</th>
+);
+
+export interface ListHeaderGroupRowProps<T extends object> {
+  group: HeaderGroup<T>;
+}
+
+export const ListHeaderGroupRow = <T extends object>({
+  group: { getHeaderGroupProps, headers },
+}: ListHeaderGroupRowProps<T>) => {
+  const [Groups] = useFactory<ListHeaderGroupProps<T>>(ListHeaderGroup);
+
+  return (
+    <tr {...getHeaderGroupProps()}>
+      <Groups items={elements(headers, 'header')} />
+    </tr>
+  );
+};
+
+export interface ListHeaderProps<T extends object> {
+  groups: HeaderGroup<T>[];
+}
+
+export const ListHeader = <T extends object>({
+  groups,
+}: ListHeaderProps<T>) => {
+  const [HeaderRows] =
+    useFactory<ListHeaderGroupRowProps<T>>(ListHeaderGroupRow);
+
+  return (
+    <thead>
+      <HeaderRows items={elements(groups, 'group')} />
+    </thead>
+  );
+};
+
+export interface ListCellProps<T extends object, V = any> {
+  cell: Cell<T, V>;
+}
+
+export const ListCell = <T extends object, V = any>({
+  cell: { getCellProps, render },
+}: ListCellProps<T, V>) => <td {...getCellProps()}>{render('Cell')}</td>;
+
+export interface ListRowProps<T extends object> {
+  row: Row<T>;
+}
+
+export const ListRow = <T extends object>({
+  row: { getRowProps, cells },
+}: ListRowProps<T>) => {
+  const [Cells] = useFactory<ListCellProps<T>>(ListCell);
+
+  return (
+    <tr {...getRowProps()}>
+      <Cells items={elements(cells, 'cell')} />
+    </tr>
+  );
+};
