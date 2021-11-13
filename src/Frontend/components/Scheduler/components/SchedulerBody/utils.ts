@@ -4,6 +4,7 @@ import { HourCell } from 'shared/components/List/components';
 import { Column } from 'react-table';
 import { CourtCell } from './CourtCell';
 import { courtDates } from './values';
+import { style } from 'styles';
 
 export const createSchedulerRow = (n: number, time: Date): Scheduler.Row => ({
   time,

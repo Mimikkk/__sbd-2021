@@ -6,18 +6,16 @@ export const Scheduler = () => {
   const isEmpty = false;
 
   return (
-    <div className={style('scheduler')}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <SchedulerHeader />
-        </Grid>
-        <Grid item xs={12}>
-          {isEmpty ? <SchedulerEmpty /> : <SchedulerBody />}
-        </Grid>
-        <Grid item xs={12}>
-          <Divider variant="middle" />
-        </Grid>
+    <Grid className={style('scheduler')} container spacing={2}>
+      <Grid item xs={12}>
+        <SchedulerHeader />
       </Grid>
-    </div>
+      <Grid item xs={12}>
+        {isEmpty ? <SchedulerEmpty /> : <SchedulerBody />}
+      </Grid>
+      <Grid item xs={12}>
+        <Divider variant="middle" />
+      </Grid>
+    </Grid>
   );
 };
