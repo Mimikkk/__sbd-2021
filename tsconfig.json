@@ -1,6 +1,9 @@
 {
   "include": [
-    "typing.d.ts", "src", "pages", "react-table-config.d.ts"
+    "typing.d.ts",
+    "src",
+    "pages",
+    "@types"
   ],
   "compilerOptions": {
     "baseUrl": "src/Frontend",
