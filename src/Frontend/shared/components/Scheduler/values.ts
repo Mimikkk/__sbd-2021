@@ -1,4 +1,4 @@
-import { range } from 'lodash-es';
+import { range } from 'lodash';
 
 export const courtHours = range(7, 23);
 

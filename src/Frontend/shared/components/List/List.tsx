@@ -1,3 +1,4 @@
+//@ts-ignore
 import { DataGrid, GridColDef as Column } from '@mui/x-data-grid';
 
 interface Props<T extends object> {

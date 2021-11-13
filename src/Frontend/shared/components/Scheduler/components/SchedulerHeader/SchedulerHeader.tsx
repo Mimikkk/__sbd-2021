@@ -15,27 +15,25 @@ export const SchedulerHeader = () => {
   const reachedMax = getDayOfYear(date) >= getDayOfYear(today) + offset;
 
   return (
-    <div>
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xs={3}>
-          <IconButton onClick={moveBackward} disabled={reachedMin}>
-            <ArrowBackIosNewIcon />
-          </IconButton>
-        </Grid>
-        <Grid item xs={6}>
-          <DateSelect
-            date={date}
-            min={today}
-            max={addDays(today, offset)}
-            onChange={setDate}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <IconButton onClick={moveForward} disabled={reachedMax}>
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </Grid>
+    <Grid container alignItems="center" justifyContent="space-between">
+      <Grid item xs={3}>
+        <IconButton onClick={moveBackward} disabled={reachedMin}>
+          <ArrowBackIosNewIcon />
+        </IconButton>
       </Grid>
-    </div>
+      <Grid item xs={6}>
+        <DateSelect
+          date={date}
+          min={today}
+          max={addDays(today, offset)}
+          onChange={setDate}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <IconButton onClick={moveForward} disabled={reachedMax}>
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
   );
 };

@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 const ReservationSchedulerView = () => {
   return (
     <Tile>
-      <Grid container item justifyContent={'center'}>
+      <Grid container item justifyContent="center">
         <Scheduler />
       </Grid>
     </Tile>

@@ -1,6 +1,9 @@
 {
   "include": [
-    "typing.d.ts", "src", "pages"
+    "next.config.js",
+    "typing.d.ts",
+    "src",
+    "pages",
   ],
   "compilerOptions": {
     "baseUrl": "src/Frontend",
