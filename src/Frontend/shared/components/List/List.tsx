@@ -1,10 +1,12 @@
 import { useTable, usePagination, Column } from 'react-table';
-import React from 'react';
+import { HTMLAttributes } from 'react';
 import { List as ListStyle } from 'styles/List.module.scss';
 import { IconButton, Grid } from '@mui/material';
 import { ListBody, ListHeader } from './components';
+import { cx } from 'shared/utils';
 
-export interface ListProps<T extends object> {
+export interface ListProps<T extends object>
+  extends HTMLAttributes<HTMLTableElement> {
   columns: Column<T>[];
   items: T[];
   pagination?: boolean;
@@ -14,6 +16,7 @@ export const List = <T extends object>({
   columns,
   items,
   pagination = false,
+  ...props
 }: ListProps<T>) => {
   const {
     getTableProps,
@@ -21,6 +24,7 @@ export const List = <T extends object>({
     headerGroups,
     prepareRow,
     page,
+    rows,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -47,10 +51,10 @@ export const List = <T extends object>({
       }}
     >
       <Grid item>
-        <table {...getTableProps()} className={ListStyle}>
+        <table {...getTableProps()} className={cx(ListStyle, props.className)}>
           <ListHeader groups={headerGroups} />
           <ListBody
-            rows={page}
+            rows={pagination ? page : rows}
             prepareRow={prepareRow}
             getTableBodyProps={getTableBodyProps}
           />

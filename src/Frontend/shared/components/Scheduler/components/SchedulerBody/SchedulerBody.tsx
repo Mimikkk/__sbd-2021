@@ -1,41 +1,24 @@
 import { Column } from 'react-table';
-import { mockCourt } from 'shared/models/values';
-import { Scheduler } from 'shared/models/scheduler.model';
+import { Scheduler } from 'shared/models';
 import { List } from 'shared/components/List';
-
-const items: Scheduler.Row[] = [
-  {
-    time: '8:00',
-    courts: [mockCourt(), mockCourt(), mockCourt(), mockCourt()],
-  },
-];
-const columns: Column<Scheduler.Row>[] = [
-  {
-    accessor: 'time',
-    Header: 'Czas',
-  },
-  {
-    //@ts-ignore
-    accessor: 'courts.0.name',
-    Header: 'Kort 1',
-  },
-  {
-    //@ts-ignore
-    accessor: 'courts.1.name',
-    Header: 'Kort 2',
-  },
-  {
-    //@ts-ignore
-    accessor: 'courts.2.name',
-    Header: 'Kort 3',
-  },
-  {
-    //@ts-ignore
-    accessor: 'courts.3.name',
-    Header: 'Kort 4',
-  },
-];
+import { createSchedulerColumns, createSchedulerRows } from './utils';
+import { useMemo, useState } from 'react';
+import { constant } from 'lodash';
+import { scheduler } from 'styles/Scheduler.module.scss';
 
 export const SchedulerBody = () => {
-  return <List columns={columns} items={items} />;
+  const [courts, setCourts] = useState(4);
+  const today = new Date();
+
+  const items: Scheduler.Row[] = useMemo(
+    constant(createSchedulerRows(courts, today)),
+    [courts],
+  );
+
+  const columns: Column<Scheduler.Row>[] = useMemo(
+    constant(createSchedulerColumns(courts)),
+    [courts],
+  );
+
+  return <List className={scheduler} columns={columns} items={items} />;
 };
