@@ -3,7 +3,7 @@ import { Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components/List/components';
 import { Column } from 'react-table';
 import { CourtCell } from './CourtCell';
-import { courtDates } from 'shared/components/Scheduler/components/SchedulerBody/values';
+import { courtDates } from './values';
 
 export const createSchedulerRow = (n: number, time: Date): Scheduler.Row => ({
   time,

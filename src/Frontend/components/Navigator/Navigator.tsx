@@ -1,11 +1,10 @@
 import { Drawer } from '@mui/material';
 import { VFC } from 'react';
-import { Menu } from 'shared/components/Navigator/Menu';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { Props as MenuProps } from 'shared/components/Navigator/Menu';
+import { Menu, MenuProps } from './Menu';
 import { useFactory } from 'shared/hooks';
-import { Navigator as NavigatorStyle } from 'shared/components/Navigator/Navigator.module.scss';
+import { Navigator as NavigatorStyle } from 'styles/Navigator.module.scss';
 
 const development: MenuProps[] = [
   {

@@ -7,14 +7,14 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 
-export interface Props {
+export interface MenuProps {
   title: string;
   subtitle?: string;
   path: string;
   icon?: ReactElement;
 }
 
-export const Menu: FC<Props> = ({ title, subtitle, icon, path }) => {
+export const Menu: FC<MenuProps> = ({ title, subtitle, icon, path }) => {
   const router = useRouter();
   return (
     <ListItem
@@ -37,12 +37,12 @@ export const Menu: FC<Props> = ({ title, subtitle, icon, path }) => {
       </ListItemIcon>
       <ListItemText
         primary={
-          // TODO fix fontSize to be 16 across all screens
-          <Typography sx={{ color: 'rgba(0, 0, 0, 0.87)' }}>{title}</Typography>
+          <Typography sx={{ color: 'rgba(0, 0, 0, 0.87)', fontSize: 16 }}>
+            {title}
+          </Typography>
         }
         secondary={
-          // TODO fix fontSize to be 12 across all screens
-          <Typography sx={{ color: 'rgba(94, 99, 102, 1)' }}>
+          <Typography sx={{ color: 'rgba(94, 99, 102, 1)', fontSize: 12 }}>
             {subtitle}
           </Typography>
         }
