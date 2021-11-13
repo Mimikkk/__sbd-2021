@@ -8,11 +8,11 @@ import { style } from 'styles';
 
 export const SchedulerBody = () => {
   const [courts, setCourts] = useState(4);
-  const today = new Date();
+  const today = useMemo(constant(new Date()), []);
 
   const items: Scheduler.Row[] = useMemo(
     constant(createSchedulerRows(courts, today)),
-    [courts],
+    [courts, today],
   );
 
   const columns: Column<Scheduler.Row>[] = useMemo(
@@ -21,6 +21,13 @@ export const SchedulerBody = () => {
   );
 
   return (
-    <List className={style('scheduler-body')} columns={columns} items={items} />
+    <List
+      onDragStart={() => {
+        console.log('started drag');
+      }}
+      className={style('scheduler-body')}
+      columns={columns}
+      items={items}
+    />
   );
 };
