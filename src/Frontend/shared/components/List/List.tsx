@@ -16,6 +16,7 @@ export const List = <T extends object>({
   columns,
   items,
   pagination = false,
+  className,
   ...props
 }: ListProps<T>) => {
   const {
@@ -51,7 +52,11 @@ export const List = <T extends object>({
       }}
     >
       <Grid item>
-        <table {...getTableProps()} className={cx(ListStyle, props.className)}>
+        <table
+          {...getTableProps()}
+          className={cx(ListStyle, className)}
+          {...props}
+        >
           <ListHeader groups={headerGroups} />
           <ListBody
             rows={pagination ? page : rows}
