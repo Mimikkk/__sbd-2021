@@ -1,23 +1,6 @@
 import { useReducer } from 'react';
 import { addDays } from 'date-fns';
-
-export type Enum = number | string;
-
-export interface ActionType<Action extends Enum, Payload = undefined> {
-  type: Action;
-  payload: Payload;
-}
-
-enum Type {
-  SetDate,
-  MoveBackward,
-  MoveForward,
-}
-
-type SetDateAction = ActionType<Type.SetDate, Date>;
-type MoveDayAction = ActionType<Type.MoveForward | Type.MoveBackward>;
-
-export type Action = SetDateAction | MoveDayAction;
+import { Type, Action } from './actions';
 
 export const reducer = (current: Date, action: Action) => {
   switch (action.type) {
