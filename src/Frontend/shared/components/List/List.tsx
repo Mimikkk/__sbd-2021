@@ -1,11 +1,11 @@
-import { useTable, usePagination, ColumnInstance } from 'react-table';
+import { useTable, usePagination, Column } from 'react-table';
 import React from 'react';
-import { ListHeader, ListBody } from './components';
 import { List as ListStyle } from 'styles/List.module.scss';
 import { IconButton, Grid } from '@mui/material';
+import { ListBody, ListHeader } from './components';
 
 export interface Props<T extends object> {
-  columns: ColumnInstance[];
+  columns: Column[];
   items: T[];
 }
 

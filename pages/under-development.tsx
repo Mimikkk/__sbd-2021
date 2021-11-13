@@ -1,4 +1,4 @@
-import { Tile } from '../src/Frontend/shared/components';
+import { Tile } from 'shared/components';
 
 const UnderDevelopmentView = () => {
   return (
