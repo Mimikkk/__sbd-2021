@@ -1,5 +1,5 @@
-import { addDays } from 'shared/components/Scheduler/utils';
 import { useReducer } from 'react';
+import { addDays } from 'date-fns';
 
 export type Enum = number | string;
 

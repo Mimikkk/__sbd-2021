@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { addDays } from 'shared/components/Scheduler/utils';
-import { DateSelect } from 'shared/components/Scheduler/components/DateSelect';
+import { DateSelect } from './DateSelect';
 import { useHeaderReducer } from './reducer';
+import { addDays, getDayOfYear } from 'date-fns';
 
 const offset = 14;
 export const SchedulerHeader = () => {
   const { date, setDate, moveBackward, moveForward } = useHeaderReducer();
   const today = useMemo(() => new Date(), []);
 
-  const reachedMin = date < addDays(today, 1);
-  const reachedMax = date > addDays(today, offset - 1);
+  const reachedMin = getDayOfYear(date) <= getDayOfYear(today);
+  const reachedMax = getDayOfYear(date) >= getDayOfYear(today) + offset;
 
   return (
     <div>
