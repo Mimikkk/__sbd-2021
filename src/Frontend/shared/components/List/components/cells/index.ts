@@ -1,1 +1,1 @@
-export * from 'shared/components/List/components/cells/BoolCell';
+export * from './BoolCell';

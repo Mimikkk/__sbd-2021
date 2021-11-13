@@ -1,8 +1,7 @@
-import { useTable, usePagination, ColumnInstance, Row } from 'react-table';
+import { useTable, usePagination, ColumnInstance } from 'react-table';
 import React from 'react';
-import { ListHeader } from 'shared/components/List/ListHeader';
-import { ListBody } from 'shared/components/List/ListBody';
-import { List as ListStyle } from 'shared/components/List/List.module.scss';
+import { ListHeader, ListBody } from './components';
+import { List as ListStyle } from 'styles/List.module.scss';
 import { IconButton, Grid } from '@mui/material';
 
 export interface Props<T extends object> {
@@ -44,9 +43,9 @@ export const List = <T extends object>({ columns, items }: Props<T>) => {
     >
       <Grid item>
         <table {...getTableProps()} className={ListStyle}>
-          <ListHeader headerGroups={headerGroups} />
+          <ListHeader groups={headerGroups} />
           <ListBody
-            page={page}
+            rows={page}
             prepareRow={prepareRow}
             getTableBodyProps={getTableBodyProps}
           />
@@ -66,7 +65,7 @@ export const List = <T extends object>({ columns, items }: Props<T>) => {
           </IconButton>
 
           <span style={{ margin: '1em', color: 'rgba(145, 150, 153, 1)' }}>
-            Page{' '}
+            Page
             <strong>
               {pageIndex + 1} of {pageOptions.length}
             </strong>
