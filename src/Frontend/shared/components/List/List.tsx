@@ -1,9 +1,9 @@
 import { useTable, usePagination, Column } from 'react-table';
 import { HTMLAttributes } from 'react';
-import { List as ListStyle } from 'styles/List.module.scss';
 import { IconButton, Grid } from '@mui/material';
 import { ListBody, ListHeader } from './components';
 import { cx } from 'shared/utils';
+import { style } from 'styles';
 
 export interface ListProps<T extends object>
   extends HTMLAttributes<HTMLTableElement> {
@@ -54,7 +54,7 @@ export const List = <T extends object>({
       <Grid item>
         <table
           {...getTableProps()}
-          className={cx(ListStyle, className)}
+          className={cx(style('list'), className)}
           {...props}
         >
           <ListHeader groups={headerGroups} />

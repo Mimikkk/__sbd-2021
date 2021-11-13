@@ -1,5 +1,11 @@
 .scheduler {
-  p {
-    margin-block: 0;
+  width: 100%;
+
+  &-body {
+    width: 100%;
+
+    &__cell {
+      text-align: start;
+    }
   }
 }

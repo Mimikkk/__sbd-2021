@@ -4,7 +4,7 @@ import { List } from 'shared/components/List';
 import { createSchedulerColumns, createSchedulerRows } from './utils';
 import { useMemo, useState } from 'react';
 import { constant } from 'lodash';
-import { scheduler } from 'styles/Scheduler.module.scss';
+import { style } from 'styles';
 
 export const SchedulerBody = () => {
   const [courts, setCourts] = useState(4);
@@ -20,5 +20,7 @@ export const SchedulerBody = () => {
     [courts],
   );
 
-  return <List className={scheduler} columns={columns} items={items} />;
+  return (
+    <List className={style('scheduler-body')} columns={columns} items={items} />
+  );
 };

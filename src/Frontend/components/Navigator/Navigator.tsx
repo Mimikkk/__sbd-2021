@@ -4,7 +4,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { Menu, MenuProps } from './Menu';
 import { useFactory } from 'shared/hooks';
-import { Navigator as NavigatorStyle } from 'styles/Navigator.module.scss';
+import { style } from 'styles';
 
 const development: MenuProps[] = [
   {
@@ -56,7 +56,7 @@ export const Navigator: VFC = () => {
   const [Menus] = useFactory(Menu);
 
   return (
-    <Drawer className={NavigatorStyle} variant="permanent" open>
+    <Drawer className={style('navigator')} variant="permanent" open>
       <Menus items={menus} />
     </Drawer>
   );
