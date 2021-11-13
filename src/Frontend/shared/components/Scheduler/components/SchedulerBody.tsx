@@ -1,35 +1,80 @@
 import { Grid, Divider, styled, Typography } from '@mui/material';
 import { courtDates } from 'shared/components/Scheduler/values';
 import { format } from 'date-fns';
+import { Column, useTable } from 'react-table';
+import { each } from 'lodash-es';
 
 export const SchedulerBody = () => {
   const TypographyCell = styled(Typography)`
     &:hover {
       background: darkred;
-      border-radius: 8px;
     }
 
     &--is-selected {
-      background: darkred;
-      border-radius: 8px;
+      background: antiquewhite;
     }
 
     border-left: 1px solid grey;
   `;
 
+  const data: any[] = [
+    {
+      time: '8:00',
+      courts: [
+        { name: 'Dane 1' },
+        { name: 'Dane 2' },
+        { name: 'Dane 3' },
+        { name: 'Dane 4' },
+      ],
+    },
+  ];
+  const columns: Column<any>[] = [
+    {
+      accessor: 'time',
+      Header: 'Czas',
+    },
+    {
+      accessor: 'courts.0.name',
+      Header: 'Kort 1',
+    },
+    {
+      accessor: 'courts.1.name',
+      Header: 'Kort 2',
+    },
+    {
+      accessor: 'courts.2.name',
+      Header: 'Kort 3',
+    },
+    {
+      accessor: 'courts.3.name',
+      Header: 'Kort 4',
+    },
+  ];
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
+
   return (
-    <p>
-      <Grid container spacing={1}>
-        {courtDates(new Date()).map((hour, index) => (
-          <Grid item xs={12} key={index}>
-            <TypographyCell variant="h6">
-              {format(hour, 'HH:mm')}
-            </TypographyCell>
-            <Divider />
-          </Grid>
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+            ))}
+          </tr>
         ))}
-      </Grid>
-    </p>
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {each(rows, prepareRow).map((row) => (
+          <tr {...row.getRowProps()}>
+            {row.cells.map((cell) => (
+              <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 
   return (
