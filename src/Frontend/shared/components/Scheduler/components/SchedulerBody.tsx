@@ -1,5 +1,4 @@
-import { Divider, styled, Typography } from '@mui/material';
-import { Grid } from '@material-ui/core';
+import { Grid, Divider, styled, Typography } from '@mui/material';
 import { courtDates } from 'shared/components/Scheduler/values';
 import { format } from 'date-fns';
 
@@ -17,8 +16,6 @@ export const SchedulerBody = () => {
 
     border-left: 1px solid grey;
   `;
-
-  Date.parse('mm:ss');
 
   return (
     <p>

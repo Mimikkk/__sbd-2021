@@ -1,5 +1,4 @@
-import { Grid } from '@material-ui/core';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 export const SchedulerEmpty = () => {
   return (

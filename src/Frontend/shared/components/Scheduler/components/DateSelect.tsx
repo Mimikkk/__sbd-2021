@@ -1,8 +1,9 @@
 import React, { VFC } from 'react';
 import { useFactory } from 'shared/hooks';
-import { TextField, TextFieldProps } from '@mui/material';
-import { DateSelect as DateSelectStyle } from './DateSelect.module.scss';
+import { TextField } from '@mui/material';
 import { DesktopDatePicker } from '@mui/lab';
+import { DateSelect as DateSelectStyle } from './DateSelect.module.scss';
+
 interface Props {
   date: Date;
   min?: Date;
@@ -11,12 +12,10 @@ interface Props {
 }
 
 export const DateSelect: VFC<Props> = ({ date, min, max, onChange }) => {
-  const [, Text] = useFactory<TextFieldProps>((props) => (
-    <TextField {...props} inputProps={{ ...props.inputProps }} />
-  ));
+  const [, Text] = useFactory(TextField);
 
   return (
-    <span className={DateSelectStyle}>
+    <div className={DateSelectStyle}>
       <DesktopDatePicker
         value={date}
         minDate={min}
@@ -24,6 +23,6 @@ export const DateSelect: VFC<Props> = ({ date, min, max, onChange }) => {
         onChange={(value) => value && onChange(value)}
         renderInput={Text}
       />
-    </span>
+    </div>
   );
 };
