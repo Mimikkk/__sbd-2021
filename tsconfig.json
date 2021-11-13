@@ -3,7 +3,7 @@
     "typing.d.ts",
     "src",
     "pages",
-    "react-table-config.d.ts"
+    "@types"
   ],
   "compilerOptions": {
     "baseUrl": "src/Frontend",
