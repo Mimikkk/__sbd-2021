@@ -15,7 +15,7 @@ export const ListHeaderCell = <T extends object>({
   header,
 }: ListHeaderGroupProps<T>) => {
   const { render, getHeaderProps } = header;
-  console.log(header);
+
   return (
     <th
       {...getHeaderProps()}

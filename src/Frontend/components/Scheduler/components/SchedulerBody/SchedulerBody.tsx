@@ -1,24 +1,10 @@
-import { Column } from 'shared/components/List';
-import { Scheduler } from 'shared/models';
 import { List } from 'shared/components/List';
-import { createSchedulerColumns, createSchedulerRows } from './utils';
+import { Scheduler } from 'shared/models';
+import { createSchedulerColumns } from './columns';
+import { createSchedulerRows } from './rows';
 import { useMemo, useState } from 'react';
 import { constant } from 'lodash';
 import { style } from 'styles';
-import { Nullable } from 'shared/types';
-import { Cell } from 'react-table';
-
-interface SchedulerRowState {
-  start: Nullable<Cell<Scheduler.Row>>;
-  current: Nullable<Cell<Scheduler.Row>>;
-  end: Nullable<Cell<Scheduler.Row>>;
-}
-
-const initial: SchedulerRowState = {
-  start: null,
-  current: null,
-  end: null,
-};
 
 export const SchedulerBody = () => {
   const [courts, setCourts] = useState(4);
@@ -29,7 +15,7 @@ export const SchedulerBody = () => {
     [courts, today],
   );
 
-  const columns: Column<Scheduler.Row>[] = useMemo(
+  const columns: Scheduler.Column[] = useMemo(
     constant(createSchedulerColumns(courts)),
     [courts],
   );
@@ -38,7 +24,7 @@ export const SchedulerBody = () => {
       className={style('scheduler-body')}
       columns={columns}
       items={items}
-      state={initial}
+      initial={Scheduler.state}
     />
   );
 };
