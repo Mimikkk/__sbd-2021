@@ -1,26 +1,22 @@
 import React from 'react';
-import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
+import { Row, TableBodyProps } from 'react-table';
 import { ListRow, ListRowProps } from './ListRow';
 import { useFactory } from 'shared/hooks';
 import { elements } from 'shared/utils';
-import { each } from 'lodash';
 
-export interface ListBodyProps<T extends object> {
+export interface ListBodyProps<T extends object> extends TableBodyProps {
   rows: Row<T>[];
-  prepareRow: (row: Row<T>) => void;
-  getTableBodyProps: (propGetter?: TableBodyPropGetter<T>) => TableBodyProps;
 }
 
 export const ListBody = <T extends object>({
   rows,
-  prepareRow,
-  getTableBodyProps,
+  ...props
 }: ListBodyProps<T>) => {
   const [Rows] = useFactory<ListRowProps<T>>(ListRow);
 
   return (
-    <tbody {...getTableBodyProps()}>
-      <Rows items={elements(each(rows, prepareRow), 'row')} />
+    <tbody {...props}>
+      <Rows items={elements(rows, 'row')} />
     </tbody>
   );
 };

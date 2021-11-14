@@ -1,13 +1,40 @@
-import { useTable, usePagination, Column } from 'react-table';
+import {
+  useTable,
+  usePagination,
+  Column,
+  Row,
+  Cell,
+  HeaderGroup,
+} from 'react-table';
 import { HTMLAttributes } from 'react';
 import { IconButton, Grid } from '@mui/material';
 import { ListBody, ListHeader } from './components';
 import { cx } from 'shared/utils';
 import { style } from 'styles';
+import { Dictionary, each, extend, keyBy } from 'lodash';
+
+interface CellClickFnProps<T extends object> {
+  cell: Cell<T>;
+  row: Row<T>;
+  rows: Row<T>[];
+  columns: Column<T>[];
+}
+
+interface HeaderClickFnProps<T extends object> {
+  header: HeaderGroup<T>;
+  headers: HeaderGroup<T>[];
+  rows: Row<T>[];
+  columns: Column<T>[];
+}
+
+type ClickableColumn<T extends object> = Column<T> & {
+  onCellClick?: (props: CellClickFnProps<T>) => void;
+  onHeaderClick?: (props: HeaderClickFnProps<T>) => void;
+};
 
 export interface ListProps<T extends object>
   extends HTMLAttributes<HTMLTableElement> {
-  columns: Column<T>[];
+  columns: ClickableColumn<T>[];
   items: T[];
   pagination?: boolean;
 }
@@ -20,6 +47,7 @@ export const List = <T extends object>({
   ...props
 }: ListProps<T>) => {
   const {
+    columns: cols,
     getTableProps,
     getTableBodyProps,
     headerGroups,
@@ -42,6 +70,41 @@ export const List = <T extends object>({
     },
     usePagination,
   );
+
+  const columnById = keyBy(columns, (column) =>
+    'id' in column ? column.id : column.accessor,
+  ) as Dictionary<ClickableColumn<T>>;
+
+  each(
+    each(each(rows, prepareRow), (row) => {
+      each(row.cells, (cell) => {
+        const { onCellClick } = columnById[cell.column.id];
+
+        extend(cell, {
+          onClick: () => onCellClick?.({ cell, row, rows, columns: cols }),
+        });
+      });
+    }),
+  );
+
+  each(
+    each(headerGroups, (group) => {
+      each(group.headers, (header) => {
+        const { onHeaderClick } = columnById[header.id];
+
+        extend(header, {
+          onClick: () =>
+            onHeaderClick?.({
+              header,
+              headers: headerGroups,
+              rows,
+              columns: cols,
+            }),
+        });
+      });
+    }),
+  );
+
   return (
     <Grid
       container
@@ -58,11 +121,7 @@ export const List = <T extends object>({
           {...props}
         >
           <ListHeader groups={headerGroups} />
-          <ListBody
-            rows={pagination ? page : rows}
-            prepareRow={prepareRow}
-            getTableBodyProps={getTableBodyProps}
-          />
+          <ListBody rows={pagination ? page : rows} {...getTableBodyProps()} />
         </table>
       </Grid>
       {pagination ? (
@@ -72,10 +131,7 @@ export const List = <T extends object>({
               {' '}
               {'<<'}
             </IconButton>
-            <IconButton
-              onClick={() => previousPage()}
-              disabled={!canPreviousPage}
-            >
+            <IconButton onClick={previousPage} disabled={!canPreviousPage}>
               {'<'}
             </IconButton>
 
@@ -86,7 +142,7 @@ export const List = <T extends object>({
               </strong>
             </span>
 
-            <IconButton onClick={() => nextPage()} disabled={!canNextPage}>
+            <IconButton onClick={nextPage} disabled={!canNextPage}>
               {'>'}
             </IconButton>
             <IconButton

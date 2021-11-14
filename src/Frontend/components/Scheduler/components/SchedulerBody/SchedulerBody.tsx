@@ -22,12 +22,12 @@ export const SchedulerBody = () => {
 
   return (
     <List
-      onDragStart={() => {
-        console.log('started drag');
-      }}
       className={style('scheduler-body')}
       columns={columns}
       items={items}
+      onDragStart={() => {
+        console.log('drag start');
+      }}
     />
   );
 };
