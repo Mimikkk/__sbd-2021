@@ -1,10 +1,9 @@
 import { constant, map, partial, range, times } from 'lodash';
 import { Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components/List/components';
-import { Column } from 'react-table';
+import { Column } from 'shared/components/List';
 import { CourtCell } from './CourtCell';
 import { courtDates } from './values';
-import { style } from 'styles';
 
 export const createSchedulerRow = (n: number, time: Date): Scheduler.Row => ({
   time,
@@ -18,6 +17,12 @@ export const createSchedulerTimeColumn = (): Column<Scheduler.Row> => ({
   accessor: 'time',
   Header: 'Czas',
   Cell: HourCell,
+  onHeaderClick: (props) => {
+    console.log({ header: props });
+  },
+  onCellClick: (props) => {
+    console.log({ cell: props });
+  },
 });
 
 export const createSchedulerCourtColumn = (

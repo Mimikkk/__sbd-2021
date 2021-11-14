@@ -1,4 +1,4 @@
-import { Column } from 'react-table';
+import { Column } from 'shared/components/List';
 import { Scheduler } from 'shared/models';
 import { List } from 'shared/components/List';
 import { createSchedulerColumns, createSchedulerRows } from './utils';

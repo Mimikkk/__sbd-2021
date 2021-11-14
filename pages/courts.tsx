@@ -1,7 +1,7 @@
 import { Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { BoolCell } from 'shared/components/List/components';
-import { Column } from 'react-table';
+import { Column } from 'shared/components/List';
 import { Court } from 'shared/models';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,7 +10,7 @@ import faker from 'faker';
 import { Grid, Typography, Button } from '@mui/material';
 import React from 'react';
 
-const mockColumns: Column[] = [
+const mockColumns: Column<any>[] = [
   {
     accessor: 'name',
     Header: 'Name',
