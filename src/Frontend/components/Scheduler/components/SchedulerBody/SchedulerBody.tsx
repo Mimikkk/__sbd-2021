@@ -5,6 +5,20 @@ import { createSchedulerColumns, createSchedulerRows } from './utils';
 import { useMemo, useState } from 'react';
 import { constant } from 'lodash';
 import { style } from 'styles';
+import { Nullable } from 'shared/types';
+import { Cell } from 'react-table';
+
+interface SchedulerRowState {
+  start: Nullable<Cell<Scheduler.Row>>;
+  current: Nullable<Cell<Scheduler.Row>>;
+  end: Nullable<Cell<Scheduler.Row>>;
+}
+
+const initial: SchedulerRowState = {
+  start: null,
+  current: null,
+  end: null,
+};
 
 export const SchedulerBody = () => {
   const [courts, setCourts] = useState(4);
@@ -19,15 +33,12 @@ export const SchedulerBody = () => {
     constant(createSchedulerColumns(courts)),
     [courts],
   );
-
   return (
     <List
       className={style('scheduler-body')}
       columns={columns}
       items={items}
-      onDragStart={() => {
-        console.log('drag start');
-      }}
+      state={initial}
     />
   );
 };

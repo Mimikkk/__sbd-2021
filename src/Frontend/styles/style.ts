@@ -8,7 +8,7 @@ const styles = merge(list, navigator, scheduler, dateSelect);
 
 export const style = (key: string) => {
   if (!styles[key]) {
-    console.log('available styles', styles);
+    console.error('available styles', styles);
     throw Error(`${key} is empty or not defined in styles.`);
   }
   return styles[key];

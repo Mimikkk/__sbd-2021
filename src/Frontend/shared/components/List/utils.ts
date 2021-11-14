@@ -1,6 +1,14 @@
-import { Dictionary, each, extend, keyBy } from 'lodash';
+import {
+  Dictionary,
+  each,
+  extend,
+  isNil,
+  keyBy,
+  mapValues,
+  omitBy,
+} from 'lodash';
 import { HeaderGroup, Row } from 'react-table';
-import { Column } from 'shared/components/List/types';
+import { Column } from './types';
 
 const columnKey = <T extends object>(column: Column<T>) =>
   'id' in column ? column.id : column.accessor;
@@ -14,14 +22,29 @@ export const prepareCells = <T extends object>(
 ) => {
   const columnById = getColumnsById(columns);
 
-  each(
-    each(rows, (row) => {
-      each(row.cells, (cell, index) => {
-        const { onCellClick } = columnById[cell.column.id];
-        const onClick = () => onCellClick?.({ index, cell, rows, columns });
+  each(rows, (row) =>
+    each(row.cells, (cell, index) => {
+      const {
+        onCellClick,
+        onCellDragEnd,
+        onCellDragEnter,
+        onCellDragOver,
+        onCellDragStart,
+      } = columnById[cell.column.id];
 
-        extend(cell, { onClick });
-      });
+      const props = { index, cell, rows, columns };
+      const fns = {
+        onClick: onCellClick,
+        onDragEnd: onCellDragEnd,
+        onDragEnter: onCellDragEnter,
+        onDragOver: onCellDragOver,
+        onDragStart: onCellDragStart,
+      };
+
+      extend(
+        cell,
+        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+      );
     }),
   );
 };
@@ -33,13 +56,29 @@ export const prepareHeaders = <T extends object>(
 ) => {
   const columnById = getColumnsById(columns);
 
-  each(groups, (group) => {
+  each(groups, (group) =>
     each(group.headers, (header, index) => {
-      const { onHeaderClick } = columnById[header.id];
-      const onClick = () =>
-        onHeaderClick?.({ header, index, group, groups, rows, columns });
+      const {
+        onHeaderClick,
+        onHeaderDragEnd,
+        onHeaderDragEnter,
+        onHeaderDragOver,
+        onHeaderDragStart,
+      } = columnById[header.id];
 
-      extend(header, { onClick });
-    });
-  });
+      const props = { header, index, group, groups, rows, columns };
+      const fns = {
+        onClick: onHeaderClick,
+        onDragEnd: onHeaderDragEnd,
+        onDragEnter: onHeaderDragEnter,
+        onDragOver: onHeaderDragOver,
+        onDragStart: onHeaderDragStart,
+      };
+
+      extend(
+        header,
+        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+      );
+    }),
+  );
 };

@@ -18,5 +18,13 @@ export interface HeaderClickFnProps<T extends object> {
 
 export type Column<T extends object> = TableColumn<T> & {
   onCellClick?: (props: CellClickFnProps<T>) => void;
+  onCellDragStart?: (props: CellClickFnProps<T>) => void;
+  onCellDragEnd?: (props: CellClickFnProps<T>) => void;
+  onCellDragEnter?: (props: CellClickFnProps<T>) => void;
+  onCellDragOver?: (props: CellClickFnProps<T>) => void;
   onHeaderClick?: (props: HeaderClickFnProps<T>) => void;
+  onHeaderDragStart?: (props: HeaderClickFnProps<T>) => void;
+  onHeaderDragEnd?: (props: HeaderClickFnProps<T>) => void;
+  onHeaderDragEnter?: (props: HeaderClickFnProps<T>) => void;
+  onHeaderDragOver?: (props: HeaderClickFnProps<T>) => void;
 };

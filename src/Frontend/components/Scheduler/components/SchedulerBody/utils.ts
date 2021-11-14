@@ -17,12 +17,6 @@ export const createSchedulerTimeColumn = (): Column<Scheduler.Row> => ({
   accessor: 'time',
   Header: 'Czas',
   Cell: HourCell,
-  onHeaderClick: (props) => {
-    console.log({ header: props });
-  },
-  onCellClick: (props) => {
-    console.log({ cell: props });
-  },
 });
 
 export const createSchedulerCourtColumn = (
@@ -32,6 +26,7 @@ export const createSchedulerCourtColumn = (
   Header: `Kort ${index + 1}`,
   id: `${index}`,
   Cell: CourtCell(index),
+  onHeaderDragEnter: () => {},
 });
 
 export const createSchedulerColumns = (n: number): Column<Scheduler.Row>[] => {
