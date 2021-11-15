@@ -1,6 +1,6 @@
 import { useTable, usePagination, ColumnInstance } from 'react-table';
 import React from 'react';
-import { ListHeader, ListBody } from './components';
+import { ListHeader, ListBody, ListPagination } from './components';
 import { List as ListStyle } from 'styles/List.module.scss';
 import { IconButton, Grid } from '@mui/material';
 
@@ -52,35 +52,16 @@ export const List = <T extends object>({ columns, items }: Props<T>) => {
         </table>
       </Grid>
       <Grid item>
-        <div className="pagination" style={{ margin: '1em' }}>
-          <IconButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-            {' '}
-            {'<<'}
-          </IconButton>
-          <IconButton
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-          >
-            {'<'}
-          </IconButton>
-
-          <span style={{ margin: '1em', color: 'rgba(145, 150, 153, 1)' }}>
-            Page
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>
-          </span>
-
-          <IconButton onClick={() => nextPage()} disabled={!canNextPage}>
-            {'>'}
-          </IconButton>
-          <IconButton
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-          >
-            {'>>'}
-          </IconButton>
-        </div>
+        <ListPagination
+          gotoPage={gotoPage}
+          canPreviousPage={canPreviousPage}
+          previousPage={previousPage}
+          pageOptions={pageOptions}
+          canNextPage={canNextPage}
+          nextPage={nextPage}
+          pageIndex={pageIndex}
+          pageCount={pageCount}
+        />
       </Grid>
     </Grid>
   );

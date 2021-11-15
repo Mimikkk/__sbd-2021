@@ -1,4 +1,4 @@
-import { Tile } from 'shared/components';
+import { StyledButton, Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { BoolCell } from 'shared/components/List/components';
 import { Column, ColumnInstance } from 'react-table';
@@ -45,7 +45,20 @@ export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({
   ...initial,
 });
 
-const mockRows = [mockCourt(), mockCourt(), mockCourt(), mockCourt()];
+const mockRows = [
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+];
 
 const Courts = () => {
   // const [items, setItems] = useState<Court.Model[]>([]);
@@ -86,38 +99,10 @@ const Courts = () => {
             }}
           >
             <Grid item>
-              <Button
-                variant="contained"
-                startIcon={
-                  <AddIcon style={{ color: 'rgba(93, 95, 239, 1)' }} />
-                }
-                size="large"
-                style={{
-                  backgroundColor: 'rgba(124, 77, 255, 0.05)',
-                  color: 'rgba(0, 0, 0, 0.87)',
-                  textTransform: 'none',
-                  boxShadow: 'none',
-                }}
-              >
-                Add new court
-              </Button>
+              <StyledButton title="Add new court" icon={<AddIcon />} />
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={
-                  <SearchIcon style={{ color: 'rgba(93, 95, 239, 1)' }} />
-                }
-                style={{
-                  backgroundColor: 'rgba(124, 77, 255, 0.05)',
-                  color: 'rgba(0, 0, 0, 0.87)',
-                  textTransform: 'none',
-                  boxShadow: 'none',
-                }}
-              >
-                Find court
-              </Button>
+              <StyledButton title="Find court" icon={<SearchIcon />} />
             </Grid>
           </Grid>
         </Grid>
