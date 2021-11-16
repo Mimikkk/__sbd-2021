@@ -1,5 +1,9 @@
 import { Grid, IconButton } from '@mui/material';
 import React, { VFC } from 'react';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export interface Props {
   gotoPage: (updater: ((pageIndex: number) => number) | number) => void;
@@ -23,33 +27,40 @@ export const ListPagination: VFC<Props> = ({
   pageCount,
 }) => {
   return (
-    <Grid>
-      <div className="pagination" style={{ margin: '1em' }}>
-        <IconButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {' '}
-          {'<<'}
-        </IconButton>
-        <IconButton onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </IconButton>
-
+    <Grid container style={{ justifyContent: 'center' }}>
+      <Grid item>
+        <IconButton
+          onClick={() => gotoPage(0)}
+          disabled={!canPreviousPage}
+          children={<FirstPageIcon />}
+        />
+      </Grid>
+      <Grid item>
+        <IconButton
+          onClick={() => previousPage()}
+          disabled={!canPreviousPage}
+          children={<NavigateBeforeIcon />}
+        />
+      </Grid>
+      <Grid item>
         <span style={{ margin: '1em', color: 'rgba(145, 150, 153, 1)' }}>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>
+          Page {pageIndex + 1} of {pageOptions.length}
         </span>
-
-        <IconButton onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </IconButton>
+      </Grid>
+      <Grid item>
+        <IconButton
+          onClick={() => nextPage()}
+          disabled={!canNextPage}
+          children={<NavigateNextIcon />}
+        />
+      </Grid>
+      <Grid item>
         <IconButton
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
-        >
-          {'>>'}
-        </IconButton>
-      </div>
+          children={<LastPageIcon />}
+        />
+      </Grid>
     </Grid>
   );
 };

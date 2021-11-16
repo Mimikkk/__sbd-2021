@@ -35,6 +35,7 @@ export const List = <T extends object>({ columns, items }: Props<T>) => {
   return (
     <Grid
       container
+      spacing={2}
       style={{
         display: 'flex',
         flexDirection: 'column',
