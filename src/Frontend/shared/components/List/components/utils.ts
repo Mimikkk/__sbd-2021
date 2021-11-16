@@ -1,4 +1,4 @@
-import { isNil, map, omitBy, partial } from 'lodash';
+import { isNil, map, omitBy, partial, zipObject } from 'lodash';
 import { SyntheticEvent } from 'react';
 
 export const onActions = <T extends object>(item: T) => omitBy(item, isNil);
@@ -11,7 +11,7 @@ export const runEvent =
 export const runEvents = <T extends object>(
   item: T,
   ...types: string[]
-): object => map(types, partial(runEvent, item));
+): object => zipObject(types, map(types, partial(runEvent, item)));
 
 export const isIn = <T extends object>(item: T, prop: string): item is T =>
   prop in item;
