@@ -1,7 +1,6 @@
 import { map, range } from 'lodash';
 import { Scheduler } from 'shared/models';
-import { HourCell } from 'shared/components/List/components';
-import { Column } from 'shared/components/List';
+import { HourCell } from 'shared/components';
 import { CourtCell } from './CourtCell';
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
@@ -19,15 +18,21 @@ export const createSchedulerCourtColumn = (
   Cell: CourtCell(index),
 
   onCellDragStart: async (props) => {
-    console.log('start');
-    props.setState({
-      current: null,
-      start: null,
-    });
+    props.ref.current.isDragging = true;
+    props.ref.current.start = props.cell;
+    console.log('start', props.ref.current.isDragging);
+  },
+
+  onCellDragEnter: async (props) => {
+    if (props.ref.current.start!.column.id === props.cell.column.id) {
+      props.ref.current.current = props.cell;
+      console.log('enter', props.ref.current.isDragging);
+    }
   },
 
   onCellDragEnd: (props) => {
-    console.log('end');
+    props.ref.current = Scheduler.initialRef;
+    console.log('end', props.ref.current.isDragging);
   },
 });
 

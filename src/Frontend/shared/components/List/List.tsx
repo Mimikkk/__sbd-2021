@@ -1,5 +1,5 @@
-import { useTable, usePagination } from 'react-table';
-import { HTMLAttributes, useState } from 'react';
+import { useTable, usePagination, useFlexLayout } from 'react-table';
+import { HTMLAttributes, useRef, useState } from 'react';
 import { IconButton, Grid } from '@mui/material';
 import { ListBody, ListHeader } from './components';
 import { cx } from 'shared/utils';
@@ -8,23 +8,27 @@ import { compact, each } from 'lodash';
 import { Column } from './types';
 import { prepareCells, prepareHeaders } from './utils';
 
-export interface ListProps<T extends object, S = undefined>
+export interface ListProps<T extends object, S = undefined, R = undefined>
   extends HTMLAttributes<HTMLTableElement> {
-  columns: Column<T, S>[];
+  columns: Column<T, S, R>[];
   items: T[];
   pagination?: boolean;
-  initial?: S;
+  initialState?: S;
+  initialRef?: R;
 }
 
-export const List = <T extends object, S = undefined>({
+export const List = <T extends object, S = undefined, R = undefined>({
   columns,
   items,
   pagination = false,
   className,
-  initial,
+  initialState,
+  initialRef,
   ...props
-}: ListProps<T, S>) => {
-  const [state, setState] = useState<S>(initial as S);
+}: ListProps<T, S, R>) => {
+  const [state, setState] = useState<S>(initialState as S);
+  const ref = useRef<R>();
+  if (!ref.current) ref.current = initialRef;
 
   const {
     columns: cols,
@@ -48,11 +52,11 @@ export const List = <T extends object, S = undefined>({
       data: items,
       initialState: { pageIndex: 0 },
     },
-    ...compact([pagination && usePagination]),
+    ...compact([pagination && usePagination, useFlexLayout]),
   );
 
-  prepareCells(each(rows, prepareRow), cols, state, setState);
-  prepareHeaders(groups, rows, cols, state, setState);
+  prepareCells(each(rows, prepareRow), cols, state, setState, ref);
+  prepareHeaders(groups, rows, cols, state, setState, ref);
 
   return (
     <Grid

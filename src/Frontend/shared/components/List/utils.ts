@@ -7,21 +7,23 @@ import {
   mapValues,
   omitBy,
 } from 'lodash';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { HeaderGroup, Row } from 'react-table';
 import { Column } from './types';
 
-const columnKey = <T extends object, S>(column: Column<T, S>) =>
+const columnKey = <T extends object, S, R>(column: Column<T, S, R>) =>
   'id' in column ? column.id : column.accessor;
 
-export const getColumnsById = <T extends object, S>(columns: Column<T, S>[]) =>
-  keyBy(columns, columnKey) as Dictionary<Column<T, S>>;
+export const getColumnsById = <T extends object, S, R>(
+  columns: Column<T, S, R>[],
+) => keyBy(columns, columnKey) as Dictionary<Column<T, S, R>>;
 
-export const prepareCells = <T extends object, S>(
+export const prepareCells = <T extends object, S, R>(
   rows: Row<T>[],
-  columns: Column<T, S>[],
+  columns: Column<T, S, R>[],
   state: S,
   setState: Dispatch<SetStateAction<S>>,
+  ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
 
@@ -35,7 +37,7 @@ export const prepareCells = <T extends object, S>(
         onCellDragStart: onDragStart,
       } = columnById[cell.column.id];
 
-      const props = { index, cell, rows, columns, state, setState };
+      const props = { index, cell, rows, columns, state, setState, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
@@ -46,12 +48,13 @@ export const prepareCells = <T extends object, S>(
   );
 };
 
-export const prepareHeaders = <T extends object, S>(
+export const prepareHeaders = <T extends object, S, R>(
   groups: HeaderGroup<T>[],
   rows: Row<T>[],
-  columns: Column<T, S>[],
+  columns: Column<T, S, R>[],
   state: S,
   setState: Dispatch<SetStateAction<S>>,
+  ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
 
@@ -74,6 +77,7 @@ export const prepareHeaders = <T extends object, S>(
         columns,
         state,
         setState,
+        ref,
       };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 

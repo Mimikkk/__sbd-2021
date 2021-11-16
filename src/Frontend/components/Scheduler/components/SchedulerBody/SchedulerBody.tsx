@@ -19,12 +19,13 @@ export const SchedulerBody = () => {
     constant(createSchedulerColumns(courts)),
     [courts],
   );
+
   return (
     <List
       className={style('scheduler-body')}
       columns={columns}
       items={items}
-      initial={Scheduler.state}
+      initialRef={Scheduler.initialRef}
     />
   );
 };
