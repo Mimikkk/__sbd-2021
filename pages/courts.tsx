@@ -1,22 +1,18 @@
-import { Tile } from 'shared/components';
+import { Button, Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { BoolCell } from 'shared/components/List/components';
 import { Column } from 'shared/components/List';
 import { Court } from 'shared/models';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-
 import faker from 'faker';
-import { Grid, Typography, Button } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
 const mockColumns: Column<any>[] = [
   {
     accessor: 'name',
     Header: 'Name',
-    // Cell: (value) => {
-    //   return <div className={ColumnStyle}>{value}</div>;
-    // },
   },
   {
     accessor: 'floor',
@@ -45,7 +41,20 @@ export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({
   ...initial,
 });
 
-const mockRows = [mockCourt(), mockCourt(), mockCourt(), mockCourt()];
+const mockRows = [
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+];
 
 const Courts = () => {
   // const [items, setItems] = useState<Court.Model[]>([]);
@@ -86,38 +95,10 @@ const Courts = () => {
             }}
           >
             <Grid item>
-              <Button
-                variant="contained"
-                startIcon={
-                  <AddIcon style={{ color: 'rgba(93, 95, 239, 1)' }} />
-                }
-                size="large"
-                style={{
-                  backgroundColor: 'rgba(124, 77, 255, 0.05)',
-                  color: 'rgba(0, 0, 0, 0.87)',
-                  textTransform: 'none',
-                  boxShadow: 'none',
-                }}
-              >
-                Add new court
-              </Button>
+              <Button title="Add new court" icon={<AddIcon />} />
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={
-                  <SearchIcon style={{ color: 'rgba(93, 95, 239, 1)' }} />
-                }
-                style={{
-                  backgroundColor: 'rgba(124, 77, 255, 0.05)',
-                  color: 'rgba(0, 0, 0, 0.87)',
-                  textTransform: 'none',
-                  boxShadow: 'none',
-                }}
-              >
-                Find court
-              </Button>
+              <Button title="Find court" icon={<SearchIcon />} />
             </Grid>
           </Grid>
         </Grid>

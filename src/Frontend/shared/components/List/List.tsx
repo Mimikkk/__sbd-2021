@@ -61,6 +61,7 @@ export const List = <T extends object, S = undefined, R = undefined>({
   return (
     <Grid
       container
+      spacing={2}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -77,36 +78,18 @@ export const List = <T extends object, S = undefined, R = undefined>({
           <ListBody rows={pagination ? page : rows} {...getTableBodyProps()} />
         </table>
       </Grid>
-      {pagination ? (
-        <Grid item>
-          <div className="pagination" style={{ margin: '1em' }}>
-            <IconButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-              {' '}
-              {'<<'}
-            </IconButton>
-            <IconButton onClick={previousPage} disabled={!canPreviousPage}>
-              {'<'}
-            </IconButton>
-
-            <span style={{ margin: '1em', color: 'rgba(145, 150, 153, 1)' }}>
-              Page
-              <strong>
-                {pageIndex + 1} of {pageOptions.length}
-              </strong>
-            </span>
-
-            <IconButton onClick={nextPage} disabled={!canNextPage}>
-              {'>'}
-            </IconButton>
-            <IconButton
-              onClick={() => gotoPage(pageCount - 1)}
-              disabled={!canNextPage}
-            >
-              {'>>'}
-            </IconButton>
-          </div>
-        </Grid>
-      ) : null}
+      {pagination ?<Grid item>
+        <ListPagination
+          gotoPage={gotoPage}
+          canPreviousPage={canPreviousPage}
+          previousPage={previousPage}
+          pageOptions={pageOptions}
+          canNextPage={canNextPage}
+          nextPage={nextPage}
+          pageIndex={pageIndex}
+          pageCount={pageCount}
+        />
+      </Grid> : null}
     </Grid>
   );
 };
