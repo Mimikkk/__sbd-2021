@@ -2,6 +2,7 @@ import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { Cell, Column as TableColumn, HeaderGroup, Row } from 'react-table';
 
 export interface CellClickFnProps<T extends object, S, R> {
+  event: DragEvent;
   cell: Cell<T>;
   index: number;
   rows: Row<T>[];
@@ -12,6 +13,7 @@ export interface CellClickFnProps<T extends object, S, R> {
 }
 
 export interface HeaderClickFnProps<T extends object, S, R> {
+  event: DragEvent;
   header: HeaderGroup<T>;
   index: number;
   group: HeaderGroup<T>;

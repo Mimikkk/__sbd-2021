@@ -42,7 +42,10 @@ export const prepareCells = <T extends object, S, R>(
 
       extend(
         cell,
-        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+        mapValues(
+          omitBy(fns, isNil),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
+        ),
       );
     }),
   );
@@ -83,7 +86,10 @@ export const prepareHeaders = <T extends object, S, R>(
 
       extend(
         header,
-        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+        mapValues(
+          omitBy(fns, isNil),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
+        ),
       );
     }),
   );

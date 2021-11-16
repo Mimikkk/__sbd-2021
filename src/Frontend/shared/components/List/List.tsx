@@ -59,16 +59,8 @@ export const List = <T extends object, S = undefined, R = undefined>({
   prepareHeaders(groups, rows, cols, state, setState, ref);
 
   return (
-    <Grid
-      container
-      spacing={2}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Grid item>
+    <Grid container>
+      <Grid item style={{ width: '100%' }}>
         <table
           {...getTableProps()}
           className={cx(style('list'), className)}

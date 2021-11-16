@@ -21,11 +21,14 @@ export const SchedulerBody = () => {
   );
 
   return (
-    <List
-      className={style('scheduler-body')}
-      columns={columns}
-      items={items}
-      initialRef={Scheduler.initialRef}
-    />
+    <>
+      <List
+        className={style('scheduler-body')}
+        columns={columns}
+        items={items}
+        initialRef={Scheduler.initialRef}
+      />
+      <div id="scheduler-dynamic__container" />
+    </>
   );
 };
