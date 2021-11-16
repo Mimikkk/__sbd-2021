@@ -1,5 +1,6 @@
-import { Tile, Scheduler } from 'shared/components';
+import { Tile } from 'shared/components';
 import { Grid } from '@mui/material';
+import { Scheduler } from 'components';
 
 const ReservationSchedulerView = () => {
   return (

@@ -3,7 +3,7 @@ import { Row } from 'react-table';
 import { useFactory } from 'shared/hooks';
 import { elements } from 'shared/utils';
 import { ListCell, ListCellProps } from './ListCell';
-import { ListRow as ListRowStyle } from 'styles/List.module.scss';
+import { style } from 'styles';
 
 export interface ListRowProps<T extends object> {
   row: Row<T>;
@@ -15,7 +15,7 @@ export const ListRow = <T extends object>({
   const [Cells] = useFactory<ListCellProps<T>>(ListCell);
 
   return (
-    <tr {...getRowProps()} className={ListRowStyle}>
+    <tr {...getRowProps()} className={style('list__row')}>
       <Cells items={elements(cells, 'cell')} />
     </tr>
   );

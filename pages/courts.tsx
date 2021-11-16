@@ -1,7 +1,7 @@
 import { Button, Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { BoolCell } from 'shared/components/List/components';
-import { Column } from 'react-table';
+import { Column } from 'shared/components/List';
 import { Court } from 'shared/models';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +9,7 @@ import faker from 'faker';
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const mockColumns: Column[] = [
+const mockColumns: Column<any>[] = [
   {
     accessor: 'name',
     Header: 'Name',
@@ -102,14 +102,8 @@ const Courts = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid
-          item
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          <List columns={mockColumns} items={mockRows} />
+        <Grid item style={{ width: '100%' }}>
+          <List columns={mockColumns} items={mockRows} pagination />
         </Grid>
       </Grid>
     </Tile>

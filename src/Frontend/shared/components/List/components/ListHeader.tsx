@@ -1,10 +1,7 @@
 import { HeaderGroup } from 'react-table';
 import { useFactory } from 'shared/hooks';
 import { elements } from 'shared/utils';
-import {
-  ListHeaderRow,
-  ListHeaderGroupRowProps,
-} from 'shared/components/List/components/ListHeaderRow';
+import { ListHeaderRow, ListHeaderGroupRowProps } from './ListHeaderRow';
 
 export interface ListHeaderProps<T extends object> {
   groups: HeaderGroup<T>[];

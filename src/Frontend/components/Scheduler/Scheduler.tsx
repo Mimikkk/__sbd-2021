@@ -1,11 +1,12 @@
 import { Divider, Grid } from '@mui/material';
 import { SchedulerBody, SchedulerEmpty, SchedulerHeader } from './components';
+import { style } from 'styles';
 
 export const Scheduler = () => {
   const isEmpty = false;
 
   return (
-    <Grid container spacing={2}>
+    <Grid className={style('scheduler')} container spacing={2}>
       <Grid item xs={12}>
         <SchedulerHeader />
       </Grid>

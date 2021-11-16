@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { DateSelect } from './DateSelect';
 import { useHeaderReducer } from './reducer';
 import { addDays, getDayOfYear } from 'date-fns';
+import { DateSelect } from 'shared/components';
 
 const offset = 14;
 export const SchedulerHeader = () => {

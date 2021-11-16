@@ -1,2 +1,3 @@
-export * from 'shared/models/court.model';
-export * from 'shared/models/base.model';
+export * from './court.model';
+export * from './base.model';
+export * from './scheduler.model';
