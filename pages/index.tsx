@@ -1,5 +1,9 @@
 import { Tile } from 'shared/components';
 
-const Index = () => <Tile>Dada</Tile>;
+const Index = () => (
+  <Tile>
+    <p>aa</p>
+  </Tile>
+);
 
 export default Index;

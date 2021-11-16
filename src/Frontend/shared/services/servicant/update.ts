@@ -1,6 +1,6 @@
-import { ApiUpdateProps } from './types';
+import { ApiUpdateProps } from 'shared/services/servicant/types';
 import axios from 'axios';
-import { handleError, handleSuccess } from './utils';
+import { handleError, handleSuccess } from 'shared/services/servicant/utils';
 
 export const update = async <T>({
   url,

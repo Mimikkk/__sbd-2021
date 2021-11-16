@@ -1,4 +1,10 @@
 {
+  "include": [
+    "typing.d.ts",
+    "src",
+    "pages",
+    "@types"
+  ],
   "compilerOptions": {
     "baseUrl": "src/Frontend",
     "target": "es5",
@@ -22,9 +28,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
     "src/Backend"
   ]

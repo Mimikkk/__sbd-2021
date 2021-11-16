@@ -1,64 +1,111 @@
-import { useEffect, useState } from 'react';
-import { CourtService } from 'shared/services';
-import { Tile } from 'shared/components';
+import { Button, Tile } from 'shared/components';
 import { List } from 'shared/components/List';
-import { GridColDef as Column, GridValueGetterParams } from '@mui/x-data-grid';
+import { BoolCell } from 'shared/components/List/components';
+import { Column } from 'shared/components/List';
 import { Court } from 'shared/models';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import faker from 'faker';
+import { Grid, Typography } from '@mui/material';
+import React from 'react';
 
-const mockColumns: Column[] = [
+const mockColumns: Column<any>[] = [
   {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    align: 'left',
+    accessor: 'name',
+    Header: 'Name',
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
+    accessor: 'floor',
+    Header: 'Floor type',
   },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 100,
-    align: 'left',
+    accessor: 'isCovered',
+    Header: 'Cover',
+    Cell: BoolCell,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.getValue(params.id, 'firstName') || ''} ${
-        params.getValue(params.id, 'lastName') || ''
-      }`,
+    accessor: 'isUnderMaintenance',
+    Header: 'Available',
+    Cell: BoolCell,
   },
 ];
+
+export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({
+  id: faker.datatype.uuid(),
+  name: faker.lorem.word(),
+  updatedAt: '',
+  createdAt: '',
+  floor: faker.lorem.word(),
+  isCovered: faker.datatype.boolean(),
+  isUnderMaintenance: faker.datatype.boolean(),
+  ...initial,
+});
+
 const mockRows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
+  mockCourt(),
 ];
 
 const Courts = () => {
-  const [items, setItems] = useState<Court.Model[]>([]);
-
-  useEffect(() => {
-    CourtService.readAll().then(setItems).catch(console.log);
-    console.log({ items });
-  }, []);
+  // const [items, setItems] = useState<Court.Model[]>([]);
+  //
+  // useEffect(() => {
+  //   // courtService.readAll().then(setItems).catch(console.log);
+  // }, []);
 
   return (
     <Tile>
-      <List rows={mockRows} columns={mockColumns} />
+      <Grid container style={{ width: '100%' }}>
+        <Grid
+          item
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Grid
+            item
+            style={{
+              display: 'flex',
+              width: '100%',
+              alignContent: 'left',
+              margin: '10px',
+            }}
+          >
+            <Typography style={{ fontSize: '2em' }}>{'Courts'}</Typography>
+          </Grid>
+          <Grid
+            container
+            spacing={2}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Grid item>
+              <Button title="Add new court" icon={<AddIcon />} />
+            </Grid>
+            <Grid item>
+              <Button title="Find court" icon={<SearchIcon />} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item style={{ width: '100%' }}>
+          <List columns={mockColumns} items={mockRows} pagination />
+        </Grid>
+      </Grid>
     </Tile>
   );
 };

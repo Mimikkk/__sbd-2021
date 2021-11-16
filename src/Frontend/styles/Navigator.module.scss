@@ -1,0 +1,11 @@
+.navigator {
+  width: 250px;
+  height: 100vh;
+
+  [class*="-MuiPaper"] {
+    width: 250px;
+    height: 100vh;
+    border-right: 0;
+    position: static;
+  }
+}
