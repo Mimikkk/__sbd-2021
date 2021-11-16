@@ -1,7 +1,7 @@
 import { useTable, usePagination, useFlexLayout } from 'react-table';
 import { HTMLAttributes, useRef, useState } from 'react';
-import { IconButton, Grid } from '@mui/material';
-import { ListBody, ListHeader } from './components';
+import { Grid } from '@mui/material';
+import { ListBody, ListHeader, ListPagination } from './components';
 import { cx } from 'shared/utils';
 import { style } from 'styles';
 import { compact, each } from 'lodash';
@@ -78,18 +78,20 @@ export const List = <T extends object, S = undefined, R = undefined>({
           <ListBody rows={pagination ? page : rows} {...getTableBodyProps()} />
         </table>
       </Grid>
-      {pagination ?<Grid item>
-        <ListPagination
-          gotoPage={gotoPage}
-          canPreviousPage={canPreviousPage}
-          previousPage={previousPage}
-          pageOptions={pageOptions}
-          canNextPage={canNextPage}
-          nextPage={nextPage}
-          pageIndex={pageIndex}
-          pageCount={pageCount}
-        />
-      </Grid> : null}
+      {pagination ? (
+        <Grid item>
+          <ListPagination
+            gotoPage={gotoPage}
+            canPreviousPage={canPreviousPage}
+            previousPage={previousPage}
+            pageOptions={pageOptions}
+            canNextPage={canNextPage}
+            nextPage={nextPage}
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+          />
+        </Grid>
+      ) : null}
     </Grid>
   );
 };
