@@ -1,22 +1,18 @@
-import { StyledButton, Tile } from 'shared/components';
+import { Button, Tile } from 'shared/components';
 import { List } from 'shared/components/List';
 import { BoolCell } from 'shared/components/List/components';
-import { Column, ColumnInstance } from 'react-table';
+import { Column } from 'react-table';
 import { Court } from 'shared/models';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-
 import faker from 'faker';
-import { Grid, Typography, Button } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const mockColumns: ColumnInstance[] = [
+const mockColumns: Column[] = [
   {
     accessor: 'name',
     Header: 'Name',
-    // Cell: (value) => {
-    //   return <div className={ColumnStyle}>{value}</div>;
-    // },
   },
   {
     accessor: 'floor',
@@ -99,10 +95,10 @@ const Courts = () => {
             }}
           >
             <Grid item>
-              <StyledButton title="Add new court" icon={<AddIcon />} />
+              <Button title="Add new court" icon={<AddIcon />} />
             </Grid>
             <Grid item>
-              <StyledButton title="Find court" icon={<SearchIcon />} />
+              <Button title="Find court" icon={<SearchIcon />} />
             </Grid>
           </Grid>
         </Grid>

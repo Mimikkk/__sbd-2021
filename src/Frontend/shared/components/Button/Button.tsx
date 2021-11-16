@@ -1,16 +1,14 @@
 import React, { VFC, ReactElement } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import { Props } from 'shared/components/Navigator/Menu';
-import { Button, Icon } from '@mui/material';
+import { Button as MuiButton } from '@mui/material';
 
 export interface ButtonProps {
   title: string;
   icon: ReactElement;
 }
 
-export const StyledButton: VFC<ButtonProps> = ({ title, icon }) => {
+export const Button: VFC<ButtonProps> = ({ title, icon }) => {
   return (
-    <Button
+    <MuiButton
       variant="contained"
       startIcon={
         <div
@@ -33,6 +31,6 @@ export const StyledButton: VFC<ButtonProps> = ({ title, icon }) => {
       }}
     >
       {title}
-    </Button>
+    </MuiButton>
   );
 };
