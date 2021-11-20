@@ -21,7 +21,7 @@ export interface HeaderClickFnProps<T extends object, R> {
   ref: MutableRefObject<R>;
 }
 
-export type Column<T extends object, R> = TableColumn<T> & {
+export type Column<T extends object, R = undefined> = TableColumn<T> & {
   onCellClick?: (props: CellClickFnProps<T, R>) => void;
   onCellDragStart?: (props: CellClickFnProps<T, R>) => void;
   onCellDragEnd?: (props: CellClickFnProps<T, R>) => void;

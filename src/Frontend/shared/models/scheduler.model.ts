@@ -1,7 +1,6 @@
 import { Cell as ListCell } from 'react-table';
 import { Column as ListColumn } from 'shared/components/List';
 import { Nullable } from 'shared/types';
-import { ReactNode } from 'react';
 
 export module Scheduler {
   export interface Row {
@@ -16,6 +15,9 @@ export module Scheduler {
     court: number;
   }
 
+  export interface ReservationGroups
+    extends Record<number, Record<number, Row>> {}
+
   export interface RowRef {
     selected: Nullable<HTMLElement>;
     start: Nullable<Cell>;
@@ -23,7 +25,7 @@ export module Scheduler {
     target: any;
   }
 
-  export type Column = ListColumn<Row, undefined, RowRef>;
+  export type Column = ListColumn<Row, RowRef>;
 
   export const initialRef: Scheduler.RowRef = {
     selected: null,

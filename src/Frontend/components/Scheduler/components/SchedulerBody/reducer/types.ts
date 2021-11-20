@@ -17,9 +17,6 @@ export type Initialize = ActionType<Type.Initialize, InitializeProps>;
 
 export type Action = Add | Remove | Initialize;
 
-export interface ReservationGroups
-  extends Record<number, Record<number, Scheduler.Row>> {}
-
 export interface Props {
   courts: Court.Entity[];
   items: Scheduler.Row[];

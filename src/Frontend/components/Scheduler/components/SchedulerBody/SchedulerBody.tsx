@@ -17,6 +17,7 @@ export const SchedulerBody = () => {
       courts: times(4, () => mockCourt()),
       reservations: [
         { start: 0, end: 22, court: 1 },
+        { start: 1, end: 4, court: 0 },
       ] as Scheduler.Reservation[],
     }).then(initialize);
   }, []);

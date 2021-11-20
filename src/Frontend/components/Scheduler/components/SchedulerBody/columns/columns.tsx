@@ -12,7 +12,6 @@ import {
 import { CellProps } from 'react-table';
 import { VFC } from 'react';
 import { Paper } from '@mui/material';
-import { ReservationGroups } from 'components/Scheduler/components/SchedulerBody/reducer';
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   accessor: 'time',
@@ -45,7 +44,7 @@ export const Reservation: VFC<ReservationProps> = ({ start, end }) => (
 );
 
 export const CourtCell =
-  (index: number, reservations: ReservationGroups) =>
+  (index: number, reservations: Scheduler.ReservationGroups) =>
   (cell: CellProps<Scheduler.Row, boolean[]>) => {
     return cell.value[index] &&
       reservations[index] &&
@@ -58,7 +57,7 @@ export const CourtCell =
   };
 
 export const createSchedulerCourtColumn = (
-  reservations: ReservationGroups,
+  reservations: Scheduler.ReservationGroups,
   index: number,
 ): Scheduler.Column => ({
   accessor: `selected`,
@@ -163,7 +162,7 @@ export const createSchedulerCourtColumn = (
 
 export const createColumns = (
   { length }: Court.Entity[],
-  reservations: ReservationGroups,
+  reservations: Scheduler.ReservationGroups,
 ): Scheduler.Column[] => [
   createSchedulerTimeColumn(),
   ...map(range(length), partial(createSchedulerCourtColumn, reservations)),
