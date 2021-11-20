@@ -1,34 +1,31 @@
 import { List } from 'shared/components/List';
 import { Scheduler } from 'shared/models';
-import { createSchedulerColumns } from './columns';
-import { createSchedulerRows } from './rows';
-import { useMemo, useState } from 'react';
-import { constant } from 'lodash';
+import { useEffect } from 'react';
 import { style } from 'styles';
+import { SchedulerDragContainer } from './components';
+import { Grid } from '@mui/material';
+import { cx } from 'shared/utils';
+import { useSchedulerBodyReducer } from './reducer';
+import faker from 'faker';
 
 export const SchedulerBody = () => {
-  const [courts, setCourts] = useState(4);
-  const today = useMemo(constant(new Date()), []);
+  const { items, columns, initialize } = useSchedulerBodyReducer();
 
-  const items: Scheduler.Row[] = useMemo(
-    constant(createSchedulerRows(courts, today)),
-    [courts, today],
-  );
-
-  const columns: Scheduler.Column[] = useMemo(
-    constant(createSchedulerColumns(courts)),
-    [courts],
-  );
+  useEffect(() => {
+    Promise.resolve(faker.datatype.number(4) + 1).then(initialize);
+  }, []);
 
   return (
-    <>
-      <List
-        className={style('scheduler-body')}
-        columns={columns}
-        items={items}
-        initialRef={Scheduler.initialRef}
-      />
-      <div id="scheduler-dynamic__container" />
-    </>
+    <Grid container>
+      <Grid item xs={12}>
+        <List
+          className={cx(style('scheduler-body'))}
+          columns={columns}
+          items={items}
+          initialRef={Scheduler.initialRef}
+        />
+      </Grid>
+      <SchedulerDragContainer />
+    </Grid>
   );
 };

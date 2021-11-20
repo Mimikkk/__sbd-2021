@@ -10,11 +10,17 @@ export module Scheduler {
   }
   export interface Cell extends ListCell<Row> {}
 
+  export interface Reservation {
+    start: number;
+    end: number;
+    court: number;
+  }
+
   export interface RowRef {
-    isDragging: boolean;
-    selected: Nullable<ReactNode>;
+    selected: Nullable<HTMLElement>;
     start: Nullable<Cell>;
     current: Nullable<Cell>;
+    target: any;
   }
 
   export type Column = ListColumn<Row, undefined, RowRef>;
@@ -23,6 +29,6 @@ export module Scheduler {
     selected: null,
     start: null,
     current: null,
-    isDragging: false,
+    target: {},
   };
 }
