@@ -122,15 +122,13 @@ export const createSchedulerCourtColumn = (
 
     unmountComponentAtNode(schedulerDragContainer());
 
-    if (props.ref.current.current) {
-      const [start, end] = sortBy([
-        Number(props.cell.row.id),
-        Number(props.ref.current.current!.row.id),
-      ]);
-      const court = Number(props.cell.column.id);
+    const [start, end] = sortBy([
+      Number(props.cell.row.id),
+      Number(props.ref.current.current!.row.id),
+    ]);
+    const court = Number(props.cell.column.id);
 
-      props.ref.current.add!({ start, end, court });
-    }
+    props.ref.current.add!({ start, end, court });
   },
 });
 
