@@ -1,12 +1,12 @@
-import { Court } from '@models';
-import { uuid } from '@internal/types';
-import { servicant } from './servicant';
+import { Court } from "@models";
+import { uuid } from "@internal/types";
+import { servicant } from "./servicant";
 
-const url = 'api/v2/courts';
+const url = "api/v2/courts";
 
 export const courtService = {
   create: (item: Court.Model) =>
-    servicant.create({ url, item, successMessage: 'super' }),
+    servicant.create({ url, item, successMessage: "super" }),
 
   readAll: () => servicant.read<Court.Model[]>({ url }),
 

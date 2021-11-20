@@ -24,6 +24,15 @@
       ],
       "@services": [
         "../backend/services"
+      ],
+      "$/*": [
+        "../backend/*"
+      ],
+      "$sql/*": [
+        "../backend/database/*"
+      ],
+      "$sql": [
+        "../backend/database"
       ]
     },
     "allowJs": true,
@@ -42,6 +51,6 @@
     "incremental": true
   },
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }
