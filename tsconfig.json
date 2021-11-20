@@ -1,18 +1,31 @@
 {
   "include": [
-    "typing.d.ts",
+    "configs",
     "src",
-    "pages",
-    "@types"
+    "pages"
   ],
   "compilerOptions": {
-    "baseUrl": "src/Frontend",
+    "baseUrl": "src/frontend",
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "@internal/*": [
+        "../internal/*"
+      ],
+      "@models/*": [
+        "../internal/models/*"
+      ],
+      "@models": [
+        "../internal/models"
+      ],
+      "@services": [
+        "../backend/services"
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -27,8 +40,5 @@
     "noEmit": true,
     "jsx": "preserve",
     "incremental": true
-  },
-  "exclude": [
-    "src/Backend"
-  ]
+  }
 }
