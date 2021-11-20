@@ -4,9 +4,8 @@ import { Reservation } from '../columns';
 
 export const CourtCell =
   (index: number, reservations: Scheduler.ReservationGroups) =>
-  (cell: CellProps<Scheduler.Row, boolean[]>) =>
-    cell.value[index] &&
-    reservations[index] &&
-    !cell.rows[Number(cell.row.id) - 1]?.original.selected[index] && (
-      <Reservation {...reservations[index][Number(cell.row.id)]} />
-    );
+  (cell: CellProps<Scheduler.Row, boolean[]>) => {
+    const reservation = reservations[index]?.[Number(cell.row.id)] || null;
+
+    return reservation && <Reservation {...reservation} />;
+  };

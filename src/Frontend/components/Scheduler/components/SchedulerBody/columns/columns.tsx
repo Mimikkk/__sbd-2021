@@ -1,4 +1,4 @@
-import { map, once, orderBy, partial, range, sortBy, zip } from 'lodash';
+import { map, partial, range, sortBy } from 'lodash';
 import { Court, Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components';
 import { toCssString } from 'shared/utils/dom';
@@ -8,28 +8,37 @@ import {
   ReservationDrag,
   reservationDragContainer,
   schedulerDragContainer,
-} from 'components/Scheduler/components/SchedulerBody/components';
-import { CellProps } from 'react-table';
+} from '../components';
 import { VFC } from 'react';
 import { Paper } from '@mui/material';
 import { CourtCell } from './cells';
+import { Grid } from '@mui/material';
 
-export const Reservation: VFC<Scheduler.Reservation> = ({ start, end }) => (
-  <Paper
-    style={{
-      position: 'absolute',
-      width: `${140}px`,
-      height: `${(end - start + 1) * 20.98}px`,
-      borderRadius: '4px',
-      background: 'rgb(149,167,227)',
-      cursor: 'pointer',
-    }}
-    elevation={4}
-    onClick={() => console.log(`click at ${start} ${end}`)}
-  >
-    Rezerwacja {start} {end}
-  </Paper>
-);
+export const Reservation: VFC<Scheduler.Reservation> = (reservation) => {
+  const { start, end } = reservation;
+
+  return (
+    <Grid container paddingLeft={2}>
+      <Paper
+        style={{
+          position: 'absolute',
+          minWidth: '100px',
+          width: `12%`,
+          height: `${(end - start + 1) * 20.98}px`,
+          borderRadius: '4px',
+          background: 'rgb(149,167,227)',
+          cursor: 'pointer',
+          justifyContent: 'center',
+          padding: '8px',
+        }}
+        elevation={4}
+        onClick={() => Scheduler.initialRef.remove?.(reservation)}
+      >
+        Rez. {start} {end}
+      </Paper>
+    </Grid>
+  );
+};
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   accessor: 'time',

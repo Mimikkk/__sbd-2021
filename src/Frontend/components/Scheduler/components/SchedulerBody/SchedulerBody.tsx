@@ -7,10 +7,10 @@ import { Grid } from '@mui/material';
 import { cx } from 'shared/utils';
 import { useReservations } from './reducer';
 import { mockCourt } from 'shared/models/values';
-import { extend, times } from 'lodash';
+import { times } from 'lodash';
 
 export const SchedulerBody = () => {
-  const { items, columns, add, remove, initialize } = useReservations();
+  const { items, columns, initialize } = useReservations();
 
   useEffect(() => {
     Promise.resolve({

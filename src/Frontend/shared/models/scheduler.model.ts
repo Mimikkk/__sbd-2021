@@ -1,4 +1,3 @@
-import { noop } from 'lodash';
 import { Cell as ListCell } from 'react-table';
 import { Column as ListColumn } from 'shared/components/List';
 import { Nullable } from 'shared/types';
