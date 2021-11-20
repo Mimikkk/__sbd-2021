@@ -15,7 +15,9 @@ export const SchedulerBody = () => {
   useEffect(() => {
     Promise.resolve({
       courts: times(4, () => mockCourt()),
-      reservations: [],
+      reservations: [
+        { start: 0, end: 22, court: 1 },
+      ] as Scheduler.Reservation[],
     }).then(initialize);
   }, []);
 

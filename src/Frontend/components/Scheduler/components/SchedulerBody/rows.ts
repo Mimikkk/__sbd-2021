@@ -1,7 +1,11 @@
-import faker from 'faker';
-import { constant, map, partial, times } from 'lodash';
+import { keyBy, groupBy, partial, constant, map, times } from 'lodash';
+import { mapValues } from 'lodash';
 import { Court, Scheduler } from 'shared/models';
-import { courtDates } from './values';
+import { courtDates } from '../values';
+import { ReservationGroups } from './types';
+
+export const groupRows = (rows: Scheduler.Row[]): ReservationGroups =>
+  mapValues(groupBy(rows, 'court'), (row) => keyBy(row, 'start'));
 
 export const createSchedulerRow = (n: number, time: Date): Scheduler.Row => ({
   selected: times(n, constant(false)),
