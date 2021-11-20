@@ -1,10 +1,10 @@
-import { Scheduler } from 'shared/models';
-import { Reducer, useReducer } from 'react';
-import { Action, InitializeProps, Props, Type } from './types';
-import { initial } from './values';
-import { createColumns } from '../columns';
-import { createRows, groupReservations } from '../rows';
-import { extend, merge } from 'lodash';
+import { Scheduler } from "@models";
+import { Reducer, useReducer } from "react";
+import { Action, InitializeProps, Props, Type } from "./types";
+import { initial } from "./values";
+import { createColumns } from "../columns";
+import { createRows, groupReservations } from "../rows";
+import { extend, merge } from "lodash";
 import Reservation = Scheduler.Reservation;
 
 const handleInitialization = ({ courts, reservations }: InitializeProps) => {
@@ -30,9 +30,9 @@ const handleReservationRemoval = (state: Props, reservation: Reservation) => {
       (r) =>
         r.start === reservation.start &&
         r.end === reservation.end &&
-        r.court === reservation.court,
+        r.court === reservation.court
     ),
-    1,
+    1
   );
 
   const items = createRows(courts, reservations);
@@ -49,7 +49,7 @@ const reducer: Reducer<Props, Action> = (state, action) => {
     case Type.Remove:
       return handleReservationRemoval(state, action.payload);
     default:
-      throw Error('Unknown action type');
+      throw Error("Unknown action type");
   }
 };
 

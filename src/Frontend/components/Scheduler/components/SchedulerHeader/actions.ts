@@ -1,4 +1,4 @@
-import { ActionType } from 'shared/types';
+import { ActionType } from "@internal/types";
 
 export enum Type {
   SetDate,

@@ -1,1 +1,1 @@
-export * from 'shared/components/Tile/Tile';
+export * from "./Tile";

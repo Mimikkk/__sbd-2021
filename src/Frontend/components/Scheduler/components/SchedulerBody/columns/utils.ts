@@ -1,11 +1,11 @@
-import { Scheduler } from 'shared/models';
-import { Row } from 'react-table';
-import { CellEventProps } from 'shared/components';
+import { Scheduler } from "@models";
+import { Row } from "react-table";
+import { CellEventProps } from "shared/components";
 
 export const findNearestBounds = (
   column: number,
   rows: Row<Scheduler.Row>[],
-  cell: Scheduler.Cell,
+  cell: Scheduler.Cell
 ): { lower: number; upper: number } => {
   let upper = Number(cell.row.id);
   let lower = Number(cell.row.id);
@@ -16,7 +16,7 @@ export const findNearestBounds = (
 };
 
 export const isWithinDraggingBounds = (
-  props: CellEventProps<Scheduler.Row, Scheduler.RowRef>,
+  props: CellEventProps<Scheduler.Row, Scheduler.RowRef>
 ) => {
   const { lower, upper } = props.ref.current.nearest;
   const row = Number(props.cell.row.id);

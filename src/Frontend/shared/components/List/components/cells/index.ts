@@ -1,2 +1,2 @@
-export * from './BoolCell';
-export * from 'shared/components/List/components/cells/HourCell';
+export * from "./BoolCell";
+export * from "./HourCell";

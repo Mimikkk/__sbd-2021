@@ -1,6 +1,6 @@
-import { CellProps } from 'react-table';
-import { Scheduler } from 'shared/models';
-import { Reservation } from '../columns';
+import { CellProps } from "react-table";
+import { Scheduler } from "@models";
+import { Reservation } from "../columns";
 
 export const CourtCell =
   (index: number, reservations: Scheduler.ReservationGroups) =>

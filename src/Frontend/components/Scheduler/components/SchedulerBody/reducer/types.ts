@@ -1,5 +1,5 @@
-import { Court, Scheduler } from 'shared/models';
-import { ActionType } from 'shared/types';
+import { Court, Scheduler } from "@models";
+import { ActionType } from "@internal/types";
 
 export enum Type {
   Add,

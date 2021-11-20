@@ -1,19 +1,19 @@
-import { assign, map, partial, range, sortBy } from 'lodash';
-import { Court, Scheduler } from 'shared/models';
-import { HourCell } from 'shared/components';
-import { toCssString } from 'shared/utils/dom';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { removeDragImage } from 'shared/utils/dom';
+import { assign, map, partial, range, sortBy } from "lodash";
+import { Court, Scheduler } from "@models";
+import { HourCell } from "shared/components";
+import { toCssString } from "shared/utils/dom";
+import { render, unmountComponentAtNode } from "react-dom";
+import { removeDragImage } from "shared/utils/dom";
 import {
   ReservationDrag,
   reservationDragContainer,
   schedulerDragContainer,
-} from '../components';
-import { VFC } from 'react';
-import { Paper } from '@mui/material';
-import { CourtCell } from './cells';
-import { Grid } from '@mui/material';
-import { findNearestBounds, isWithinDraggingBounds } from './utils';
+} from "../components";
+import { VFC } from "react";
+import { Paper } from "@mui/material";
+import { CourtCell } from "./cells";
+import { Grid } from "@mui/material";
+import { findNearestBounds, isWithinDraggingBounds } from "./utils";
 
 export const Reservation: VFC<Scheduler.Reservation> = (reservation) => {
   const { start, end } = reservation;
@@ -22,15 +22,15 @@ export const Reservation: VFC<Scheduler.Reservation> = (reservation) => {
     <Grid container paddingLeft={2}>
       <Paper
         style={{
-          position: 'absolute',
-          minWidth: '100px',
+          position: "absolute",
+          minWidth: "100px",
           width: `12%`,
           height: `${(end - start + 1) * 20.98}px`,
-          borderRadius: '4px',
-          background: 'rgb(149,167,227)',
-          cursor: 'pointer',
-          justifyContent: 'center',
-          padding: '8px',
+          borderRadius: "4px",
+          background: "rgb(149,167,227)",
+          cursor: "pointer",
+          justifyContent: "center",
+          padding: "8px",
         }}
         elevation={4}
         onClick={() => Scheduler.initialRef.remove?.(reservation)}
@@ -42,8 +42,8 @@ export const Reservation: VFC<Scheduler.Reservation> = (reservation) => {
 };
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
-  accessor: 'time',
-  Header: 'Czas',
+  accessor: "time",
+  Header: "Czas",
   Cell: HourCell,
   width: 40,
 });
@@ -55,7 +55,7 @@ export const interruptDrag = (event: DragEvent) => {
 
 export const createSchedulerCourtColumn = (
   reservations: Scheduler.ReservationGroups,
-  index: number,
+  index: number
 ): Scheduler.Column => ({
   accessor: `selected`,
   Header: `Kort ${index + 1}`,
@@ -93,24 +93,24 @@ export const createSchedulerCourtColumn = (
     const { x, y } = props.ref.current.selected!.getBoundingClientRect();
 
     reservation.setAttribute(
-      'style',
+      "style",
       toCssString({
         height: Math.abs(value + (shouldOffset ? -1 : 1)) * height,
         left: x,
         top: y,
         width,
-      }),
+      })
     );
 
     Object.assign(reservation.style, {
-      pointerEvents: 'none',
-      position: 'fixed',
+      pointerEvents: "none",
+      position: "fixed",
       left: `${x}px`,
       top: `${y + (shouldOffset ? 20.98 * value : 0)}px`,
-      width: '100px',
+      width: "100px",
       height: `${Math.abs(y2 - y) + 20}px`,
-      borderRadius: '4px',
-      background: 'rgb(189,167,227)',
+      borderRadius: "4px",
+      background: "rgb(189,167,227)",
     });
 
     const { clientX, clientY } = props.event;
@@ -134,7 +134,7 @@ export const createSchedulerCourtColumn = (
 
 export const createColumns = (
   { length }: Court.Entity[],
-  reservations: Scheduler.ReservationGroups,
+  reservations: Scheduler.ReservationGroups
 ): Scheduler.Column[] => [
   createSchedulerTimeColumn(),
   ...map(range(length), partial(createSchedulerCourtColumn, reservations)),
