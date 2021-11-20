@@ -9,15 +9,32 @@ export module Scheduler {
   }
   export interface Cell extends ListCell<Row> {}
 
-  export interface RowState {
-    start: Nullable<Cell>;
-    current: Nullable<Cell>;
+  export interface Reservation {
+    start: number;
+    end: number;
+    court: number;
   }
 
-  export type Column = ListColumn<Row, RowState>;
+  export interface ReservationGroups
+    extends Record<number, Record<number, Reservation>> {}
 
-  export const state: Scheduler.RowState = {
+  export interface RowRef {
+    selected: Nullable<HTMLElement>;
+    start: Nullable<Cell>;
+    current: Nullable<Cell>;
+    add: Nullable<(reservation: Reservation) => void>;
+    remove: Nullable<(reservation: Reservation) => void>;
+    nearest: { upper: number; lower: number };
+  }
+
+  export type Column = ListColumn<Row, RowRef>;
+
+  export const initialRef: Scheduler.RowRef = {
+    selected: null,
     start: null,
     current: null,
+    add: null,
+    remove: null,
+    nearest: { upper: 0, lower: 30 },
   };
 }

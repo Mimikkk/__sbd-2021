@@ -1,30 +1,39 @@
 import { List } from 'shared/components/List';
 import { Scheduler } from 'shared/models';
-import { createSchedulerColumns } from './columns';
-import { createSchedulerRows } from './rows';
-import { useMemo, useState } from 'react';
-import { constant } from 'lodash';
+import { useEffect } from 'react';
 import { style } from 'styles';
+import { SchedulerDragContainer } from './components';
+import { Grid } from '@mui/material';
+import { cx } from 'shared/utils';
+import { useReservations } from './reducer';
+import { mockCourt } from 'shared/models/values';
+import { times } from 'lodash';
 
 export const SchedulerBody = () => {
-  const [courts, setCourts] = useState(4);
-  const today = useMemo(constant(new Date()), []);
+  const { items, columns, initialize } = useReservations();
 
-  const items: Scheduler.Row[] = useMemo(
-    constant(createSchedulerRows(courts, today)),
-    [courts, today],
-  );
+  useEffect(() => {
+    Promise.resolve({
+      courts: times(4, () => mockCourt()),
+      reservations: [
+        { start: 1, end: 4, court: 0 },
+        { start: 0, end: 4, court: 1 },
+        { start: 0, end: 4, court: 2 },
+      ] as Scheduler.Reservation[],
+    }).then(initialize);
+  }, []);
 
-  const columns: Scheduler.Column[] = useMemo(
-    constant(createSchedulerColumns(courts)),
-    [courts],
-  );
   return (
-    <List
-      className={style('scheduler-body')}
-      columns={columns}
-      items={items}
-      initial={Scheduler.state}
-    />
+    <Grid container>
+      <Grid item xs={12}>
+        <List
+          className={cx(style('scheduler-body'))}
+          columns={columns}
+          items={items}
+          initialRef={Scheduler.initialRef}
+        />
+      </Grid>
+      <SchedulerDragContainer />
+    </Grid>
   );
 };

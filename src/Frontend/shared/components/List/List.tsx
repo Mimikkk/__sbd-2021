@@ -1,30 +1,31 @@
-import { useTable, usePagination } from 'react-table';
-import { HTMLAttributes, useState } from 'react';
-import { IconButton, Grid } from '@mui/material';
-import { ListBody, ListHeader } from './components';
+import { useTable, usePagination, useFlexLayout } from 'react-table';
+import { HTMLAttributes, useRef } from 'react';
+import { Grid } from '@mui/material';
+import { ListBody, ListHeader, ListPagination } from './components';
 import { cx } from 'shared/utils';
 import { style } from 'styles';
 import { compact, each } from 'lodash';
 import { Column } from './types';
 import { prepareCells, prepareHeaders } from './utils';
 
-export interface ListProps<T extends object, S = undefined>
+export interface ListProps<T extends object, R = undefined>
   extends HTMLAttributes<HTMLTableElement> {
-  columns: Column<T, S>[];
+  columns: Column<T, R>[];
   items: T[];
   pagination?: boolean;
-  initial?: S;
+  initialRef?: R;
 }
 
-export const List = <T extends object, S = undefined>({
+export const List = <T extends object, R = undefined>({
   columns,
   items,
   pagination = false,
   className,
-  initial,
+  initialRef,
   ...props
-}: ListProps<T, S>) => {
-  const [state, setState] = useState<S>(initial as S);
+}: ListProps<T, R>) => {
+  const ref = useRef<R>();
+  if (!ref.current) ref.current = initialRef;
 
   const {
     columns: cols,
@@ -48,23 +49,15 @@ export const List = <T extends object, S = undefined>({
       data: items,
       initialState: { pageIndex: 0 },
     },
-    ...compact([pagination && usePagination]),
+    ...compact([pagination && usePagination, useFlexLayout]),
   );
 
-  prepareCells(each(rows, prepareRow), cols, state, setState);
-  prepareHeaders(groups, rows, cols, state, setState);
+  prepareCells(each(rows, prepareRow), cols, ref);
+  prepareHeaders(groups, rows, cols, ref);
 
   return (
-    <Grid
-      container
-      spacing={2}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Grid item>
+    <Grid container>
+      <Grid item style={{ width: '100%' }}>
         <table
           {...getTableProps()}
           className={cx(style('list'), className)}
@@ -74,18 +67,20 @@ export const List = <T extends object, S = undefined>({
           <ListBody rows={pagination ? page : rows} {...getTableBodyProps()} />
         </table>
       </Grid>
-      {pagination ?<Grid item>
-        <ListPagination
-          gotoPage={gotoPage}
-          canPreviousPage={canPreviousPage}
-          previousPage={previousPage}
-          pageOptions={pageOptions}
-          canNextPage={canNextPage}
-          nextPage={nextPage}
-          pageIndex={pageIndex}
-          pageCount={pageCount}
-        />
-      </Grid> : null}
+      {pagination ? (
+        <Grid item>
+          <ListPagination
+            gotoPage={gotoPage}
+            canPreviousPage={canPreviousPage}
+            previousPage={previousPage}
+            pageOptions={pageOptions}
+            canNextPage={canNextPage}
+            nextPage={nextPage}
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+          />
+        </Grid>
+      ) : null}
     </Grid>
   );
 };

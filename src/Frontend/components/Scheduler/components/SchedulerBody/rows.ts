@@ -1,11 +1,40 @@
-import { constant, map, partial, times } from 'lodash';
-import { Scheduler } from 'shared/models';
+import {
+  keyBy,
+  groupBy,
+  partial,
+  constant,
+  map,
+  times,
+  each,
+  range,
+} from 'lodash';
+import { mapValues } from 'lodash';
+import { Court, Scheduler } from 'shared/models';
 import { courtDates } from './values';
 
-export const createSchedulerRow = (n: number, time: Date): Scheduler.Row => ({
+export const groupReservations = (
+  rows: Scheduler.Reservation[],
+): Scheduler.ReservationGroups =>
+  mapValues(groupBy(rows, 'court'), (row) => keyBy(row, 'start'));
+
+export const createSchedulerRow = (
+  { length }: Court.Entity[],
+  time: Date,
+): Scheduler.Row => ({
+  selected: times(length, constant(false)),
   time,
-  selected: times(n, constant(false)),
 });
 
-export const createSchedulerRows = (n: number, time: Date): Scheduler.Row[] =>
-  map(courtDates(time), partial(createSchedulerRow, n));
+const fillReservation = (
+  rows: Scheduler.Row[],
+  { start, end, court }: Scheduler.Reservation,
+) => each(range(start, end + 1), (i) => (rows[i].selected[court] = true));
+
+export const createRows = (
+  courts: Court.Entity[],
+  reservations: Scheduler.Reservation[],
+): Scheduler.Row[] =>
+  reservations.reduce(
+    (rows, reservation) => (fillReservation(rows, reservation), rows),
+    map(courtDates(new Date()), partial(createSchedulerRow, courts)),
+  );

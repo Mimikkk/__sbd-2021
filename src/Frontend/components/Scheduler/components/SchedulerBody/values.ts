@@ -8,5 +8,3 @@ export const courtDates = (date: Date) =>
     if (hour !== 22) acc.push(new Date(date.setHours(hour, 30, 0, 0)));
     return acc;
   }, []);
-
-export const initialContext = {};

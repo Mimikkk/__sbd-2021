@@ -7,21 +7,20 @@ import {
   mapValues,
   omitBy,
 } from 'lodash';
-import { Dispatch, SetStateAction } from 'react';
+import { MutableRefObject } from 'react';
 import { HeaderGroup, Row } from 'react-table';
 import { Column } from './types';
 
-const columnKey = <T extends object, S>(column: Column<T, S>) =>
+const columnKey = <T extends object, R>(column: Column<T, R>) =>
   'id' in column ? column.id : column.accessor;
 
-export const getColumnsById = <T extends object, S>(columns: Column<T, S>[]) =>
-  keyBy(columns, columnKey) as Dictionary<Column<T, S>>;
+export const getColumnsById = <T extends object, R>(columns: Column<T, R>[]) =>
+  keyBy(columns, columnKey) as Dictionary<Column<T, R>>;
 
-export const prepareCells = <T extends object, S>(
+export const prepareCells = <T extends object, R>(
   rows: Row<T>[],
-  columns: Column<T, S>[],
-  state: S,
-  setState: Dispatch<SetStateAction<S>>,
+  columns: Column<T, R>[],
+  ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
 
@@ -35,23 +34,25 @@ export const prepareCells = <T extends object, S>(
         onCellDragStart: onDragStart,
       } = columnById[cell.column.id];
 
-      const props = { index, cell, rows, columns, state, setState };
+      const props = { index, cell, rows, columns, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
         cell,
-        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+        mapValues(
+          omitBy(fns, isNil),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
+        ),
       );
     }),
   );
 };
 
-export const prepareHeaders = <T extends object, S>(
+export const prepareHeaders = <T extends object, R>(
   groups: HeaderGroup<T>[],
   rows: Row<T>[],
-  columns: Column<T, S>[],
-  state: S,
-  setState: Dispatch<SetStateAction<S>>,
+  columns: Column<T, R>[],
+  ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
 
@@ -65,21 +66,15 @@ export const prepareHeaders = <T extends object, S>(
         onHeaderDragStart: onDragStart,
       } = columnById[header.id];
 
-      const props = {
-        header,
-        index,
-        group,
-        groups,
-        rows,
-        columns,
-        state,
-        setState,
-      };
+      const props = { header, index, group, groups, rows, columns, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
         header,
-        mapValues(omitBy(fns, isNil), (fn) => () => fn?.(props)),
+        mapValues(
+          omitBy(fns, isNil),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
+        ),
       );
     }),
   );

@@ -9,7 +9,7 @@ import faker from 'faker';
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
-const mockColumns: Column<any>[] = [
+const mockColumns: Column<Court.Entity>[] = [
   {
     accessor: 'name',
     Header: 'Name',
