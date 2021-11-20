@@ -21,4 +21,5 @@ export interface Props {
   courts: Court.Entity[];
   items: Scheduler.Row[];
   columns: Scheduler.Column[];
+  reservations: Scheduler.Reservation[];
 }

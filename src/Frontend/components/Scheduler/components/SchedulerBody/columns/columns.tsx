@@ -1,4 +1,4 @@
-import { map, partial, range, zip } from 'lodash';
+import { map, once, orderBy, partial, range, sortBy, zip } from 'lodash';
 import { Court, Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components';
 import { toCssString } from 'shared/utils/dom';
@@ -12,6 +12,24 @@ import {
 import { CellProps } from 'react-table';
 import { VFC } from 'react';
 import { Paper } from '@mui/material';
+import { CourtCell } from './cells';
+
+export const Reservation: VFC<Scheduler.Reservation> = ({ start, end }) => (
+  <Paper
+    style={{
+      position: 'absolute',
+      width: `${140}px`,
+      height: `${(end - start + 1) * 20.98}px`,
+      borderRadius: '4px',
+      background: 'rgb(149,167,227)',
+      cursor: 'pointer',
+    }}
+    elevation={4}
+    onClick={() => console.log(`click at ${start} ${end}`)}
+  >
+    Rezerwacja {start} {end}
+  </Paper>
+);
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   accessor: 'time',
@@ -19,42 +37,6 @@ export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   Cell: HourCell,
   width: 40,
 });
-
-export interface ReservationProps {
-  start: number;
-  end: number;
-}
-export const Reservation: VFC<ReservationProps> = ({ start, end }) => (
-  <Paper
-    style={{
-      position: 'absolute',
-      width: `${182.44 - 30}px`,
-      height: `${(end - start + 1) * 20.98}px`,
-      borderRadius: '4px',
-      background: 'rgb(149,167,227)',
-      cursor: 'pointer',
-    }}
-    elevation={4}
-    onClick={() => {
-      console.log(`click at ${start} ${end}`);
-    }}
-  >
-    Rezerwacja {start} {end}
-  </Paper>
-);
-
-export const CourtCell =
-  (index: number, reservations: Scheduler.ReservationGroups) =>
-  (cell: CellProps<Scheduler.Row, boolean[]>) => {
-    return cell.value[index] &&
-      reservations[index] &&
-      !cell.rows[Number(cell.row.id) - 1]?.original.selected[index] ? (
-      <Reservation
-        start={reservations[index][cell.row.id].start}
-        end={reservations[index][cell.row.id].end}
-      />
-    ) : null;
-  };
 
 export const createSchedulerCourtColumn = (
   reservations: Scheduler.ReservationGroups,
@@ -66,7 +48,7 @@ export const createSchedulerCourtColumn = (
   Cell: CourtCell(index, reservations),
 
   onCellDragStart: (props) => {
-    if (!props.cell.row.original.selected[props.cell.column.id]) {
+    if (!props.cell.row.original.selected[Number(props.cell.column.id)]) {
       props.ref.current.start = props.cell;
       props.ref.current.selected = props.event.target as HTMLElement;
       let upper = Number(props.cell.row.id);
@@ -74,10 +56,16 @@ export const createSchedulerCourtColumn = (
       console.log(upper);
 
       while (upper >= 0) {
-        if (props.rows[--upper]?.original.selected[props.cell.column.id]) break;
+        if (
+          props.rows[--upper]?.original.selected[Number(props.cell.column.id)]
+        )
+          break;
       }
       while (lower <= 30) {
-        if (props.rows[++lower]?.original.selected[props.cell.column.id]) break;
+        if (
+          props.rows[++lower]?.original.selected[Number(props.cell.column.id)]
+        )
+          break;
       }
 
       console.log(upper, lower);
@@ -91,25 +79,24 @@ export const createSchedulerCourtColumn = (
 
       render(<ReservationDrag />, schedulerDragContainer());
     } else {
-      console.log('stop');
       props.event.stopPropagation();
       props.event.preventDefault();
     }
   },
 
   onCellDragEnter: (props) => {
-    props.ref.current.current = props.cell;
-    console.log(props.cell.row.id);
     const reservation = reservationDragContainer();
 
     if (
       reservation &&
-      props.ref.current.current.row.id > props.ref.current.nearest.upper &&
-      props.ref.current.current.row.id < props.ref.current.nearest.lower &&
-      !props.rows[props.ref.current.current.row.index]?.original.selected[
-        props.ref.current.start.column.id
+      Number(props.cell.row.id) > props.ref.current.nearest.upper &&
+      Number(props.cell.row.id) < props.ref.current.nearest.lower &&
+      !props.rows[props.cell.row.index]?.original.selected[
+        Number(props.ref.current.start!.column.id)
       ]
     ) {
+      props.ref.current.current = props.cell;
+
       const value =
         props.ref.current.current.row.index -
         props.ref.current.start!.row.index;
@@ -123,8 +110,10 @@ export const createSchedulerCourtColumn = (
             (shouldOffset ? -1 : 1),
         ) * (props.event.target as HTMLElement).clientHeight;
       const { x, y } = props.ref.current.selected!.getBoundingClientRect();
-      //@ts-ignore
-      const { y: y2 } = props.event.target!.getBoundingClientRect();
+
+      const { y: y2 } = (
+        props.event.target as HTMLElement
+      ).getBoundingClientRect();
       reservation.setAttribute(
         'style',
         toCssString({
@@ -134,7 +123,7 @@ export const createSchedulerCourtColumn = (
           width: (props.event.target as HTMLElement).clientWidth,
         }),
       );
-      // console.log((y2 - y) / value);
+
       Object.assign(reservation.style, {
         pointerEvents: 'none',
         position: 'fixed',
@@ -147,16 +136,24 @@ export const createSchedulerCourtColumn = (
       });
 
       const { clientX, clientY } = props.event;
-      reservation.innerText = `${clientX} ${clientY}\nCurrently Editing`;
+      reservation.innerText = `${clientX} ${clientY}`;
     }
   },
 
   onCellDragEnd: (props) => {
     props.ref.current = Scheduler.initialRef;
 
-    console.log(zip(...map(props.rows, (r) => r.original.selected)));
-
     unmountComponentAtNode(schedulerDragContainer());
+
+    if (props.ref.current.current) {
+      const [start, end] = sortBy([
+        Number(props.cell.row.id),
+        Number(props.ref.current.current!.row.id),
+      ]);
+      const court = Number(props.cell.column.id);
+
+      props.ref.current.add!({ start, end, court });
+    }
   },
 });
 

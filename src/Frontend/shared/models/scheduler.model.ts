@@ -1,3 +1,4 @@
+import { noop } from 'lodash';
 import { Cell as ListCell } from 'react-table';
 import { Column as ListColumn } from 'shared/components/List';
 import { Nullable } from 'shared/types';
@@ -16,13 +17,15 @@ export module Scheduler {
   }
 
   export interface ReservationGroups
-    extends Record<number, Record<number, Row>> {}
+    extends Record<number, Record<number, Reservation>> {}
 
   export interface RowRef {
     selected: Nullable<HTMLElement>;
     start: Nullable<Cell>;
     current: Nullable<Cell>;
-    target: any;
+    add: Nullable<(reservation: Reservation) => void>;
+    remove: Nullable<(reservation: Reservation) => void>;
+    nearest: { upper: number; lower: number };
   }
 
   export type Column = ListColumn<Row, RowRef>;
@@ -31,6 +34,8 @@ export module Scheduler {
     selected: null,
     start: null,
     current: null,
-    target: {},
+    add: null,
+    remove: null,
+    nearest: { upper: 0, lower: 30 },
   };
 }

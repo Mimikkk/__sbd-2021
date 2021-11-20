@@ -12,7 +12,9 @@ import { mapValues } from 'lodash';
 import { Court, Scheduler } from 'shared/models';
 import { courtDates } from './values';
 
-export const groupRows = (rows: Scheduler.Row[]): Scheduler.ReservationGroups =>
+export const groupReservations = (
+  rows: Scheduler.Reservation[],
+): Scheduler.ReservationGroups =>
   mapValues(groupBy(rows, 'court'), (row) => keyBy(row, 'start'));
 
 export const createSchedulerRow = (

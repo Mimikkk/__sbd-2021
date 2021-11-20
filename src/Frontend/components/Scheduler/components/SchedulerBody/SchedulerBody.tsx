@@ -7,7 +7,7 @@ import { Grid } from '@mui/material';
 import { cx } from 'shared/utils';
 import { useReservations } from './reducer';
 import { mockCourt } from 'shared/models/values';
-import { times } from 'lodash';
+import { extend, times } from 'lodash';
 
 export const SchedulerBody = () => {
   const { items, columns, add, remove, initialize } = useReservations();
@@ -16,8 +16,9 @@ export const SchedulerBody = () => {
     Promise.resolve({
       courts: times(4, () => mockCourt()),
       reservations: [
-        { start: 0, end: 22, court: 1 },
         { start: 1, end: 4, court: 0 },
+        { start: 0, end: 4, court: 1 },
+        { start: 0, end: 4, court: 2 },
       ] as Scheduler.Reservation[],
     }).then(initialize);
   }, []);

@@ -1,3 +1,8 @@
 import { Props } from './types';
 
-export const initial: Props = { courts: [], items: [], columns: [] };
+export const initial: Props = {
+  courts: [],
+  items: [],
+  columns: [],
+  reservations: [],
+};
