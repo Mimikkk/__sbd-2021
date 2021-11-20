@@ -2,7 +2,7 @@ import { Court } from "@models";
 import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
 
-const url = "api/v2/courts";
+const url = "api/courts";
 
 export const courtService = {
   create: (item: Court.Model) =>
