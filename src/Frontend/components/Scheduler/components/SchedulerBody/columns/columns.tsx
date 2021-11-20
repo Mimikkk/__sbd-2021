@@ -1,5 +1,5 @@
-import { map, partial, pick, range, zip } from 'lodash';
-import { Scheduler } from 'shared/models';
+import { map, partial, range, zip } from 'lodash';
+import { Court, Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components';
 import { toCssString } from 'shared/utils/dom';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -12,6 +12,7 @@ import {
 import { CellProps } from 'react-table';
 import { VFC } from 'react';
 import { Paper } from '@mui/material';
+import { ReservationGroups } from 'components/Scheduler/components/SchedulerBody/reducer';
 
 export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   accessor: 'time',
@@ -44,7 +45,7 @@ export const Reservation: VFC<ReservationProps> = ({ start, end }) => (
 );
 
 export const CourtCell =
-  (index: number, reservations: object) =>
+  (index: number, reservations: ReservationGroups) =>
   (cell: CellProps<Scheduler.Row, boolean[]>) => {
     return cell.value[index] &&
       reservations[index] &&
@@ -57,7 +58,7 @@ export const CourtCell =
   };
 
 export const createSchedulerCourtColumn = (
-  reservations: object,
+  reservations: ReservationGroups,
   index: number,
 ): Scheduler.Column => ({
   accessor: `selected`,
@@ -93,6 +94,7 @@ export const createSchedulerCourtColumn = (
     } else {
       console.log('stop');
       props.event.stopPropagation();
+      props.event.preventDefault();
     }
   },
 
@@ -160,9 +162,9 @@ export const createSchedulerCourtColumn = (
 });
 
 export const createColumns = (
-  n: number,
-  reservations: object,
+  { length }: Court.Entity[],
+  reservations: ReservationGroups,
 ): Scheduler.Column[] => [
   createSchedulerTimeColumn(),
-  ...map(range(n), partial(createSchedulerCourtColumn, reservations)),
+  ...map(range(length), partial(createSchedulerCourtColumn, reservations)),
 ];

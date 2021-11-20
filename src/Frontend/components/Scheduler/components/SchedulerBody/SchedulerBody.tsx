@@ -5,14 +5,18 @@ import { style } from 'styles';
 import { SchedulerDragContainer } from './components';
 import { Grid } from '@mui/material';
 import { cx } from 'shared/utils';
-import { useSchedulerBodyReducer } from './reducer';
-import faker from 'faker';
+import { useReservations } from './reducer';
+import { mockCourt } from 'shared/models/values';
+import { times } from 'lodash';
 
 export const SchedulerBody = () => {
-  const { items, columns, initialize } = useSchedulerBodyReducer();
+  const { items, columns, add, remove, initialize } = useReservations();
 
   useEffect(() => {
-    Promise.resolve(faker.datatype.number(4) + 1).then(initialize);
+    Promise.resolve({
+      courts: times(4, () => mockCourt()),
+      reservations: [],
+    }).then(initialize);
   }, []);
 
   return (

@@ -1,80 +1,62 @@
-import { Scheduler } from 'shared/models';
+import { Court, Scheduler } from 'shared/models';
 import { ActionType } from 'shared/types';
-import { createSchedulerRows } from 'components/Scheduler/components/SchedulerBody/rows';
-import { createColumns } from 'components/Scheduler/components/SchedulerBody/columns';
+import { createRows } from './rows';
+import { createColumns } from './columns';
 import { groupBy, keyBy, mapValues } from 'lodash';
 import { Reducer, useReducer } from 'react';
 
-export interface ReducerProps {
-  courts: number;
+enum Type {
+  Add,
+  Remove,
+  Initialize,
+}
+type Add = ActionType<Type.Add, Scheduler.Reservation>;
+type Remove = ActionType<Type.Remove, Scheduler.Reservation>;
+interface InitializeProps {
+  reservations: Scheduler.Reservation[];
+  courts: Court.Entity[];
+}
+type Initialize = ActionType<Type.Initialize, InitializeProps>;
+
+type Action = Add | Remove | Initialize;
+
+export interface ReservationGroups
+  extends Record<number, Record<number, Scheduler.Row>> {}
+
+const groupRows = (rows: Scheduler.Row[]): ReservationGroups =>
+  mapValues(groupBy(rows, 'court'), (row) => keyBy(row, 'start'));
+
+interface Props {
+  courts: Court.Entity[];
   items: Scheduler.Row[];
   columns: Scheduler.Column[];
 }
+const reducer: Reducer<Props, Action> = (current, action) => {
+  if (action.type === Type.Initialize) {
+    const { courts, reservations } = action.payload;
 
-export enum Type {
-  AddReservation,
-  RemoveReservation,
-  InitializeReservations,
-}
+    const items = createRows(courts, reservations);
+    const columns = createColumns(courts, groupRows(items));
 
-type AddReservation = ActionType<Type.AddReservation, Date>;
-type RemoveReservation = ActionType<Type.RemoveReservation, Date>;
-type InitializeReservations = ActionType<Type.InitializeReservations, number>;
-
-export type Action =
-  | AddReservation
-  | RemoveReservation
-  | InitializeReservations;
-
-const initial = {
-  courts: 0,
-  items: [],
-  columns: [],
+    return { courts, items, columns };
+  } else if (action.type === Type.Add) {
+    return { ...current };
+  } else return current;
 };
 
-const reducer: Reducer<ReducerProps, Action> = (current, action) => {
-  const courts = action.payload as number;
+const initial: Props = { courts: [], items: [], columns: [] };
 
-  const items = createSchedulerRows(courts, new Date());
-
-  const t_reservations: Scheduler.Reservation[] = [];
-  for (let j = 0, start = null, end = null; j < courts; ++j) {
-    for (let i = 0; i < items.length; ++i) {
-      if (items[i].selected[j]) start !== null ? (end = i) : (start = i);
-      else {
-        if (start !== null)
-          t_reservations.push({
-            start: start,
-            end: end ?? start,
-            court: j,
-          });
-        start = null;
-        end = null;
-      }
-    }
-
-    if (start !== null)
-      t_reservations.push({
-        start: start,
-        end: end ?? start,
-        court: j,
-      });
-    start = null;
-    end = null;
-  }
-
-  const reservations = mapValues(groupBy(t_reservations, 'court'), (group) =>
-    keyBy(group, 'start'),
-  );
-  const columns = createColumns(courts, reservations);
-  return { items, columns, courts };
-};
-
-export const useSchedulerBodyReducer = () => {
+export const useReservations = () => {
   const [{ items, columns }, setState] = useReducer(reducer, initial);
 
-  const initialize = (courts: number) =>
-    setState({ type: Type.InitializeReservations, payload: courts });
+  const initialize = (payload: InitializeProps): void =>
+    setState({ type: Type.Initialize, payload });
 
-  return { items, columns, initialize };
+  const add = (reservation: Scheduler.Reservation): void =>
+    setState({ type: Type.Remove, payload: reservation });
+
+  const remove = (reservation: Scheduler.Reservation): void =>
+    setState({ type: Type.Add, payload: reservation });
+
+  return { items, columns, add, remove, initialize } as const;
 };

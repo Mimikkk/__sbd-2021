@@ -7,22 +7,19 @@ import {
   mapValues,
   omitBy,
 } from 'lodash';
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { MutableRefObject } from 'react';
 import { HeaderGroup, Row } from 'react-table';
 import { Column } from './types';
 
-const columnKey = <T extends object, S, R>(column: Column<T, S, R>) =>
+const columnKey = <T extends object, R>(column: Column<T, R>) =>
   'id' in column ? column.id : column.accessor;
 
-export const getColumnsById = <T extends object, S, R>(
-  columns: Column<T, S, R>[],
-) => keyBy(columns, columnKey) as Dictionary<Column<T, S, R>>;
+export const getColumnsById = <T extends object, R>(columns: Column<T, R>[]) =>
+  keyBy(columns, columnKey) as Dictionary<Column<T, R>>;
 
-export const prepareCells = <T extends object, S, R>(
+export const prepareCells = <T extends object, R>(
   rows: Row<T>[],
-  columns: Column<T, S, R>[],
-  state: S,
-  setState: Dispatch<SetStateAction<S>>,
+  columns: Column<T, R>[],
   ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
@@ -37,7 +34,7 @@ export const prepareCells = <T extends object, S, R>(
         onCellDragStart: onDragStart,
       } = columnById[cell.column.id];
 
-      const props = { index, cell, rows, columns, state, setState, ref };
+      const props = { index, cell, rows, columns, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
@@ -51,12 +48,10 @@ export const prepareCells = <T extends object, S, R>(
   );
 };
 
-export const prepareHeaders = <T extends object, S, R>(
+export const prepareHeaders = <T extends object, R>(
   groups: HeaderGroup<T>[],
   rows: Row<T>[],
-  columns: Column<T, S, R>[],
-  state: S,
-  setState: Dispatch<SetStateAction<S>>,
+  columns: Column<T, R>[],
   ref: MutableRefObject<R>,
 ) => {
   const columnById = getColumnsById(columns);
@@ -71,17 +66,7 @@ export const prepareHeaders = <T extends object, S, R>(
         onHeaderDragStart: onDragStart,
       } = columnById[header.id];
 
-      const props = {
-        header,
-        index,
-        group,
-        groups,
-        rows,
-        columns,
-        state,
-        setState,
-        ref,
-      };
+      const props = { header, index, group, groups, rows, columns, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
