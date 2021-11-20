@@ -1,4 +1,4 @@
-import { map, partial, range, sortBy } from 'lodash';
+import { assign, map, partial, range, sortBy } from 'lodash';
 import { Court, Scheduler } from 'shared/models';
 import { HourCell } from 'shared/components';
 import { toCssString } from 'shared/utils/dom';
@@ -13,6 +13,7 @@ import { VFC } from 'react';
 import { Paper } from '@mui/material';
 import { CourtCell } from './cells';
 import { Grid } from '@mui/material';
+import { findNearestBounds, isWithinDraggingBounds } from './utils';
 
 export const Reservation: VFC<Scheduler.Reservation> = (reservation) => {
   const { start, end } = reservation;
@@ -47,6 +48,11 @@ export const createSchedulerTimeColumn = (): Scheduler.Column => ({
   width: 40,
 });
 
+export const interruptDrag = (event: DragEvent) => {
+  event.stopPropagation();
+  event.preventDefault();
+};
+
 export const createSchedulerCourtColumn = (
   reservations: Scheduler.ReservationGroups,
   index: number,
@@ -57,96 +63,58 @@ export const createSchedulerCourtColumn = (
   Cell: CourtCell(index, reservations),
 
   onCellDragStart: (props) => {
-    if (!props.cell.row.original.selected[Number(props.cell.column.id)]) {
-      props.ref.current.start = props.cell;
-      props.ref.current.selected = props.event.target as HTMLElement;
-      let upper = Number(props.cell.row.id);
-      let lower = Number(props.cell.row.id);
-      console.log(upper);
+    const column = Number(props.cell.column.id);
+    if (props.cell.row.original.selected[column])
+      return interruptDrag(props.event);
 
-      while (upper >= 0) {
-        if (
-          props.rows[--upper]?.original.selected[Number(props.cell.column.id)]
-        )
-          break;
-      }
-      while (lower <= 30) {
-        if (
-          props.rows[++lower]?.original.selected[Number(props.cell.column.id)]
-        )
-          break;
-      }
+    const context = props.ref.current;
+    assign(context, {
+      start: props.cell,
+      selected: props.event.target as HTMLElement,
+      nearest: findNearestBounds(column, props.rows, props.cell),
+    });
+    removeDragImage(props.event);
 
-      console.log(upper, lower);
-
-      props.ref.current.nearest = {
-        upper,
-        lower,
-      };
-
-      removeDragImage(props.event);
-
-      render(<ReservationDrag />, schedulerDragContainer());
-    } else {
-      props.event.stopPropagation();
-      props.event.preventDefault();
-    }
+    render(<ReservationDrag />, schedulerDragContainer());
   },
 
   onCellDragEnter: (props) => {
     const reservation = reservationDragContainer();
+    if (!reservation || !isWithinDraggingBounds(props)) return;
+    props.ref.current.current = props.cell;
 
-    if (
-      reservation &&
-      Number(props.cell.row.id) > props.ref.current.nearest.upper &&
-      Number(props.cell.row.id) < props.ref.current.nearest.lower &&
-      !props.rows[props.cell.row.index]?.original.selected[
-        Number(props.ref.current.start!.column.id)
-      ]
-    ) {
-      props.ref.current.current = props.cell;
+    const value = props.cell.row.index - props.ref.current.start!.row.index;
+    const shouldOffset = value < 0;
 
-      const value =
-        props.ref.current.current.row.index -
-        props.ref.current.start!.row.index;
-      const shouldOffset = value < 0;
-      props.rows[props.ref.current.current.row.index]?.original.selected;
+    props.rows[props.cell.row.index]?.original.selected;
+    const targetElement = props.event.target as HTMLElement;
 
-      const height =
-        Math.abs(
-          props.ref.current.current.row.index -
-            props.ref.current.start!.row.index +
-            (shouldOffset ? -1 : 1),
-        ) * (props.event.target as HTMLElement).clientHeight;
-      const { x, y } = props.ref.current.selected!.getBoundingClientRect();
+    const { width, height, y: y2 } = targetElement.getBoundingClientRect();
+    const { x, y } = props.ref.current.selected!.getBoundingClientRect();
 
-      const { y: y2 } = (
-        props.event.target as HTMLElement
-      ).getBoundingClientRect();
-      reservation.setAttribute(
-        'style',
-        toCssString({
-          height,
-          left: x,
-          top: y,
-          width: (props.event.target as HTMLElement).clientWidth,
-        }),
-      );
+    reservation.setAttribute(
+      'style',
+      toCssString({
+        height: Math.abs(value + (shouldOffset ? -1 : 1)) * height,
+        left: x,
+        top: y,
+        width,
+      }),
+    );
 
-      Object.assign(reservation.style, {
-        pointerEvents: 'none',
-        position: 'fixed',
-        left: `${x}px`,
-        top: `${y + (shouldOffset ? 20.98 * value : 0)}px`,
-        width: '100px',
-        height: `${Math.abs(y2 - y) + 20}px`,
-        borderRadius: '4px',
-        background: 'rgb(189,167,227)',
-      });
+    Object.assign(reservation.style, {
+      pointerEvents: 'none',
+      position: 'fixed',
+      left: `${x}px`,
+      top: `${y + (shouldOffset ? 20.98 * value : 0)}px`,
+      width: '100px',
+      height: `${Math.abs(y2 - y) + 20}px`,
+      borderRadius: '4px',
+      background: 'rgb(189,167,227)',
+    });
 
-      const { clientX, clientY } = props.event;
-      reservation.innerText = `${clientX} ${clientY}`;
-    }
+    const { clientX, clientY } = props.event;
+    reservation.innerText = `${clientX} ${clientY}`;
   },
 
   onCellDragEnd: (props) => {

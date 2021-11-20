@@ -1,7 +1,7 @@
 import { MutableRefObject } from 'react';
 import { Cell, Column as TableColumn, HeaderGroup, Row } from 'react-table';
 
-export interface CellClickFnProps<T extends object, R> {
+export interface CellEventProps<T extends object, R> {
   event: DragEvent;
   cell: Cell<T>;
   index: number;
@@ -10,7 +10,7 @@ export interface CellClickFnProps<T extends object, R> {
   ref: MutableRefObject<R>;
 }
 
-export interface HeaderClickFnProps<T extends object, R> {
+export interface HeaderEventProps<T extends object, R> {
   event: DragEvent;
   header: HeaderGroup<T>;
   index: number;
@@ -22,14 +22,14 @@ export interface HeaderClickFnProps<T extends object, R> {
 }
 
 export type Column<T extends object, R = undefined> = TableColumn<T> & {
-  onCellClick?: (props: CellClickFnProps<T, R>) => void;
-  onCellDragStart?: (props: CellClickFnProps<T, R>) => void;
-  onCellDragEnd?: (props: CellClickFnProps<T, R>) => void;
-  onCellDragEnter?: (props: CellClickFnProps<T, R>) => void;
-  onCellDragOver?: (props: CellClickFnProps<T, R>) => void;
-  onHeaderClick?: (props: HeaderClickFnProps<T, R>) => void;
-  onHeaderDragStart?: (props: HeaderClickFnProps<T, R>) => void;
-  onHeaderDragEnd?: (props: HeaderClickFnProps<T, R>) => void;
-  onHeaderDragEnter?: (props: HeaderClickFnProps<T, R>) => void;
-  onHeaderDragOver?: (props: HeaderClickFnProps<T, R>) => void;
+  onCellClick?: (props: CellEventProps<T, R>) => void;
+  onCellDragStart?: (props: CellEventProps<T, R>) => void;
+  onCellDragEnd?: (props: CellEventProps<T, R>) => void;
+  onCellDragEnter?: (props: CellEventProps<T, R>) => void;
+  onCellDragOver?: (props: CellEventProps<T, R>) => void;
+  onHeaderClick?: (props: HeaderEventProps<T, R>) => void;
+  onHeaderDragStart?: (props: HeaderEventProps<T, R>) => void;
+  onHeaderDragEnd?: (props: HeaderEventProps<T, R>) => void;
+  onHeaderDragEnter?: (props: HeaderEventProps<T, R>) => void;
+  onHeaderDragOver?: (props: HeaderEventProps<T, R>) => void;
 };
