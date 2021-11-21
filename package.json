@@ -74,7 +74,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && prisma generate --schema ./configs/schema.prisma",
     "start": "next start -p $PORT"
   },
   "version": "0.1.0"
