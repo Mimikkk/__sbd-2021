@@ -199,3 +199,4 @@ node_modules
 **/wwwroot/**/*
 /src/.next/
 /src/backend/Backends/
+/.env

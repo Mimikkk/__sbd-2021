@@ -6,10 +6,10 @@ import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, Typography } from "@mui/material";
-import React from "react";
-import { mockCourt } from "@models/values";
+import { courtService } from "@services";
+import { useList } from "shared/hooks/useList";
 
-const mockColumns: Column<Court.Entity>[] = [
+const columns: Column<Court.Entity>[] = [
   {
     accessor: "name",
     Header: "Name",
@@ -30,28 +30,9 @@ const mockColumns: Column<Court.Entity>[] = [
   },
 ];
 
-const mockRows = [
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-  mockCourt(),
-];
-
 const Courts = () => {
-  // const [items, setItems] = useState<Court.Model[]>([]);
-  //
-  // useEffect(() => {
-  //   // courtService.readAll().then(setItems).catch(console.log);
-  // }, []);
-
+  const { items, total, status } = useList(courtService.readAll);
+  console.log({ items, total, status });
   return (
     <Tile>
       <Grid container style={{ width: "100%" }}>
@@ -92,7 +73,7 @@ const Courts = () => {
           </Grid>
         </Grid>
         <Grid item style={{ width: "100%" }}>
-          <List columns={mockColumns} items={mockRows} pagination />
+          <List columns={columns} items={items} pagination />
         </Grid>
       </Grid>
     </Tile>
