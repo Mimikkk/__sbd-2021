@@ -7,4 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UnbearableSuffering { id Int @id }
+model UnbearableSuffering {
+  id Int @id
+}
