@@ -1,6 +1,6 @@
-import { ApiUpdateProps } from './types';
-import axios from 'axios';
-import { handleError, handleSuccess } from './utils';
+import { ApiUpdateProps } from "./types";
+import axios from "axios";
+import { handleError, handleSuccess } from "./utils";
 
 export const update = async <T>({
   url,
@@ -8,8 +8,9 @@ export const update = async <T>({
   item,
   successMessage,
   errorMessage,
-}: ApiUpdateProps<T>) =>
-  axios
-    .put(`${url}/${id || ''}`, item)
+}: ApiUpdateProps<T>): Promise<void> => {
+  await axios
+    .put(`${url}/${id || ""}`, item)
     .then(handleSuccess(successMessage))
     .catch(handleError(errorMessage));
+};
