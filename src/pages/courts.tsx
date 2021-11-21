@@ -31,10 +31,8 @@ const columns: Column<Court.Entity>[] = [
 ];
 
 const Courts = () => {
-  const { items, status } = useList(courtService.readAll);
-
-  console.log({ items, status });
-
+  const { items, total, status } = useList(courtService.readAll);
+  console.log({ items, total, status });
   return (
     <Tile>
       <Grid container style={{ width: "100%" }}>
