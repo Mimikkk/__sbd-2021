@@ -1,13 +1,13 @@
 import { Button, Tile } from "shared/components";
-import { List } from "shared/components/List";
+import { Column, List } from "shared/components/List";
 import { BoolCell } from "shared/components/List/components";
-import { Column } from "shared/components/List";
 import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, Typography } from "@mui/material";
 import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
+import { RequestStatus } from "@internal/enums";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -30,12 +30,16 @@ const columns: Column<Court.Entity>[] = [
   },
 ];
 
+const isLoading = (status: RequestStatus) => {
+  return status == RequestStatus.Loading;
+};
+
 const Courts = () => {
   const { items, total, status } = useList(courtService.readAll);
   console.log({ items, total, status });
   return (
     <Tile>
-      <Grid container style={{ width: "100%" }}>
+      <Grid container style={{ width: "100%", flexDirection: "column" }}>
         <Grid
           item
           style={{
@@ -72,8 +76,13 @@ const Courts = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item style={{ width: "100%" }}>
-          <List columns={columns} items={items} pagination />
+        <Grid item style={{ width: "100%", height: "100%" }}>
+          <List
+            columns={columns}
+            items={items}
+            pagination
+            loading={isLoading(status)}
+          />
         </Grid>
       </Grid>
     </Tile>
