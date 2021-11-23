@@ -10,6 +10,10 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       items,
       total: items.length,
     });
+  } else {
+    await response.status(500).json({
+      message: "sad puppy",
+    });
   }
 };
 
