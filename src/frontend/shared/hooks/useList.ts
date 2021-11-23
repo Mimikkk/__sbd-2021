@@ -12,8 +12,8 @@ import {
 
 export const useList = <Item extends BaseModel, Params = undefined>(
   handleItems: (params?: Params) => Promise<ListResponse<Item>>,
-  params?: Params,
-  ...dependencies: any[]
+  dependencies: any[],
+  params?: Params
 ): ListState<Item> => {
   const [state, setState] = useState<ListState<Item>>(listInitial);
 

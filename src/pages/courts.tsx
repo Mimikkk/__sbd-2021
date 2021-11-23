@@ -1,14 +1,12 @@
-import { Button, Tile } from "shared/components";
-import { List } from "shared/components/List";
-import { BoolCell } from "shared/components/List/components";
-import { Column } from "shared/components/List";
+import { Button, Tile, List, BoolCell, Column } from "shared/components";
+import { useList, useRefresh } from "shared/hooks";
 import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, Button as MuiButton, Typography } from "@mui/material";
 import { courtService } from "@services";
-import { useList } from "shared/hooks/useList";
 import { mockCourt } from "@models/values";
+import faker from "faker";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -32,7 +30,10 @@ const columns: Column<Court.Entity>[] = [
 ];
 
 const Courts = () => {
-  const { items, total, status } = useList(courtService.readAll);
+  const [isRefreshing, refresh] = useRefresh();
+  const { items, total, status } = useList(courtService.readAll, [
+    isRefreshing,
+  ]);
 
   return (
     <Tile>
@@ -79,12 +80,36 @@ const Courts = () => {
       </Grid>
       <Grid container>
         <Grid item>
-          <MuiButton onClick={() => courtService.create(mockCourt())}>
+          <MuiButton
+            onClick={async () => (
+              await courtService.create(mockCourt()), refresh()
+            )}
+          >
             Create
           </MuiButton>
-          <MuiButton onClick={() => {}}>Read</MuiButton>
-          <MuiButton onClick={() => {}}>Update</MuiButton>
-          <MuiButton onClick={() => {}}>Delete</MuiButton>
+          <MuiButton
+            onClick={async () => (await courtService.readAll(), refresh())}
+          >
+            Read
+          </MuiButton>
+          <MuiButton
+            onClick={async () => (
+              await courtService.update(items[0].id, {
+                ...items[0],
+                name: faker.lorem.word(),
+              }),
+              refresh()
+            )}
+          >
+            Update
+          </MuiButton>
+          <MuiButton
+            onClick={async () => (
+              await courtService.delete(items[0].id), refresh()
+            )}
+          >
+            Delete
+          </MuiButton>
         </Grid>
       </Grid>
     </Tile>

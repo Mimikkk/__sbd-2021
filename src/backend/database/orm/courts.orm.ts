@@ -26,13 +26,13 @@ export const createCourt = (model: Court.Model): SqlCommand => `
 
 export const updateCourt = (id: uuid, model: Court.Model): SqlCommand => `
   update courts
-  set name                 = ${model.name},
-      floor                = ${model.floor},
+  set name                 = '${model.name}',
+      floor                = '${model.floor}',
       is_covered           = ${model.isCovered},
       is_under_maintenance = ${model.isUnderMaintenance}
-  where id = ${id};
+  where id = '${id}';
 `;
 
 export const deleteCourt = (id: uuid): SqlCommand => `
-  delete from courts where id = ${id};
+  delete from courts where id = '${id}';
 `;
