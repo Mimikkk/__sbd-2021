@@ -7,4 +7,5 @@ const prisma: PrismaClient =
   (process.env.NODE_ENV === "production" && new PrismaClient()) ||
   (!global_.prisma && new PrismaClient(), global_.prisma);
 
+console.log(prisma);
 export { prisma as client };

@@ -9,6 +9,10 @@ import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
 import { RequestStatus } from "@internal/enums";
 import EditIcon from "@mui/icons-material/Edit";
+import { Button as MuiButton } from "@mui/material";
+import { useRefresh } from "../frontend/shared/hooks";
+import faker from "faker";
+import { mockCourt } from "@models/values";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -53,7 +57,10 @@ const isLoading = (status: RequestStatus) => {
 };
 
 const Courts = () => {
-  const { items, total, status } = useList(courtService.readAll);
+  const [shouldRefresh, refresh] = useRefresh();
+  const { items, total, status } = useList(courtService.readAll, [
+    shouldRefresh,
+  ]);
   console.log({ items, total, status });
   return (
     <Tile>
@@ -92,6 +99,38 @@ const Courts = () => {
                   icon={<SearchIcon />}
                   size={"large"}
                 />
+                <MuiButton
+                  onClick={async () => (
+                    await courtService.create(mockCourt()), refresh()
+                  )}
+                >
+                  Create
+                </MuiButton>
+                <MuiButton
+                  onClick={async () => (
+                    await courtService.readAll(), refresh()
+                  )}
+                >
+                  Read
+                </MuiButton>
+                <MuiButton
+                  onClick={async () => (
+                    await courtService.update(items[0].id, {
+                      ...items[0],
+                      name: faker.lorem.word(),
+                    }),
+                    refresh()
+                  )}
+                >
+                  Update
+                </MuiButton>
+                <MuiButton
+                  onClick={async () => (
+                    await courtService.delete(items[0].id), refresh()
+                  )}
+                >
+                  Delete
+                </MuiButton>
               </Grid>
             </Grid>
           </Grid>

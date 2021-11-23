@@ -4,14 +4,13 @@ import { Button as MuiButton } from "@mui/material";
 export interface ButtonProps {
   title: string;
   icon: ReactElement;
-  size: string;
+  size?: string;
 }
 
 export const Button: VFC<ButtonProps> = ({ title, icon, size }) => {
   return (
     <MuiButton
       variant="contained"
-      size={size}
       startIcon={
         <div
           style={{
