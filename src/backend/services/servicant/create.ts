@@ -8,7 +8,7 @@ export const create = async <T>({
   errorMessage,
   successMessage,
 }: ApiCreateProps<T>): Promise<void> => {
-  await axios
+  axios
     .post(url, item)
     .then(handleSuccess(successMessage))
     .catch(handleError(errorMessage));

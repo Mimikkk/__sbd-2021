@@ -1,6 +1,6 @@
-﻿drop table if exists items;
+﻿drop table if exists prices;
 
-create table items
+create table prices
 (
     primary key (id),
     cost        udecimal not null,
