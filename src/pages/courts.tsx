@@ -8,6 +8,7 @@ import { Grid, Typography } from "@mui/material";
 import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
 import { RequestStatus } from "@internal/enums";
+import EditIcon from "@mui/icons-material/Edit";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -28,6 +29,23 @@ const columns: Column<Court.Entity>[] = [
     Header: "Available",
     Cell: BoolCell,
   },
+  {
+    id: "editButton",
+    Header: "Edit",
+    Cell: (
+      <Button
+        title={"Edit"}
+        icon={<EditIcon />}
+        size={"small"}
+        // // style={{
+        // //   color: "black",
+        // //   // borderColor: "rgba(124, 77, 255, 0.5)",
+        // //   backgroundColor: "rgba(124, 77, 255, 0.1)",
+        // //   boxShadow: "none",
+        // }}
+      />
+    ),
+  },
 ];
 
 const isLoading = (status: RequestStatus) => {
@@ -39,44 +57,46 @@ const Courts = () => {
   console.log({ items, total, status });
   return (
     <Tile>
-      <Grid container style={{ width: "100%", flexDirection: "column" }}>
+      <Grid
+        container
+        spacing={1}
+        style={{
+          width: "100%",
+          height: "fit-content",
+          display: "flex",
+        }}
+      >
         <Grid
           item
+          container
           style={{
             display: "flex",
-            width: "100%",
             justifyContent: "space-between",
           }}
         >
-          <Grid
-            item
-            style={{
-              display: "flex",
-              width: "100%",
-              alignContent: "left",
-              margin: "10px",
-            }}
-          >
-            <Typography style={{ fontSize: "2em" }}>{"Courts"}</Typography>
+          <Grid item>
+            <Typography style={{ fontSize: "2em" }}>{" Courts "}</Typography>
           </Grid>
-          <Grid
-            container
-            spacing={2}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Grid item>
-              <Button title="Add new court" icon={<AddIcon />} />
-            </Grid>
-            <Grid item>
-              <Button title="Find court" icon={<SearchIcon />} />
+          <Grid item>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Button
+                  title={"Add new court"}
+                  icon={<AddIcon />}
+                  size={"large"}
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  title={"Find court"}
+                  icon={<SearchIcon />}
+                  size={"large"}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item style={{ width: "100%", height: "100%" }}>
+        <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
           <List
             columns={columns}
             items={items}
@@ -85,6 +105,41 @@ const Courts = () => {
           />
         </Grid>
       </Grid>
+      {/*<Grid*/}
+      {/*  container*/}
+      {/*  spacing={1}*/}
+      {/*  style={{*/}
+      {/*    display: "flex",*/}
+      {/*    flexDirection: "column",*/}
+      {/*    height: "100%",*/}
+      {/*    alignContent: "space-between",*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*<Grid item>*/}
+      {/*  <Grid container style={{ display: "flex", justifyContent: "left" }}>*/}
+      {/*    <Grid item>*/}
+      {/*      <Typography style={{ fontSize: "2em" }}>{"Courts"}</Typography>*/}
+      {/*    </Grid>*/}
+      {/*    <Grid item>*/}
+      {/*      <Grid container>*/}
+      {/*        <Grid item />*/}
+      {/*        <Grid item />*/}
+      {/*      </Grid>*/}
+      {/*    </Grid>*/}
+      {/*  </Grid>*/}
+      {/*</Grid>*/}
+      {/*<Grid*/}
+      {/*  item*/}
+      {/*  style={{*/}
+      {/*    display: "flex",*/}
+      {/*    justifyContent: "space-between",*/}
+      {/*    alignItems: "center",*/}
+      {/*    flexDirection: "column",*/}
+      {/*  }}*/}
+      {/*>*/}
+
+      {/*  </Grid>*/}
+      {/*</Grid>*/}
     </Tile>
   );
 };

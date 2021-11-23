@@ -62,30 +62,33 @@ export const List = <T extends object, R = undefined>({
       container
       style={{
         display: "flex",
-        justifyContent: "space-between",
         width: "100%",
-        height: "100%",
+        height: "fit-content",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        alignContent: "space-between",
       }}
     >
-      <Grid item style={{ width: "100%" }}>
-        {loading ? (
-          <ListEmpty />
-        ) : (
-          <table
-            {...getTableProps()}
-            className={cx(style("list"), className)}
-            {...props}
-          >
-            <ListHeader groups={groups} />
+      <Grid item container style={{ width: "inherit", display: "flex" }}>
+        <table
+          {...getTableProps()}
+          className={cx(style("list"), className)}
+          {...props}
+        >
+          <ListHeader groups={groups} />
+          {loading ? (
+            <ListEmpty />
+          ) : (
             <ListBody
               rows={pagination ? page : rows}
               {...getTableBodyProps()}
             />
-          </table>
-        )}
+          )}
+        </table>
       </Grid>
       {pagination ? (
-        <Grid item style={{ display: "flex", justifyContent: "center" }}>
+        <Grid item>
           <ListPagination
             gotoPage={gotoPage}
             canPreviousPage={canPreviousPage}
