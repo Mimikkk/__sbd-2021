@@ -1,9 +1,9 @@
-import { Grid } from '@mui/material';
-import React, { FC } from 'react';
-import { Tile as TileStyle } from './Tile.module.scss';
+import { Grid } from "@mui/material";
+import React, { FC } from "react";
+import { style } from "styles";
 
 export const Tile: FC = ({ children }) => (
-  <Grid item className={TileStyle}>
+  <Grid item className={style("tile")}>
     {children}
   </Grid>
 );
