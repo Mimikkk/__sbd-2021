@@ -5,9 +5,10 @@ import { Column } from "shared/components/List";
 import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Button as MuiButton, Typography } from "@mui/material";
 import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
+import { mockCourt } from "@models/values";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -32,7 +33,7 @@ const columns: Column<Court.Entity>[] = [
 
 const Courts = () => {
   const { items, total, status } = useList(courtService.readAll);
-  console.log({ items, total, status });
+
   return (
     <Tile>
       <Grid container style={{ width: "100%" }}>
@@ -74,6 +75,16 @@ const Courts = () => {
         </Grid>
         <Grid item style={{ width: "100%" }}>
           <List columns={columns} items={items} pagination />
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item>
+          <MuiButton onClick={() => courtService.create(mockCourt())}>
+            Create
+          </MuiButton>
+          <MuiButton onClick={() => {}}>Read</MuiButton>
+          <MuiButton onClick={() => {}}>Update</MuiButton>
+          <MuiButton onClick={() => {}}>Delete</MuiButton>
         </Grid>
       </Grid>
     </Tile>

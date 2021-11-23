@@ -2,8 +2,10 @@ import { client } from "$sql";
 import { map } from "lodash";
 import { SqlResponse } from "$sql/types";
 
-export const select = (str: TemplateStringsArray): Promise<SqlResponse> =>
-  client.$queryRaw(str);
+export const select = (
+  str: TemplateStringsArray | string
+): Promise<SqlResponse> =>
+  typeof str === "string" ? client.$queryRawUnsafe(str) : client.$queryRaw(str);
 
 export const selectWith =
   <T = any>(translate: (item: SqlResponse) => T) =>

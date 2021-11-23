@@ -2,7 +2,6 @@ drop function if exists footprint_update;
 create or replace function footprint_update() returns trigger
 as $$
 begin
-  raise notice '% %', new.id, old.id;
   new.updated_at := current_timestamp;
   return new;
 end;
@@ -63,9 +62,3 @@ create trigger footprint_update
   before update
   on court_reservations
 execute procedure footprint_update();
-
-select * from footprint;
-insert into courts(name, floor, is_covered) values ('zooo', 'Monia jest super', true);
-insert into courts(name, floor, is_covered) values ('Super', 'Super jest Monika', true);
-insert into courts(name, floor, is_covered) values ('Monika', 'Monika super jest', true);
-insert into courts(name, floor, is_covered) values ('Jest', 'Jest Mon super', true);
