@@ -11,12 +11,18 @@ export interface ListResponse<T> {
 
 export const courtService = {
   create: (item: Court.Model) =>
-    servicant.create({ url, item, successMessage: "super" }),
+    servicant.create({ url, item, successMessage: "Created resource" }),
 
   readAll: () => servicant.read<ListResponse<Court.Entity>>({ url }),
 
   update: (id: uuid, item: Court.Model) =>
-    servicant.update<Court.Model>({ url, item, id }),
+    servicant.update<Court.Model>({
+      url,
+      item,
+      id,
+      successMessage: "Updated resource",
+    }),
 
-  delete: (id: uuid) => servicant.delete({ url, id }),
+  delete: (id: uuid) =>
+    servicant.delete({ url, id, successMessage: "Deleted resource" }),
 };

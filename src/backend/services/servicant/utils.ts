@@ -1,11 +1,11 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
-export const handleSuccess =
-  (message?: string) =>
-  <T>(response: AxiosResponse<T>) => {
+import { AxiosError, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+export const handleSuccess = (message?: string) => {
+  return <T>(response: AxiosResponse<T>) => {
     if (message) toast.success(message);
     return response.data;
   };
+};
 
 export const handleError =
   (message?: string) =>
