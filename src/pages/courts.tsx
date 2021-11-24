@@ -36,19 +36,7 @@ const columns: Column<Court.Entity>[] = [
   {
     id: "editButton",
     Header: "Edit",
-    Cell: (
-      <Button
-        title={"Edit"}
-        icon={<EditIcon />}
-        size={"small"}
-        // // style={{
-        // //   color: "black",
-        // //   // borderColor: "rgba(124, 77, 255, 0.5)",
-        // //   backgroundColor: "rgba(124, 77, 255, 0.1)",
-        // //   boxShadow: "none",
-        // }}
-      />
-    ),
+    Cell: <Button title={"Edit"} icon={<EditIcon />} />,
   },
 ];
 
@@ -90,30 +78,15 @@ const Courts = () => {
                 <Button
                   title={"Add new court"}
                   icon={<AddIcon />}
-                  size={"large"}
+                  onClick={async () => (
+                    await courtService.create(mockCourt()), refresh()
+                  )}
                 />
               </Grid>
               <Grid item>
                 <Button
                   title={"Find court"}
                   icon={<SearchIcon />}
-                  size={"large"}
-                />
-                <MuiButton
-                  onClick={async () => (
-                    await courtService.create(mockCourt()), refresh()
-                  )}
-                >
-                  Create
-                </MuiButton>
-                <MuiButton
-                  onClick={async () => (
-                    await courtService.readAll(), refresh()
-                  )}
-                >
-                  Read
-                </MuiButton>
-                <MuiButton
                   onClick={async () => (
                     await courtService.update(items[0].id, {
                       ...items[0],
@@ -121,8 +94,13 @@ const Courts = () => {
                     }),
                     refresh()
                   )}
+                />
+                <MuiButton
+                  onClick={async () => (
+                    await courtService.readAll(), refresh()
+                  )}
                 >
-                  Update
+                  Read
                 </MuiButton>
                 <MuiButton
                   onClick={async () => (
@@ -144,41 +122,6 @@ const Courts = () => {
           />
         </Grid>
       </Grid>
-      {/*<Grid*/}
-      {/*  container*/}
-      {/*  spacing={1}*/}
-      {/*  style={{*/}
-      {/*    display: "flex",*/}
-      {/*    flexDirection: "column",*/}
-      {/*    height: "100%",*/}
-      {/*    alignContent: "space-between",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*<Grid item>*/}
-      {/*  <Grid container style={{ display: "flex", justifyContent: "left" }}>*/}
-      {/*    <Grid item>*/}
-      {/*      <Typography style={{ fontSize: "2em" }}>{"Courts"}</Typography>*/}
-      {/*    </Grid>*/}
-      {/*    <Grid item>*/}
-      {/*      <Grid container>*/}
-      {/*        <Grid item />*/}
-      {/*        <Grid item />*/}
-      {/*      </Grid>*/}
-      {/*    </Grid>*/}
-      {/*  </Grid>*/}
-      {/*</Grid>*/}
-      {/*<Grid*/}
-      {/*  item*/}
-      {/*  style={{*/}
-      {/*    display: "flex",*/}
-      {/*    justifyContent: "space-between",*/}
-      {/*    alignItems: "center",*/}
-      {/*    flexDirection: "column",*/}
-      {/*  }}*/}
-      {/*>*/}
-
-      {/*  </Grid>*/}
-      {/*</Grid>*/}
     </Tile>
   );
 };
