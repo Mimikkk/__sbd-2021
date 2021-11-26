@@ -1,4 +1,3 @@
-import { Button, Tile } from "shared/components";
 import { Column, List } from "shared/components/List";
 import { BoolCell } from "shared/components/List/components";
 import { Court } from "@models";
@@ -9,10 +8,12 @@ import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
 import { RequestStatus } from "@internal/enums";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button as MuiButton } from "@mui/material";
 import { useRefresh } from "../frontend/shared/hooks";
-import faker from "faker";
-import { mockCourt } from "@models/values";
+import {
+  AddCourtForm,
+  Form as FormOpenButton,
+  Tile,
+} from "../frontend/shared/components";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -36,7 +37,7 @@ const columns: Column<Court.Entity>[] = [
   {
     id: "editButton",
     Header: "Edit",
-    Cell: <Button title={"Edit"} icon={<EditIcon />} />,
+    Cell: <FormOpenButton title={"Edit"} icon={<EditIcon />} />,
   },
 ];
 
@@ -54,7 +55,7 @@ const Courts = () => {
     <Tile>
       <Grid
         container
-        spacing={1}
+        spacing={2}
         style={{
           width: "100%",
           height: "fit-content",
@@ -75,40 +76,39 @@ const Courts = () => {
           <Grid item>
             <Grid container spacing={2}>
               <Grid item>
-                <Button
-                  title={"Add new court"}
-                  icon={<AddIcon />}
-                  onClick={async () => (
-                    await courtService.create(mockCourt()), refresh()
-                  )}
-                />
+                <FormOpenButton title={"Add new court"} icon={<AddIcon />}>
+                  {<AddCourtForm />}
+                </FormOpenButton>
+                {/*// onClick={async () => (*/}
+                {/*//   await courtService.create(mockCourt()), refresh()*/}
+                {/*// )}*/}
               </Grid>
               <Grid item>
-                <Button
+                <FormOpenButton
                   title={"Find court"}
                   icon={<SearchIcon />}
-                  onClick={async () => (
-                    await courtService.update(items[0].id, {
-                      ...items[0],
-                      name: faker.lorem.word(),
-                    }),
-                    refresh()
-                  )}
+                  // onClick={async () => (
+                  //   await courtService.update(items[0].id, {
+                  //     ...items[0],
+                  //     name: faker.lorem.word(),
+                  //   }),
+                  //   refresh()
+                  // )}
                 />
-                <MuiButton
-                  onClick={async () => (
-                    await courtService.readAll(), refresh()
-                  )}
-                >
-                  Read
-                </MuiButton>
-                <MuiButton
-                  onClick={async () => (
-                    await courtService.delete(items[0].id), refresh()
-                  )}
-                >
-                  Delete
-                </MuiButton>
+                {/*<MuiButton*/}
+                {/*// onClick={async () => (*/}
+                {/*//   await courtService.readAll(), refresh()*/}
+                {/*// )}*/}
+                {/*>*/}
+                {/*  Read*/}
+                {/*</MuiButton>*/}
+                {/*<MuiButton*/}
+                {/*// onClick={async () => (*/}
+                {/*//   await courtService.delete(items[0].id), refresh()*/}
+                {/*// )}*/}
+                {/*>*/}
+                {/*  Delete*/}
+                {/*</MuiButton>*/}
               </Grid>
             </Grid>
           </Grid>
