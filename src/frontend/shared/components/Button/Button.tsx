@@ -1,12 +1,12 @@
-import React, { VFC, ReactElement, MouseEventHandler } from "react";
+import React, { VFC, ReactElement, MouseEventHandler, HTMLProps } from "react";
 import { Button as MuiButton } from "@mui/material";
 
-export interface ButtonProps {
+export type ButtonProps = HTMLProps<HTMLInputElement> & {
   title: string;
   icon: ReactElement;
   size?: string;
   onClick?: MouseEventHandler;
-}
+};
 
 export const Button: VFC<ButtonProps> = ({ title, icon, onClick }) => {
   return (

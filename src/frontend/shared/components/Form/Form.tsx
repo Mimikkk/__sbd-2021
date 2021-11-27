@@ -2,36 +2,38 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button } from "../Button";
-import { ReactElement, FC } from "react";
+import { ReactElement } from "react";
 import { Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { FormProps } from "components/forms/types";
 
-export interface FormProps {
+type Props<T extends object> = Pick<FormProps<T>, "formRef"> & {
   icon: ReactElement;
   title: string;
-}
+  children: ReactElement;
+};
 
-export const Form: FC<FormProps> = ({ icon, title, children }) => {
+export const Form = <T extends object>({
+  icon,
+  title,
+  formRef,
+  children,
+}: Props<T>) => {
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
+  const handleClickOpen = () => setOpen(true);
+  const handleSubmit = async () => {
+    if (!formRef.current) return;
+    await formRef.current.submitForm();
     setOpen(false);
   };
 
+  const handleClose = () => setOpen(false);
+
   return (
-    <div>
+    <>
       <Button title={title} icon={icon} onClick={handleClickOpen} />
       <Grid container>
-        <Dialog
-          open={open}
-          fullWidth
-          maxWidth="xs"
-          style={{
-            height: "100%",
-          }}
-        >
+        <Dialog open={open} fullWidth maxWidth="xs" style={{ height: "100%" }}>
           <Grid
             item
             container
@@ -65,7 +67,6 @@ export const Form: FC<FormProps> = ({ icon, title, children }) => {
                 {children}
               </Grid>
             </Grid>
-
             <Grid
               item
               container
@@ -76,7 +77,8 @@ export const Form: FC<FormProps> = ({ icon, title, children }) => {
                 <Button
                   title={"Submit"}
                   icon={<CloseIcon />}
-                  onClick={handleClose}
+                  onClick={handleSubmit}
+                  type="submit"
                 />
               </Grid>
               <Grid item>
@@ -90,6 +92,6 @@ export const Form: FC<FormProps> = ({ icon, title, children }) => {
           </Grid>
         </Dialog>
       </Grid>
-    </div>
+    </>
   );
 };
