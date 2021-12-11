@@ -38,14 +38,13 @@ const columns: Column<Court.Entity>[] = [
     Header: "Edit",
     Cell: (row: any) => {
       const formRef = useRef<Nullable<FormikProps<any>>>(null);
-      console.log(row);
+      console.log(row.row.original);
 
       return (
         <FormButton title={"Edit"} icon={<EditIcon />} formRef={formRef}>
           <CourtForm
             formRef={formRef}
-            initialValues={createCourtValues()}
-            validationSchema={courtValidationSchema}
+            initialValues={row.row.original as any}
           />
         </FormButton>
       );
@@ -85,9 +84,8 @@ const Courts = () => {
                   formRef={formRef}
                 >
                   <CourtForm
-                    formRef={formRef}
                     initialValues={createCourtValues()}
-                    validationSchema={courtValidationSchema}
+                    formRef={formRef}
                   />
                 </FormButton>
               </Grid>

@@ -77,6 +77,15 @@ export const Form = <T extends object>({
                 <Button
                   title={"Submit"}
                   icon={<CloseIcon />}
+                  onClick={() => {
+                    console.log("delete", formRef.current?.values);
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  title={"Submit"}
+                  icon={<CloseIcon />}
                   onClick={handleSubmit}
                   type="submit"
                 />

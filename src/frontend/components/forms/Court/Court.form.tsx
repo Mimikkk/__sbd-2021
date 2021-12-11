@@ -5,15 +5,20 @@ import { Court } from "@models";
 import { courtService } from "@services";
 import { courtValidationSchema } from "./Court.validation";
 
-export const CourtForm = ({
+export const CourtForm = <T extends Court.Model>({
   formRef,
   initialValues,
-}: FormProps<Court.Model>) => (
+}: FormProps<T>) => (
   <div style={{ padding: "0em 2em" }}>
     <Formik
       initialValues={initialValues}
       validationSchema={courtValidationSchema}
-      onSubmit={async (values) => await courtService.create(values)}
+      onSubmit={async (values) => {
+        "id" in values
+          ? //@ts-ignore
+            await courtService.update(values.id, values)
+          : await courtService.create(values);
+      }}
       innerRef={formRef}
     >
       {({ errors, touched, values, handleChange }) => (
