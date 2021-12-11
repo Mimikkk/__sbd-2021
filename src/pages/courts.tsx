@@ -13,7 +13,7 @@ const Courts = () => {
       <Grid container spacing={2} style={{ width: "100%" }}>
         <Grid item container justifyContent={"space-between"}>
           <Grid item>
-            <Typography style={{ fontSize: "2em" }}>{" Courts "}</Typography>
+            <Typography variant="h3">Courts</Typography>
           </Grid>
           <Grid item>
             <Grid container spacing={2}>

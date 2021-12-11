@@ -6,17 +6,17 @@ import { courtSchema } from "./Court.validation";
 import { isEntity } from "shared/utils";
 import { Form, TextField } from "shared/components";
 
-const handleSuccess = <T extends Court.Model>(values: T) =>
-  isEntity(values)
-    ? courtService.update(values.id, values)
-    : courtService.create(values);
-
 const createCourtValues = () => ({
   name: "",
   floor: "",
   isCovered: false,
   isUnderMaintenance: false,
 });
+
+const handleSuccess = <T extends Court.Model>(values: T) =>
+  isEntity(values)
+    ? courtService.update(values.id, values)
+    : courtService.create(values);
 
 export const CourtForm = <T extends Court.Model>({
   initialValues,
@@ -25,6 +25,7 @@ export const CourtForm = <T extends Court.Model>({
     validationSchema={courtSchema}
     initialValues={initialValues || createCourtValues()}
     onSubmit={handleSuccess}
+    onRemove={(values) => isEntity(values) && courtService.delete(values.id)}
   >
     <Grid container spacing={1.5}>
       <Grid item xs={6}>

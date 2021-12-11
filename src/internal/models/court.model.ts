@@ -8,5 +8,5 @@ export module Court {
     isUnderMaintenance: boolean;
   };
   export type Entity = BaseModel & Model;
-  export type Row = Model & Pick<BaseModel, "id">;
+  export type Row = Entity;
 }

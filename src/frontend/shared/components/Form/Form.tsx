@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import { ReactElement } from "react";
 import { style } from "styles";
-import { cx } from "shared/utils";
+import { cx, isEntity } from "shared/utils";
 import { Grid } from "@mui/material";
 import { Actions } from "./Actions";
 
@@ -9,19 +9,33 @@ interface Props<T extends object> {
   children?: ReactElement;
   initialValues: T;
   onSubmit: (values: T) => Promise<void>;
+  onRemove?: (values: T) => void;
   validationSchema: any | (() => any);
 }
-export const Form = <T extends object>({ children, ...props }: Props<T>) => (
-  <Formik {...props}>
-    {(props) => (
-      <form className={cx(style("form"))}>
-        <Grid container>
-          <Grid item>{children}</Grid>
-          <Grid item>
-            <Actions onSubmit={props.submitForm} />
+
+export const Form = <T extends object>({
+  children,
+  onRemove,
+  ...props
+}: Props<T>) => {
+  return (
+    <Formik {...props}>
+      {(props) => (
+        <form className={cx(style("form"))}>
+          <Grid container>
+            <Grid container>{children}</Grid>
+            <Grid container style={{ padding: 0 }}>
+              <Actions
+                onSubmit={props.submitForm}
+                onRemove={
+                  (isEntity(props.values) || undefined) &&
+                  (async () => onRemove?.(props.values))
+                }
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-    )}
-  </Formik>
-);
+        </form>
+      )}
+    </Formik>
+  );
+};
