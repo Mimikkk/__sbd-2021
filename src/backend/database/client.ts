@@ -11,5 +11,4 @@ if (process.env.NODE_ENV === "production") {
   prisma = global_.prisma;
 }
 
-console.log(prisma);
 export { prisma as client };

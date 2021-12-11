@@ -7,12 +7,12 @@ import { courtService } from "@services";
 import { useList } from "shared/hooks/useList";
 import { RequestStatus } from "@internal/enums";
 import EditIcon from "@mui/icons-material/Edit";
-import { Form as FormButton, Tile } from "shared/components";
+import { Button, Tile } from "shared/components";
 import { CourtForm } from "components/forms";
 import { useRef } from "react";
 import { Nullable } from "@internal/types";
 import { FormikProps } from "formik";
-import { courtValidationSchema } from "components/forms/Court/Court.validation";
+import { Former } from "shared/components/Form/Former";
 
 const columns: Column<Court.Entity>[] = [
   {
@@ -34,19 +34,25 @@ const columns: Column<Court.Entity>[] = [
     Cell: BoolCell,
   },
   {
-    id: "editButton",
+    id: "edit",
     Header: "Edit",
     Cell: (row: any) => {
       const formRef = useRef<Nullable<FormikProps<any>>>(null);
-      console.log(row.row.original);
 
       return (
-        <FormButton title={"Edit"} icon={<EditIcon />} formRef={formRef}>
-          <CourtForm
-            formRef={formRef}
-            initialValues={row.row.original as any}
-          />
-        </FormButton>
+        <Button
+          title={"Edit"}
+          icon={<EditIcon />}
+          onClick={() => {
+            return <p></p>;
+          }}
+        />
+      );
+
+      return (
+        <Former title={"Edit"} icon={<EditIcon />} formRef={formRef}>
+          <CourtForm formRef={formRef} initialValues={row.row.original} />
+        </Former>
       );
     },
   },
@@ -78,7 +84,7 @@ const Courts = () => {
           <Grid item>
             <Grid container spacing={2}>
               <Grid item>
-                <FormButton
+                <Former
                   title={"Add new court"}
                   icon={<AddIcon />}
                   formRef={formRef}
@@ -87,7 +93,7 @@ const Courts = () => {
                     initialValues={createCourtValues()}
                     formRef={formRef}
                   />
-                </FormButton>
+                </Former>
               </Grid>
             </Grid>
           </Grid>
