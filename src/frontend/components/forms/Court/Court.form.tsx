@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { FormProps } from "components/forms/types";
 import { Court } from "@models";
 import { courtService } from "@services";
-import { courtValidationSchema } from "./Court.validation";
+import { courtSchema } from "./Court.validation";
 import { isEntity } from "shared/utils";
 import { Form, TextField } from "shared/components";
 
@@ -11,18 +11,26 @@ const handleSuccess = <T extends Court.Model>(values: T) =>
     ? courtService.update(values.id, values)
     : courtService.create(values);
 
+const createCourtValues = () => ({
+  name: "",
+  floor: "",
+  isCovered: false,
+  isUnderMaintenance: false,
+});
+
 export const CourtForm = <T extends Court.Model>({
-  formRef,
   initialValues,
 }: FormProps<T>) => (
   <Form
-    validationSchema={courtValidationSchema}
-    initialValues={initialValues}
+    validationSchema={courtSchema}
+    initialValues={initialValues || createCourtValues()}
     onSubmit={handleSuccess}
-    formRef={formRef}
   >
     <Grid container spacing={1.5}>
-      <Grid item xs={12}>
+      <Grid item xs={6}>
+        <TextField name="name" label="Court name" />
+      </Grid>
+      <Grid item xs={6}>
         <TextField name="floor" label="Floor type" />
       </Grid>
       <Grid item xs={12}>
@@ -30,9 +38,6 @@ export const CourtForm = <T extends Court.Model>({
       </Grid>
       <Grid item xs={12}>
         <TextField name="isUnderMaintenance" label="Is under maintenance" />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField name="name" label="Court name" />
       </Grid>
     </Grid>
   </Form>

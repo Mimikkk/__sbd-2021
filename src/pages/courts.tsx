@@ -1,78 +1,12 @@
-import { Column, List } from "shared/components/List";
-import { BoolCell } from "shared/components/List/components";
-import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
 import { Grid, Typography } from "@mui/material";
-import { courtService } from "@services";
-import { useList } from "shared/hooks/useList";
-import { RequestStatus } from "@internal/enums";
-import EditIcon from "@mui/icons-material/Edit";
 import { Button, Tile } from "shared/components";
+import { CourtList } from "components/forms/Court/CourtList";
+import { useModal } from "shared/hooks";
 import { CourtForm } from "components/forms";
-import { useRef } from "react";
-import { Nullable } from "@internal/types";
-import { FormikProps } from "formik";
-import { Former } from "shared/components/Form/Former";
-
-const columns: Column<Court.Entity>[] = [
-  {
-    accessor: "name",
-    Header: "Name",
-  },
-  {
-    accessor: "floor",
-    Header: "Floor type",
-  },
-  {
-    accessor: "isCovered",
-    Header: "Cover",
-    Cell: BoolCell,
-  },
-  {
-    accessor: "isUnderMaintenance",
-    Header: "Available",
-    Cell: BoolCell,
-  },
-  {
-    id: "edit",
-    Header: "Edit",
-    Cell: (row: any) => {
-      const formRef = useRef<Nullable<FormikProps<any>>>(null);
-
-      return (
-        <Button
-          title={"Edit"}
-          icon={<EditIcon />}
-          onClick={() => {
-            return <p></p>;
-          }}
-        />
-      );
-
-      return (
-        <Former title={"Edit"} icon={<EditIcon />} formRef={formRef}>
-          <CourtForm formRef={formRef} initialValues={row.row.original} />
-        </Former>
-      );
-    },
-  },
-];
-
-const createCourtValues = () => ({
-  name: "",
-  floor: "",
-  isCovered: false,
-  isUnderMaintenance: false,
-});
-
-const isLoading = (status: RequestStatus) => {
-  return status == RequestStatus.Loading;
-};
 
 const Courts = () => {
-  const { items, status } = useList(courtService.readAll);
-
-  const formRef = useRef<Nullable<FormikProps<any>>>(null);
+  const [CourtModal, open] = useModal(<CourtForm />);
 
   return (
     <Tile>
@@ -84,27 +18,18 @@ const Courts = () => {
           <Grid item>
             <Grid container spacing={2}>
               <Grid item>
-                <Former
+                <Button
                   title={"Add new court"}
                   icon={<AddIcon />}
-                  formRef={formRef}
-                >
-                  <CourtForm
-                    initialValues={createCourtValues()}
-                    formRef={formRef}
-                  />
-                </Former>
+                  onClick={open}
+                />
+                <CourtModal />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
         <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
-          <List
-            columns={columns}
-            items={items}
-            pagination
-            loading={isLoading(status)}
-          />
+          <CourtList />
         </Grid>
       </Grid>
     </Tile>
