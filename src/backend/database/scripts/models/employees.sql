@@ -2,7 +2,8 @@
 
 create table employees
 (
-    primary key (id),
-    payroll             udecimal not null,
-    bank_account_number varchar  not null
+  primary key (id),
+  is_teacher   boolean  not null default false,
+  payroll      udecimal not null,
+  bank_account varchar  not null
 ) inherits (person);

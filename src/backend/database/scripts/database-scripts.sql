@@ -20,11 +20,11 @@ drop table if exists person cascade;
 create table person
 (
   primary key (id),
-  name         varchar not null,
-  surname      varchar not null,
-  birthdate    date    not null,
-  phone_number varchar not null,
-  email        varchar null
+  name      varchar not null,
+  surname   varchar not null,
+  birthdate date    not null,
+  phone     varchar not null,
+  email     varchar null
 ) inherits (footprint);
 
 drop table if exists reservation cascade;
@@ -79,8 +79,9 @@ drop table if exists employees;
 create table employees
 (
   primary key (id),
-  payroll             udecimal not null,
-  bank_account_number varchar  not null
+  is_teacher   boolean  not null default false,
+  payroll      udecimal not null,
+  bank_account varchar  not null
 ) inherits (person);
 
 drop table if exists item_reservations;
@@ -107,7 +108,7 @@ create table prices
 (
   primary key (id),
   cost        udecimal not null,
-  discount_id uuid    null default null,
+  discount_id uuid     null default null,
   foreign key (discount_id) references discounts (id)
 ) inherits (footprint);
 

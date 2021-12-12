@@ -1,18 +1,18 @@
-import { Court } from "@models";
+import { ItemReservation } from "@models";
 import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
 import { ListResponse } from "$/services/types";
 
-const url = "api/courts";
+const url = "api/item-reservations";
 
-export const courtService = {
-  create: (item: Court.Model) =>
+export const itemReservationService = {
+  create: (item: ItemReservation.Model) =>
     servicant.create({ url, item, successMessage: "Created resource" }),
 
-  readAll: () => servicant.read<ListResponse<Court.Entity>>({ url }),
+  readAll: () => servicant.read<ListResponse<ItemReservation.Entity>>({ url }),
 
-  update: (id: uuid, item: Court.Model) =>
-    servicant.update<Court.Model>({
+  update: (id: uuid, item: ItemReservation.Model) =>
+    servicant.update<ItemReservation.Model>({
       url,
       item,
       id,

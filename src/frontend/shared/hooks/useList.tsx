@@ -1,5 +1,4 @@
 import { BaseModel } from "@models";
-import { ListResponse } from "@services";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { flow } from "lodash";
 import {
@@ -8,6 +7,7 @@ import {
   listLoading,
   listSuccess,
   ListState,
+  ListResponse,
 } from "$/services/types";
 import { useToggle } from "shared/hooks";
 import { isLoading } from "shared/utils/requests";
