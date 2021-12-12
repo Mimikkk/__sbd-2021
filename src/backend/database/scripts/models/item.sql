@@ -1,6 +1,6 @@
-﻿drop table if exists items;
+﻿drop table if exists item;
 
-create table items
+create table item
 (
   primary key (id),
   name        varchar not null,

@@ -1,6 +1,6 @@
-﻿drop table if exists courts;
+﻿drop table if exists court;
 
-create table courts
+create table court
 (
   primary key (id),
   name                 text not null,

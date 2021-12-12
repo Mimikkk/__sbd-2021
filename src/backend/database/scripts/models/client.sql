@@ -1,6 +1,6 @@
-﻿drop table if exists clients;
+﻿drop table if exists client;
 
-create table clients
+create table client
 (
   primary key (id),
   is_permanent bool not null default false

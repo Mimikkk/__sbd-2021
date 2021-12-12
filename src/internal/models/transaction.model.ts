@@ -1,11 +1,12 @@
 import { uuid } from "@internal/types";
 import { BaseModel } from "@models";
 
-export module Price {
+export module Transaction {
   export interface Model {
-    description: string;
-    discountId?: uuid;
     cost: number;
+    clientId: uuid;
+    discountId?: uuid;
+    reservationId: uuid;
   }
   export interface Entity extends BaseModel, Model {}
 }

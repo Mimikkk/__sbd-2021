@@ -6,6 +6,3 @@ create table reservation
   start timestamp not null,
   "end" timestamp not null check (start < "end")
 ) inherits (footprint);
-
-select *
-from reservation;

@@ -5,6 +5,7 @@ export module Discount {
     name: string;
     value: number;
     isPercentage: boolean;
+    description: string;
   }
 
   export interface Entity extends BaseModel, Model {}

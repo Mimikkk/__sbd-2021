@@ -5,7 +5,7 @@ import { translateCourt, createCourt, selectNewestCourtId } from "$sql/orm";
 const get = async (response: NextApiResponse) => {
   const items = (await selectWith(
     translateCourt
-  )`select * from courts order by created_at desc`) as [];
+  )`select * from court order by created_at desc`) as [];
   return response.status(200).json({ items, total: items.length });
 };
 

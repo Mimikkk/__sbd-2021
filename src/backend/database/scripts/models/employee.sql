@@ -1,6 +1,6 @@
-﻿drop table if exists employees;
+﻿drop table if exists employee;
 
-create table employees
+create table employee
 (
   primary key (id),
   is_teacher   boolean  not null default false,

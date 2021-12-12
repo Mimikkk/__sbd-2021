@@ -7,4 +7,5 @@ export const translateItemReservation = (
 ): ItemReservation.Entity => ({
   ...translateReservation(raw),
   itemId: raw.item_id,
+  count: raw.count,
 });

@@ -10,3 +10,4 @@ export * from "./employee.model";
 export * from "./item.model";
 export * from "./price.model";
 export * from "./discount.model";
+export * from "./transaction.model";
