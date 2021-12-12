@@ -21,7 +21,7 @@ const post = async (request: NextApiRequest, response: NextApiResponse) => {
   });
 };
 
-const handler = async (request: NextApiRequest, response: NextApiResponse) => {
+export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (request.method) {
     case "GET":
       await get(response);
@@ -33,5 +33,3 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       return response.status(405).end();
   }
 };
-
-export default handler;

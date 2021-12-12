@@ -27,7 +27,7 @@ const $delete = async (request: NextApiRequest, response: NextApiResponse) => {
     .json({ message: `successfully deleted resource.` });
 };
 
-const handler = async (request: NextApiRequest, response: NextApiResponse) => {
+export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (request.method) {
     case "PUT":
       await put(request, response);
@@ -39,5 +39,3 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       return response.status(405).end();
   }
 };
-
-export default handler;

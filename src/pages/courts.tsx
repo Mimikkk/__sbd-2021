@@ -5,7 +5,7 @@ import { useModal } from "shared/hooks";
 import { CourtForm } from "components/forms";
 import { useCourtList } from "components/hooks";
 
-const Courts = () => {
+export default () => {
   const [CourtList, CourtListContext] = useCourtList();
   const [CourtModal, open] = useModal(<CourtForm />);
 
@@ -38,5 +38,3 @@ const Courts = () => {
     </Tile>
   );
 };
-
-export default Courts;
