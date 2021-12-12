@@ -2,6 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Grid } from "@mui/material";
 import { Button } from "shared/components";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useModalContext } from "shared/contexts";
 
 interface Props<T extends object> {
@@ -36,7 +37,7 @@ export const Actions = <T extends object>({ onSubmit, onRemove }: Props<T>) => {
         <Grid item xs={4} style={{ justifyContent: "center" }}>
           <Button
             title={"Delete"}
-            icon={<CloseIcon />}
+            icon={<DeleteIcon />}
             onClick={handleRemove}
           />
         </Grid>

@@ -1,7 +1,6 @@
 import { createTheme, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { Navigator, Toaster } from "components";
 import { AppProps } from "next/app";
-import { VFC } from "react";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Head from "next/head";
@@ -16,7 +15,7 @@ const theme = createTheme({
   },
 });
 
-const App: VFC<AppProps> = ({ Component, pageProps }) => {
+export default ({ Component, pageProps }: AppProps) => {
   return (
     <CssBaseline>
       <Head>
@@ -38,5 +37,3 @@ const App: VFC<AppProps> = ({ Component, pageProps }) => {
     </CssBaseline>
   );
 };
-
-export default App;

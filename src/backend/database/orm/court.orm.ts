@@ -12,20 +12,20 @@ export const translateCourt = (raw: SqlResponse): Court.Entity => ({
 });
 
 export const selectNewestCourtId = (): SqlCommand => `
-  select id, created_at from courts order by created_at desc limit 1;
+  select id, created_at from court order by created_at desc limit 1;
 `;
 
 export const selectLastUpdatedCourtId = (): SqlCommand => `
-  select id, updated_at from courts order by updated_at desc limit 1;
+  select id, updated_at from court order by updated_at desc limit 1;
 `;
 
 export const createCourt = (model: Court.Model): SqlCommand => `
-  insert into courts(name, floor, is_covered, is_under_maintenance)
+  insert into court(name, floor, is_covered, is_under_maintenance)
   values ('${model.name}', '${model.floor}', ${model.isCovered}, ${model.isUnderMaintenance});
 `;
 
 export const updateCourt = (id: uuid, model: Court.Model): SqlCommand => `
-  update courts
+  update court
   set name                 = '${model.name}',
       floor                = '${model.floor}',
       is_covered           = ${model.isCovered},
@@ -34,5 +34,5 @@ export const updateCourt = (id: uuid, model: Court.Model): SqlCommand => `
 `;
 
 export const deleteCourt = (id: uuid): SqlCommand => `
-  delete from courts where id = '${id}';
+  delete from court where id = '${id}';
 `;

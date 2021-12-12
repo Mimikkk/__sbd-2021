@@ -2,7 +2,7 @@ import { Tile } from "shared/components";
 import { Grid } from "@mui/material";
 import { Scheduler } from "components";
 
-const ReservationSchedulerPage = () => {
+export default () => {
   return (
     <Tile>
       <Grid container item justifyContent="center">
@@ -11,5 +11,3 @@ const ReservationSchedulerPage = () => {
     </Tile>
   );
 };
-
-export default ReservationSchedulerPage;

@@ -1,12 +1,17 @@
 import { BaseModel } from "@models";
 import { RequestStatus } from "@internal/enums";
-import { ListResponse } from "@services";
 import {
   ResponseFailed,
   ResponseIdle,
   ResponseLoading,
   ResponseSuccess,
-} from "$/services/types/responses/base.response";
+} from "./base.response";
+
+export interface ListResponse<T> {
+  items: T[];
+  total: number;
+}
+
 export interface ListStateIdle<Item extends BaseModel> extends ResponseIdle {
   items: Item[];
   total: 0;

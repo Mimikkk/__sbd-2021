@@ -1,17 +1,13 @@
 import { Court } from "@models";
 import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
+import { ListResponse } from "$/services/types";
 
 const url = "api/courts";
 
-export interface ListResponse<T> {
-  items: T[];
-  total: number;
-}
-
 export const courtService = {
   create: (item: Court.Model) =>
-    servicant.create({ url, item, successMessage: "Created resource" }),
+    servicant.create({ url, item, successMessage: "Created court" }),
 
   readAll: () => servicant.read<ListResponse<Court.Entity>>({ url }),
 
@@ -20,9 +16,9 @@ export const courtService = {
       url,
       item,
       id,
-      successMessage: "Updated resource",
+      successMessage: "Updated court",
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Deleted resource" }),
+    servicant.delete({ url, id, successMessage: "Deleted court" }),
 };

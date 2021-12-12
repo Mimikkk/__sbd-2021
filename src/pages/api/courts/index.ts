@@ -5,7 +5,7 @@ import { translateCourt, createCourt, selectNewestCourtId } from "$sql/orm";
 const get = async (response: NextApiResponse) => {
   const items = (await selectWith(
     translateCourt
-  )`select * from courts order by created_at desc`) as [];
+  )`select * from court order by created_at desc`) as [];
   return response.status(200).json({ items, total: items.length });
 };
 
@@ -21,7 +21,7 @@ const post = async (request: NextApiRequest, response: NextApiResponse) => {
   });
 };
 
-const handler = async (request: NextApiRequest, response: NextApiResponse) => {
+export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (request.method) {
     case "GET":
       await get(response);
@@ -33,5 +33,3 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       return response.status(405).end();
   }
 };
-
-export default handler;

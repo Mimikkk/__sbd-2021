@@ -8,35 +8,40 @@ end;
 $$ language plpgsql;
 
 drop trigger if exists footprint_update on footprint;
-drop trigger if exists footprint_update on items;
-drop trigger if exists footprint_update on courts;
-drop trigger if exists footprint_update on discounts;
-drop trigger if exists footprint_update on prices;
 drop trigger if exists footprint_update on person;
-drop trigger if exists footprint_update on clients;
-drop trigger if exists footprint_update on employees;
 drop trigger if exists footprint_update on reservation;
-drop trigger if exists footprint_update on item_reservations;
-drop trigger if exists footprint_update on court_reservations;
+drop trigger if exists footprint_update on client;
+drop trigger if exists footprint_update on court;
+drop trigger if exists footprint_update on court_reservation;
+drop trigger if exists footprint_update on discount;
+drop trigger if exists footprint_update on employee;
+drop trigger if exists footprint_update on item;
+drop trigger if exists footprint_update on item_reservation;
+drop trigger if exists footprint_update on price;
+drop trigger if exists footprint_update on transaction;
 create trigger footprint_update
   before update
   on footprint
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on items
+  on item
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on courts
+  on transaction
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on discounts
+  on court
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on prices
+  on discount
+execute procedure footprint_update();
+create trigger footprint_update
+  before update
+  on price
 execute procedure footprint_update();
 create trigger footprint_update
   before update
@@ -44,11 +49,11 @@ create trigger footprint_update
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on clients
+  on client
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on employees
+  on employee
 execute procedure footprint_update();
 create trigger footprint_update
   before update
@@ -56,9 +61,9 @@ create trigger footprint_update
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on item_reservations
+  on item_reservation
 execute procedure footprint_update();
 create trigger footprint_update
   before update
-  on court_reservations
+  on court_reservation
 execute procedure footprint_update();
