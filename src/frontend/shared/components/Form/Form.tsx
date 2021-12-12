@@ -17,25 +17,23 @@ export const Form = <T extends object>({
   children,
   onRemove,
   ...props
-}: Props<T>) => {
-  return (
-    <Formik {...props}>
-      {(props) => (
-        <form className={cx(style("form"))}>
-          <Grid container>
-            <Grid container>{children}</Grid>
-            <Grid container style={{ padding: 0 }}>
-              <Actions
-                onSubmit={props.submitForm}
-                onRemove={
-                  (isEntity(props.values) || undefined) &&
-                  (async () => onRemove?.(props.values))
-                }
-              />
-            </Grid>
+}: Props<T>) => (
+  <Formik {...props} validateOnMount>
+    {(props) => (
+      <form className={cx(style("form"))}>
+        <Grid container>
+          <Grid container>{children}</Grid>
+          <Grid container style={{ padding: 0 }}>
+            <Actions
+              onSubmit={async () => (props.submitForm(), props.isValid)}
+              onRemove={
+                (isEntity(props.values) || undefined) &&
+                (async () => onRemove?.(props.values))
+              }
+            />
           </Grid>
-        </form>
-      )}
-    </Formik>
-  );
-};
+        </Grid>
+      </form>
+    )}
+  </Formik>
+);

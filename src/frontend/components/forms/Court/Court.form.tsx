@@ -4,7 +4,7 @@ import { Court } from "@models";
 import { courtService } from "@services";
 import { courtSchema } from "./Court.validation";
 import { isEntity } from "shared/utils";
-import { Form, TextField } from "shared/components";
+import { Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 
 const createCourtValues = <T extends Court.Model>(): T =>
@@ -46,10 +46,24 @@ export const CourtForm = <T extends Court.Model>({
           <TextField name="floor" label="Floor type" />
         </Grid>
         <Grid item xs={12}>
-          <TextField name="isCovered" label="Is roof covered" />
+          <SelectField
+            options={[
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
+            ]}
+            name="isCovered"
+            label="Is roof covered"
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField name="isUnderMaintenance" label="Is under maintenance" />
+          <SelectField
+            options={[
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
+            ]}
+            name="isUnderMaintenance"
+            label="Is under maintenance"
+          />
         </Grid>
       </Grid>
     </Form>
