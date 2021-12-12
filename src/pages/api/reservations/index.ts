@@ -1,12 +1,13 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import { selectWith } from "$sql";
 import { translateReservation } from "$sql/orm";
+import { StatusCode } from "@internal/enums";
 
 const get = async (response: NextApiResponse) => {
   const items = (await selectWith(
     translateReservation
   )`select * from reservation order by created_at desc`) as [];
-  return response.status(200).json({ items, total: items.length });
+  return response.status(StatusCode.Ok).json({ items, total: items.length });
 };
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
@@ -18,6 +19,6 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     //   await post(request, response);
     //   break;
     default:
-      return response.status(405).end();
+      return response.status(StatusCode.Forbidden).end();
   }
 };
