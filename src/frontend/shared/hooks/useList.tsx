@@ -1,6 +1,6 @@
 import { BaseModel } from "@models";
 import { ListResponse } from "@services";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { flow } from "lodash";
 import {
   listError,
@@ -10,9 +10,9 @@ import {
   ListState,
 } from "$/services/types";
 import { useToggle } from "shared/hooks";
-import { List, ListProps } from "shared/components";
 import { isLoading } from "shared/utils/requests";
 import { ListContext } from "shared/contexts";
+import { List, ListProps } from "shared/components/List";
 
 interface UseListProps<Item extends BaseModel> {
   list: ListState<Item>;
@@ -40,17 +40,27 @@ const useListFetch = <Item extends BaseModel, Params = undefined>(
 
 export const useList = <Item extends BaseModel, Params = undefined>(
   fetch: (params?: Params) => Promise<ListResponse<Item>>
-): [FC<Omit<ListProps<Item>, "items" | "loading">>] => {
+): [FC<Omit<ListProps<Item>, "items" | "loading">>, FC] => {
   const {
     list: { items, status },
     refresh,
   } = useListFetch(fetch);
 
-  return [
+  const ListComponent = useCallback(
     ({ ...props }: Omit<ListProps<Item>, "items" | "loading">) => (
+      <List items={items} loading={isLoading(status)} {...props} />
+    ),
+    [items]
+  );
+
+  const ContextProvider = useCallback(
+    ({ children }) => (
       <ListContext.Provider value={{ refresh }}>
-        <List items={items} loading={isLoading(status)} {...props} />
+        {children}
       </ListContext.Provider>
     ),
-  ];
+    []
+  );
+
+  return [ListComponent, ContextProvider];
 };

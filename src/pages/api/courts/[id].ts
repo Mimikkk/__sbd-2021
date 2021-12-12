@@ -16,6 +16,7 @@ const put = async (request: NextApiRequest, response: NextApiResponse) => {
     updatedAt: updated_at,
   });
 };
+
 const $delete = async (request: NextApiRequest, response: NextApiResponse) => {
   const { id } = request.query;
 
