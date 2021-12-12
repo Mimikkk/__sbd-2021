@@ -36,7 +36,10 @@ export const FormField = <T,>({
       field.onChange(event);
     },
   };
-  const extend = useCallback((child) => cloneElement(child, properties), []);
+  const extend = useCallback(
+    (child) => cloneElement(child, properties),
+    [properties]
+  );
 
   return <>{Children.map(children, extend)}</>;
 };

@@ -5,15 +5,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useModalContext } from "shared/contexts";
 
 interface Props<T extends object> {
-  onSubmit: () => Promise<void>;
+  onSubmit: () => Promise<boolean>;
   onRemove?: () => Promise<void>;
 }
 
 export const Actions = <T extends object>({ onSubmit, onRemove }: Props<T>) => {
   const { close } = useModalContext();
   const handleSubmit = async () => {
-    await onSubmit();
-    close();
+    if (await onSubmit()) close();
   };
   const handleRemove = async () => {
     await onRemove?.();
