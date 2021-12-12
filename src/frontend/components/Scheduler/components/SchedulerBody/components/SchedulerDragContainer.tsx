@@ -1,6 +1,6 @@
-const schedulerDrag = 'scheduler-drag__container';
+const schedulerDrag = "scheduler-drag__container";
 
 export const schedulerDragContainer = () =>
   document.getElementById(schedulerDrag)!;
 
-export const SchedulerDragContainer = () => <div id={schedulerDrag} />;
+export const SchedulerDragContainer = () => <span id={schedulerDrag} />;

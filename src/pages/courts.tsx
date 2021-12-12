@@ -1,117 +1,40 @@
-import { Button, Tile, List, BoolCell, Column } from "shared/components";
-import { useList, useRefresh } from "shared/hooks";
-import { Court } from "@models";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
-import { Grid, Button as MuiButton, Typography } from "@mui/material";
-import { courtService } from "@services";
-import { mockCourt } from "@models/values";
-import faker from "faker";
-
-const columns: Column<Court.Entity>[] = [
-  {
-    accessor: "name",
-    Header: "Name",
-  },
-  {
-    accessor: "floor",
-    Header: "Floor type",
-  },
-  {
-    accessor: "isCovered",
-    Header: "Cover",
-    Cell: BoolCell,
-  },
-  {
-    accessor: "isUnderMaintenance",
-    Header: "Available",
-    Cell: BoolCell,
-  },
-];
+import { Grid, Typography } from "@mui/material";
+import { Button, Tile } from "shared/components";
+import { useModal } from "shared/hooks";
+import { CourtForm } from "components/forms";
+import { useCourtList } from "components/hooks";
 
 const Courts = () => {
-  const [isRefreshing, refresh] = useRefresh();
-  const { items, total, status } = useList(courtService.readAll, [
-    isRefreshing,
-  ]);
+  const [CourtList, CourtListContext] = useCourtList();
+  const [CourtModal, open] = useModal(<CourtForm />);
 
   return (
     <Tile>
-      <Grid container style={{ width: "100%" }}>
-        <Grid
-          item
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
-          }}
-        >
-          <Grid
-            item
-            style={{
-              display: "flex",
-              width: "100%",
-              alignContent: "left",
-              margin: "10px",
-            }}
-          >
-            <Typography style={{ fontSize: "2em" }}>{"Courts"}</Typography>
-          </Grid>
-          <Grid
-            container
-            spacing={2}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
+      <CourtListContext>
+        <Grid container spacing={2} style={{ width: "100%" }}>
+          <Grid item container justifyContent={"space-between"}>
             <Grid item>
-              <Button title="Add new court" icon={<AddIcon />} />
+              <Typography variant="h3">Courts</Typography>
             </Grid>
             <Grid item>
-              <Button title="Find court" icon={<SearchIcon />} />
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Button
+                    title={"Add new court"}
+                    icon={<AddIcon />}
+                    onClick={open}
+                  />
+                  <CourtModal />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
+            <CourtList />
+          </Grid>
         </Grid>
-        <Grid item style={{ width: "100%" }}>
-          <List columns={columns} items={items} pagination />
-        </Grid>
-      </Grid>
-      <Grid container>
-        <Grid item>
-          <MuiButton
-            onClick={async () => (
-              await courtService.create(mockCourt()), refresh()
-            )}
-          >
-            Create
-          </MuiButton>
-          <MuiButton
-            onClick={async () => (await courtService.readAll(), refresh())}
-          >
-            Read
-          </MuiButton>
-          <MuiButton
-            onClick={async () => (
-              await courtService.update(items[0].id, {
-                ...items[0],
-                name: faker.lorem.word(),
-              }),
-              refresh()
-            )}
-          >
-            Update
-          </MuiButton>
-          <MuiButton
-            onClick={async () => (
-              await courtService.delete(items[0].id), refresh()
-            )}
-          >
-            Delete
-          </MuiButton>
-        </Grid>
-      </Grid>
+      </CourtListContext>
     </Tile>
   );
 };

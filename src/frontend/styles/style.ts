@@ -4,9 +4,10 @@ import navigator from "components/Navigator/Navigator.module.scss";
 import scheduler from "components/Scheduler/Scheduler.module.scss";
 import list from "shared/components/List/List.module.scss";
 import tile from "shared/components/Tile/Tile.module.scss";
+import form from "shared/components/Form/Form.module.scss";
 import app from "./App.module.scss";
 
-const styles = merge(app, list, scheduler, dateSelect, navigator, tile);
+const styles = merge(app, list, scheduler, dateSelect, navigator, tile, form);
 
 export const style = (key: string) => {
   if (!styles[key]) {

@@ -1,9 +1,9 @@
-import { Grid, IconButton } from '@mui/material';
-import React, { VFC } from 'react';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Grid, IconButton } from "@mui/material";
+import React, { VFC } from "react";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 export interface Props {
   gotoPage: (updater: ((pageIndex: number) => number) | number) => void;
@@ -27,34 +27,39 @@ export const ListPagination: VFC<Props> = ({
   pageCount,
 }) => {
   return (
-    <Grid container style={{ justifyContent: 'center' }}>
-      <Grid item>
+    <Grid container style={{ display: "flex", alignItems: "center" }}>
+      <Grid item style={{ display: "flex", justifyContent: "center" }}>
         <IconButton
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
           children={<FirstPageIcon />}
         />
       </Grid>
-      <Grid item>
+      <Grid item style={{ display: "flex", justifyContent: "center" }}>
         <IconButton
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
           children={<NavigateBeforeIcon />}
         />
       </Grid>
-      <Grid item>
-        <span style={{ margin: '1em', color: 'rgba(145, 150, 153, 1)' }}>
+      <Grid item style={{ display: "flex", justifyContent: "center" }}>
+        <span
+          style={{
+            margin: "1em",
+            color: "rgba(145, 150, 153, 1)",
+          }}
+        >
           Page {pageIndex + 1} of {pageOptions.length}
         </span>
       </Grid>
-      <Grid item>
+      <Grid item style={{ display: "flex", justifyContent: "center" }}>
         <IconButton
           onClick={() => nextPage()}
           disabled={!canNextPage}
           children={<NavigateNextIcon />}
         />
       </Grid>
-      <Grid item>
+      <Grid item style={{ display: "flex", justifyContent: "center" }}>
         <IconButton
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}

@@ -1,11 +1,9 @@
 import { Tile } from "shared/components";
 
-const Index = () => {
-  return (
-    <Tile>
-      <p>1234</p>
-    </Tile>
-  );
-};
+const Index = () => (
+  <Tile>
+    <p>DUPA DUPA</p>
+  </Tile>
+);
 
 export default Index;

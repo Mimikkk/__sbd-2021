@@ -1,4 +1,4 @@
-import { List } from "shared/components/List";
+import { List } from "shared/components";
 import { useEffect } from "react";
 import { style } from "styles";
 import { SchedulerDragContainer } from "./components";
