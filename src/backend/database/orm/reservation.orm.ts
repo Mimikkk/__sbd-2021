@@ -4,6 +4,6 @@ import { translateFootprint } from "./footprint.orm";
 
 export const translateReservation = (raw: SqlResponse): Reservation.Entity => ({
   ...translateFootprint(raw),
-  start: new Date(),
-  end: new Date(),
+  start: new Date(raw.start),
+  end: new Date(raw.end),
 });
