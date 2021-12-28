@@ -14,5 +14,5 @@ export const selectWith =
 
     return Array.isArray(raw)
       ? map(raw, (item) => translate(item))
-      : translate(raw);
+      : (translate(raw) as any);
   };
