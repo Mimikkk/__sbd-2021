@@ -4,7 +4,7 @@ import { Client } from "@models";
 import { clientService } from "$/services";
 
 export const useClientList = () => {
-  const [Clients, Context] = useList<Client.Entity>(clientService.readAll);
+  const [Clients, Context] = useList<Client.Row>(clientService.readAll);
 
-  return [() => <Clients columns={[]} pagination />, Context] as const;
+  return [() => <Clients columns={columns} pagination />, Context] as const;
 };

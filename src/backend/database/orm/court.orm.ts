@@ -11,14 +11,6 @@ export const translateCourt = (raw: SqlResponse): Court.Entity => ({
   floor: raw.floor,
 });
 
-export const selectNewestCourtId = (): SqlCommand => `
-  select id, created_at from court order by created_at desc limit 1;
-`;
-
-export const selectLastUpdatedCourtId = (): SqlCommand => `
-  select id, updated_at from court order by updated_at desc limit 1;
-`;
-
 export const createCourt = (model: Court.Model): SqlCommand => `
   insert into court(name, floor, is_covered, is_under_maintenance)
   values ('${model.name}', '${model.floor}', ${model.isCovered}, ${model.isUnderMaintenance});

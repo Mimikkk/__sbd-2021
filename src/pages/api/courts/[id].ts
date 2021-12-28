@@ -1,5 +1,5 @@
-import { run, select } from "$sql";
-import { deleteCourt, selectLastUpdatedCourtId, updateCourt } from "$sql/orm";
+import { run, select, selectLastUpdatedFootprintId } from "$sql";
+import { deleteCourt, updateCourt } from "$sql/orm";
 import { StatusCode } from "@internal/enums";
 import { ApiFn, createHandler } from "$/api";
 
@@ -9,7 +9,7 @@ const put: ApiFn = async ({ request, response }) => {
 
   await run(updateCourt(id as string, body));
   const [{ id: updatedId, updated_at }] = await select(
-    selectLastUpdatedCourtId()
+    selectLastUpdatedFootprintId("client")
   );
 
   await response.status(StatusCode.Ok).json({

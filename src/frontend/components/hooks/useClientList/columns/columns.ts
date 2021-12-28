@@ -1,29 +1,35 @@
-import { BoolCell, Column } from "shared/components";
-import { EditCell } from "./EditCell";
-import { Court } from "@models";
+import { BoolCell, Column, OptionalCell } from "shared/components";
+import { Client } from "@models";
 
-export const columns: Column<Court.Row>[] = [
+export const columns: Column<Client.Row>[] = [
   {
     accessor: "name",
     Header: "Name",
   },
   {
-    accessor: "floor",
-    Header: "Floor type",
+    accessor: "surname",
+    Header: "Surname",
   },
   {
-    accessor: "isCovered",
-    Header: "Cover",
+    accessor: "address",
+    Header: "Address",
+  },
+  {
+    accessor: "birthdate",
+    Header: "Birthdate",
+  },
+  {
+    accessor: "phone",
+    Header: "Phone",
+  },
+  {
+    accessor: "email",
+    Header: "Email",
+    Cell: OptionalCell,
+  },
+  {
+    accessor: "isPermanent",
+    Header: "Is permanent",
     Cell: BoolCell,
-  },
-  {
-    accessor: "isUnderMaintenance",
-    Header: "Available",
-    Cell: BoolCell,
-  },
-  {
-    id: "edit",
-    Header: "Edit",
-    Cell: EditCell,
   },
 ];
