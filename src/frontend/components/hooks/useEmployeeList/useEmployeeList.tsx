@@ -4,7 +4,7 @@ import { Employee } from "@models";
 import { employeeService } from "$/services";
 
 export const useEmployeeList = () => {
-  const [Clients, Context] = useList<Employee.Row>(employeeService.readAll);
+  const [Items, Context] = useList<Employee.Row>(employeeService.readAll);
 
-  return [() => <Clients columns={columns} pagination />, Context] as const;
+  return [() => <Items columns={columns} pagination />, Context] as const;
 };

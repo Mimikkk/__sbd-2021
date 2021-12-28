@@ -3,7 +3,7 @@ import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
 import { ListResponse } from "$/services/types";
 
-const url = "api/item-reservations";
+const url = "api/items/reservations";
 
 export const itemReservationService = {
   create: (item: ItemReservation.Model) =>

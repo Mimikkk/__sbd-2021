@@ -49,6 +49,16 @@ const menus: MenuProps[] = [
     subtitle: "Court specifications",
     path: "courts",
   },
+  {
+    title: "Clients & Employees",
+    subtitle: "People stuck in this void",
+    path: "employees-and-clients",
+  },
+  {
+    title: "Reservations",
+    subtitle: "Item and court reservations 🎄",
+    path: "reservations",
+  },
 ];
 
 export const Navigator: VFC = () => {

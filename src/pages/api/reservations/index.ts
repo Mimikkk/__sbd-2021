@@ -6,7 +6,7 @@ import { StatusCode } from "@internal/enums";
 const get = async (response: NextApiResponse) => {
   const items = (await selectWith(
     translateReservation
-  )`select * from reservation order by created_at desc`) as [];
+  )`select * from ${"reservation"} order by created_at desc`) as [];
   return response.status(StatusCode.Ok).json({ items, total: items.length });
 };
 

@@ -1,5 +1,6 @@
 import { uuid } from "@internal/types";
 import { Reservation } from "./reservation.model";
+import { Item } from "@models/item.model";
 
 export module ItemReservation {
   export interface Model extends Reservation.Model {
@@ -7,4 +8,8 @@ export module ItemReservation {
     count: number;
   }
   export interface Entity extends Reservation.Entity, Model {}
+
+  export interface Row extends Entity {
+    item?: string;
+  }
 }

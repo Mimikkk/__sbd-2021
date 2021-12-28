@@ -7,5 +7,11 @@ export module CourtReservation {
     teacherId?: uuid;
     isLesson: boolean;
   }
+
   export interface Entity extends Reservation.Entity, Model {}
+
+  export interface Row extends Entity {
+    court?: string;
+    teacher?: string;
+  }
 }

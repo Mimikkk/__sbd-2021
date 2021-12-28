@@ -1,5 +1,9 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { createHandler } from "$/api";
+import { createListGet, createListPost } from "$/api/list.utils";
+import { createItemReservation, translateItemReservation } from "$sql/orm";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(StatusCode.Forbidden).end();
-};
+const name = "item_reservation";
+export default createHandler({
+  get: createListGet({ name, translateFn: translateItemReservation }),
+  post: createListPost({ name, createFn: createItemReservation }),
+});
