@@ -1,3 +1,3 @@
 export * from "./RequestStatus";
-export * from "./RequestType";
+export * from "./RequestMethod";
 export * from "./StatusCode";
