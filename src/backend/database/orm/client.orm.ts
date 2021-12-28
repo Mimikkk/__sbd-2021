@@ -28,5 +28,9 @@ export const updateClient = (id: uuid, model: Client.Model): SqlCommand => `
       birthdate    = '${model.birthdate}',
       email        = ${model.email ? `'${model.email}'` : null},
       is_permanent = ${model.isPermanent}
-  where id = ${id};
+  where id = '${id}';
+`;
+
+export const deleteClient = (id: uuid): SqlCommand => `
+  delete from client where id = '${id}';
 `;

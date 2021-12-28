@@ -1,4 +1,4 @@
-import { Client, Court } from "@models";
+import { Client } from "@models";
 import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
 import { ListResponse } from "$/services/types";
@@ -6,7 +6,7 @@ import { ListResponse } from "$/services/types";
 const url = "api/clients";
 
 export const clientService = {
-  create: (item: Court.Model) =>
+  create: (item: Client.Model) =>
     servicant.create({ url, item, successMessage: "Added a new client" }),
 
   readAll: () => servicant.read<ListResponse<Client.Entity>>({ url }),

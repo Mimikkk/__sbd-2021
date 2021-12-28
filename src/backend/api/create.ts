@@ -21,7 +21,7 @@ export const createHandler = ({ get, post, put, patch, ...props }: Props) => {
     isNil
   );
 
-  return (request: NextApiRequest, response: NextApiResponse) =>
-    api[request.method as string]?.({ request, response }) ||
+  return async (request: NextApiRequest, response: NextApiResponse) =>
+    (await api[request.method as string]?.({ request, response })) ||
     response.status(StatusCode.Forbidden).end();
 };
