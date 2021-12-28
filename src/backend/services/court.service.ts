@@ -7,7 +7,7 @@ const url = "api/courts";
 
 export const courtService = {
   create: (item: Court.Model) =>
-    servicant.create({ url, item, successMessage: "Created court" }),
+    servicant.create({ url, item, successMessage: "Added a new court" }),
 
   readAll: () => servicant.read<ListResponse<Court.Entity>>({ url }),
 
@@ -16,9 +16,9 @@ export const courtService = {
       url,
       item,
       id,
-      successMessage: "Updated court",
+      successMessage: "Updated a court",
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Deleted court" }),
+    servicant.delete({ url, id, successMessage: "Removed a court" }),
 };
