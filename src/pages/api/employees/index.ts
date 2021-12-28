@@ -1,6 +1,9 @@
-import { NextApiResponse, NextApiRequest } from "next";
-import { StatusCode } from "@internal/enums";
+import { createHandler } from "$/api";
+import { createListGet, createListPost } from "$/api/list.utils";
+import { translateEmployee, createEmployee } from "$sql/orm";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(StatusCode.Forbidden).end();
-};
+const name = "employee";
+export default createHandler({
+  get: createListGet({ name, translateFn: translateEmployee }),
+  post: createListPost({ name, createFn: createEmployee }),
+});

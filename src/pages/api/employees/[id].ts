@@ -1,6 +1,8 @@
-import { NextApiResponse, NextApiRequest } from "next";
-import { StatusCode } from "@internal/enums";
+import { createHandler } from "$/api";
+import { createListDelete, createListPut } from "$/api/list.utils";
+import { deleteEmployee, updateEmployee } from "$sql/orm";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(StatusCode.Forbidden).end();
-};
+export default createHandler({
+  put: createListPut({ updateFn: updateEmployee }),
+  delete: createListDelete({ deleteFn: deleteEmployee }),
+});
