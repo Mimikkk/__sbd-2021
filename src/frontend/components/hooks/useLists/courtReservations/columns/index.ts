@@ -1,1 +1,1 @@
-export * from "./columns";
+export * from "components/hooks/useLists/courtReservations/columns/columns";

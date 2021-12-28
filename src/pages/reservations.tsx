@@ -1,33 +1,70 @@
 import { Button, Tile } from "shared/components";
-import { courtReservationService, itemReservationService } from "@services";
+import {
+  courtReservationService,
+  courtService,
+  employeeService,
+  itemReservationService,
+  itemService,
+} from "@services";
 import { useListContext } from "shared/contexts";
-import { CourtReservation, ItemReservation } from "@models";
+import {
+  Court,
+  CourtReservation,
+  Employee,
+  Item,
+  ItemReservation,
+} from "@models";
 import faker from "faker";
 import {
   useCourtReservationList,
   useItemReservationList,
 } from "components/hooks";
 import { addDays } from "date-fns";
+import { useEffect, useState } from "react";
+import { sample } from "lodash";
 
 export const CreateCourtReservationButton = () => {
+  const [courts, setCourts] = useState<Court.Entity[]>([]);
+
+  useEffect(() => {
+    courtService.readAll().then(({ items }) => setCourts(items));
+  }, []);
+
   const { refresh } = useListContext();
 
   return (
     <Button
-      title={"create random"}
+      title={`create ${courts.length} random`}
       onClick={async () => {
-        await courtReservationService.create({
-          courtId: faker.lorem.word(),
+        const model = {
+          courtId: sample(courts)!.id,
+          teacherId: null,
           start: new Date(),
           end: addDays(new Date(), 1),
           isLesson: faker.datatype.boolean(),
-        });
+        };
+
+        await courtReservationService.create(model);
         refresh();
       }}
     />
   );
 };
 export const EditCourtReservationButton = () => {
+  const [courts, setCourts] = useState<Court.Entity[]>([]);
+  const [teachers, setTeachers] = useState<Employee.Entity[]>([]);
+
+  useEffect(() => {
+    courtService.readAll().then(({ items }) => setCourts(items));
+  }, []);
+  useEffect(() => {
+    employeeService
+      .readAll()
+      .then(({ items }) =>
+        setTeachers(items.filter(({ isTeacher }) => isTeacher))
+      );
+  }, []);
+
   const {
     refresh,
     items: [item],
@@ -35,14 +72,13 @@ export const EditCourtReservationButton = () => {
 
   return (
     <Button
-      title={"update random"}
+      title={`create ${courts.length} ${teachers.length} random`}
       onClick={async () => {
         await courtReservationService.update(item.id, {
-          courtId: faker.lorem.word(),
-          teacherId: faker.lorem.word(),
+          courtId: sample(courts)!.id,
+          teacherId: sample(teachers)!.id,
           start: new Date(),
           end: addDays(new Date(), 1),
-          isLesson: faker.datatype.boolean(),
         });
         refresh();
       }}
@@ -66,14 +102,20 @@ export const DeleteCourtReservationButton = () => {
 };
 
 export const CreateItemReservationButton = () => {
+  const [items, setItems] = useState<Item.Entity[]>([]);
+
+  useEffect(() => {
+    itemService.readAll().then(({ items }) => setItems(items));
+  }, []);
+
   const { refresh } = useListContext();
 
   return (
     <Button
-      title={"create random"}
+      title={`create ${items.length} random`}
       onClick={async () => {
         await itemReservationService.create({
-          itemId: faker.lorem.word(),
+          itemId: sample(items)!.id,
           start: new Date(),
           end: addDays(new Date(), 1),
           count: faker.datatype.number({ min: 1, max: 10 }),
@@ -84,6 +126,12 @@ export const CreateItemReservationButton = () => {
   );
 };
 export const EditItemReservationButton = () => {
+  const [items, setItems] = useState<Item.Entity[]>([]);
+
+  useEffect(() => {
+    itemService.readAll().then(({ items }) => setItems(items));
+  }, []);
+
   const {
     refresh,
     items: [item],
@@ -91,10 +139,10 @@ export const EditItemReservationButton = () => {
 
   return (
     <Button
-      title={"update random"}
+      title={`create ${items.length} random`}
       onClick={async () => {
         await itemReservationService.update(item.id, {
-          itemId: faker.lorem.word(),
+          itemId: sample(items)!.id,
           start: new Date(),
           end: addDays(new Date(), 1),
           count: faker.datatype.number({ min: 1, max: 10 }),

@@ -8,19 +8,17 @@ export const translateCourtReservation = (
 ): CourtReservation.Entity => ({
   ...translateReservation(raw),
   teacherId: raw.teacher_id,
-  isLesson: raw.is_lesson,
   courtId: raw.court_id,
 });
 
 export const createCourtReservation = (
   model: CourtReservation.Model
 ): SqlCommand => `
-  insert into court_reservation(start, "end", court_id, teacher_id, is_lesson)
+  insert into court_reservation(start, "end", court_id, teacher_id)
   values ('${model.start}',
           '${model.end}',
           '${model.courtId}',
-          '${model.teacherId}',
-          ${model.isLesson});
+          ${model.teacherId ? `'${model.teacherId}'` : null});
 `;
 
 export const updateCourtReservation = (
@@ -31,8 +29,7 @@ export const updateCourtReservation = (
   set start      = '${model.start}',
       "end"      = '${model.end}',
       court_id   = '${model.courtId}',
-      teacher_id = '${model.teacherId}',
-      is_lesson  = ${model.isLesson}
+      teacher_id = ${model.teacherId ? `'${model.teacherId}'` : null}
   where id = '${id}';
 `;
 

@@ -14,7 +14,7 @@ export const translateItemReservation = (
 export const createItemReservation = (
   model: ItemReservation.Model
 ): SqlCommand => `
-  insert into court_reservation(start, "end", court_id, teacher_id, is_lesson)
+  insert into item_reservation(start, "end", item_id, count)
   values ('${model.start}',
           '${model.end}',
           '${model.itemId}',
