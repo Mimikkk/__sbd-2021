@@ -7,7 +7,7 @@ const url = "api/items";
 
 export const itemService = {
   create: (item: Item.Model) =>
-    servicant.create({ url, item, successMessage: "Created a new item" }),
+    servicant.create({ url, item, successMessage: "Created a new items" }),
 
   readAll: () => servicant.read<ListResponse<Item.Entity>>({ url }),
 
@@ -16,9 +16,9 @@ export const itemService = {
       url,
       item,
       id,
-      successMessage: "Updated an item",
+      successMessage: "Updated an items",
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed an item" }),
+    servicant.delete({ url, id, successMessage: "Removed an items" }),
 };

@@ -1,6 +1,5 @@
 import { uuid } from "@internal/types";
 import { Reservation } from "./reservation.model";
-import { Item } from "@models/item.model";
 
 export module ItemReservation {
   export interface Model extends Reservation.Model {

@@ -1,5 +1,5 @@
 import { SqlCommand, SqlResponse } from "$sql/types";
-import { Client, Item } from "@models";
+import { Item } from "@models";
 import { translateFootprint } from "./footprint.orm";
 import { uuid } from "@internal/types";
 
@@ -12,15 +12,15 @@ export const translateItem = (raw: SqlResponse): Item.Entity => ({
 
 export const createItem = (model: Item.Model): SqlCommand => `
   insert into item(name, count, description)
-  values (${model.name}, ${model.count}, ${model.description})
+  values ('${model.name}', ${model.count}, '${model.description}')
 `;
 
 export const updateItem = (id: uuid, model: Item.Model): SqlCommand => `
   update item
-  set name        = ${model.name},
+  set name        = '${model.name}',
       count       = ${model.count},
-      description = ${model.description}
-  where id = ${id};
+      description = '${model.description}'
+  where id = '${id}';
 `;
 
 export const deleteItem = (id: uuid): SqlCommand => `

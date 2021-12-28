@@ -1,17 +1,12 @@
 import { Button, Tile } from "shared/components";
-import {
-  clientService,
-  courtReservationService,
-  employeeService,
-  itemReservationService,
-} from "@services";
+import { courtReservationService, itemReservationService } from "@services";
 import { useListContext } from "shared/contexts";
-import { Client, CourtReservation, Employee, ItemReservation } from "@models";
+import { CourtReservation, ItemReservation } from "@models";
 import faker from "faker";
-import { useClientList } from "components/hooks/useClientList";
-import { useEmployeeList } from "components/hooks/useEmployeeList";
-import { useCourtReservationList } from "components/hooks/useCourtReservationList";
-import { useItemReservationList } from "components/hooks/useItemReservationList";
+import {
+  useCourtReservationList,
+  useItemReservationList,
+} from "components/hooks";
 import { addDays } from "date-fns";
 
 export const CreateCourtReservationButton = () => {

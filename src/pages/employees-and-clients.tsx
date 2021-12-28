@@ -3,8 +3,7 @@ import { clientService, employeeService } from "@services";
 import { useListContext } from "shared/contexts";
 import { Client, Employee } from "@models";
 import faker from "faker";
-import { useClientList } from "components/hooks/useClientList";
-import { useEmployeeList } from "components/hooks/useEmployeeList";
+import { useClientList, useEmployeeList } from "components/hooks";
 
 export const CreateClientButton = () => {
   const { refresh } = useListContext();

@@ -1,5 +1,5 @@
-import { BoolCell, Column, OptionalCell } from "shared/components";
-import { Employee, Item, ItemReservation } from "@models";
+import { Column, OptionalCell } from "shared/components";
+import { Item } from "@models";
 
 export const columns: Column<Item.Row>[] = [
   {

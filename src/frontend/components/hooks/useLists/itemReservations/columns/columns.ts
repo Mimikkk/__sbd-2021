@@ -20,6 +20,6 @@ export const columns: Column<ItemReservation.Row>[] = [
   },
   {
     accessor: "itemId",
-    Header: "Item", // TODO: Link to item
+    Header: "Item", // TODO: Link to items
   },
 ];
