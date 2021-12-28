@@ -9,8 +9,11 @@ export const select = (
 
 export const selectWith =
   <T = any>(translate: (item: SqlResponse) => T) =>
-  async (str: TemplateStringsArray): Promise<T | T[]> => {
-    const raw = await select(str);
+  async (
+    [first, second]: TemplateStringsArray,
+    name: string
+  ): Promise<T | T[]> => {
+    const raw = await select(`${first}${name}${second}`);
 
     return Array.isArray(raw)
       ? map(raw, (item) => translate(item))
