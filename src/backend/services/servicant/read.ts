@@ -2,7 +2,7 @@ import { ApiReadProps } from "./types";
 import axios from "axios";
 import { handleError, handleSuccess } from "./utils";
 
-export const read = async <T>({
+export const read = <T>({
   url,
   id,
   successMessage,
