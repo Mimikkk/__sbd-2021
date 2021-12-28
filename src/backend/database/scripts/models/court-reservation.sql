@@ -3,9 +3,7 @@
 create table court_reservation
 (
   primary key (id),
-  court_id   uuid    not null,
-  teacher_id uuid    null default null,
-  is_lesson  boolean not null,
-  foreign key (court_id) references court (id),
-  foreign key (teacher_id) references employee (id)
+  court_id   uuid    not null references court (id),
+  teacher_id uuid    null default null references employee (id),
+  is_lesson  boolean not null
 ) inherits (reservation);
