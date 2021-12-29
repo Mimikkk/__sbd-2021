@@ -1,28 +1,31 @@
-import { SqlCommand, SqlResponse } from "$sql/types";
 import { Item } from "@models";
-import { translateFootprint } from "./footprint.orm";
-import { uuid } from "@internal/types";
+import { footprintTranslation } from "./footprint.orm";
+import {
+  createCreate,
+  createDelete,
+  createTranslation,
+  createUpdate,
+  num,
+  SqlMap,
+  str,
+  TranslationMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateItem = (raw: SqlResponse): Item.Entity => ({
-  ...translateFootprint(raw),
-  description: raw.description,
-  count: raw.count,
-  name: raw.name,
-});
+const table = "item";
+const translations: TranslationMap<Item.Model> = {
+  name: str,
+  count: num,
+  description: str,
+};
+const sql: SqlMap<Item.Entity> = {
+  ...footprintTranslation,
+  name: identity,
+  description: identity,
+  count: identity,
+};
 
-export const createItem = (model: Item.Model): SqlCommand => `
-  insert into item(name, count, description)
-  values ('${model.name}', ${model.count}, '${model.description}')
-`;
-
-export const updateItem = (id: uuid, model: Item.Model): SqlCommand => `
-  update item
-  set name        = '${model.name}',
-      count       = ${model.count},
-      description = '${model.description}'
-  where id = '${id}';
-`;
-
-export const deleteItem = (id: uuid): SqlCommand => `
-  delete from item where id = '${id}';
-`;
+export const translateItem = createTranslation(sql);
+export const createItem = createCreate(table, translations);
+export const updateItem = createUpdate(table, translations);
+export const deleteItem = createDelete(table);

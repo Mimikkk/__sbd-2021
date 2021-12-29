@@ -1,38 +1,31 @@
-import { SqlCommand, SqlResponse } from "$sql/types";
 import { CourtReservation } from "@models";
-import { translateReservation } from "./reservation.orm";
-import { uuid } from "@internal/types";
+import { reservationTranslation } from "./reservation.orm";
+import {
+  createCreate,
+  createDelete,
+  createUpdate,
+  nil,
+  str,
+  TranslationMap,
+  SqlMap,
+  createTranslation,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateCourtReservation = (
-  raw: SqlResponse
-): CourtReservation.Entity => ({
-  ...translateReservation(raw),
-  teacherId: raw.teacher_id,
-  courtId: raw.court_id,
-});
+const sql: SqlMap<CourtReservation.Entity> = {
+  ...reservationTranslation,
+  teacherId: identity,
+  courtId: identity,
+};
+const translations: TranslationMap<CourtReservation.Model> = {
+  start: str,
+  end: str,
+  courtId: str,
+  teacherId: nil,
+};
+const table = "court_reservation";
 
-export const createCourtReservation = (
-  model: CourtReservation.Model
-): SqlCommand => `
-  insert into court_reservation(start, "end", court_id, teacher_id)
-  values ('${model.start}',
-          '${model.end}',
-          '${model.courtId}',
-          ${model.teacherId ? `'${model.teacherId}'` : null});
-`;
-
-export const updateCourtReservation = (
-  id: uuid,
-  model: CourtReservation.Model
-): SqlCommand => `
-  update court_reservation
-  set start      = '${model.start}',
-      "end"      = '${model.end}',
-      court_id   = '${model.courtId}',
-      teacher_id = ${model.teacherId ? `'${model.teacherId}'` : null}
-  where id = '${id}';
-`;
-
-export const deleteCourtReservation = (id: uuid): SqlCommand => `
-  delete from court_reservation where id = '${id}';
-`;
+export const translateCourtReservation = createTranslation(sql);
+export const createCourtReservation = createCreate(table, translations);
+export const updateCourtReservation = createUpdate(table, translations);
+export const deleteCourtReservation = createDelete(table);

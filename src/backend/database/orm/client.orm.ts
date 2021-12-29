@@ -1,36 +1,34 @@
-import { SqlCommand, SqlResponse } from "$sql/types";
 import { Client } from "@models";
-import { translatePerson } from "$sql/orm/person.orm";
-import { uuid } from "@internal/types";
+import { personTranslation } from "$sql/orm/person.orm";
+import {
+  createCreate,
+  createDelete,
+  createTranslation,
+  createUpdate,
+  nil,
+  num,
+  SqlMap,
+  str,
+  TranslationMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateClient = (raw: SqlResponse): Client.Entity => ({
-  ...translatePerson(raw),
-  isPermanent: raw.is_permanent,
-});
+const table = "client";
+const translations: TranslationMap<Client.Model> = {
+  ...personTranslation,
+  isPermanent: identity,
+};
+const sql: SqlMap<Client.Model> = {
+  name: str,
+  isPermanent: num,
+  surname: str,
+  address: str,
+  phone: str,
+  birthdate: str,
+  email: nil,
+};
 
-export const createClient = (model: Client.Model): SqlCommand => `
-  insert into client(name, surname, address, phone, birthdate, email, is_permanent)
-  values ('${model.name}',
-          '${model.surname}',
-          '${model.address}',
-          '${model.phone}',
-          '${model.birthdate}',
-          ${model.email ? `'${model.email}'` : null},
-          ${model.isPermanent});
-`;
-
-export const updateClient = (id: uuid, model: Client.Model): SqlCommand => `
-  update client
-  set name         = '${model.name}',
-      surname      = '${model.surname}',
-      address      = '${model.address}',
-      phone        = '${model.phone}',
-      birthdate    = '${model.birthdate}',
-      email        = ${model.email ? `'${model.email}'` : null},
-      is_permanent = ${model.isPermanent}
-  where id = '${id}';
-`;
-
-export const deleteClient = (id: uuid): SqlCommand => `
-  delete from client where id = '${id}';
-`;
+export const translateClient = createTranslation(sql);
+export const createClient = createCreate(table, translations);
+export const updateClient = createUpdate(table, translations);
+export const deleteClient = createDelete("client");

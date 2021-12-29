@@ -1,11 +1,34 @@
-import { SqlResponse } from "$sql/types";
 import { Transaction } from "@models";
-import { translateFootprint } from "./footprint.orm";
+import { footprintTranslation } from "./footprint.orm";
+import {
+  createCreate,
+  createTranslation,
+  createUpdate,
+  createDelete,
+  nil,
+  num,
+  SqlMap,
+  str,
+  TranslationMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateTransaction = (raw: SqlResponse): Transaction.Entity => ({
-  ...translateFootprint(raw),
-  cost: raw.cost,
-  clientId: raw.client_id,
-  discountId: raw.client_id,
-  reservationId: raw.client_id,
-});
+const sql: SqlMap<Transaction.Entity> = {
+  ...footprintTranslation,
+  cost: identity,
+  clientId: identity,
+  discountId: identity,
+  reservationId: identity,
+};
+const translations: TranslationMap<Transaction.Model> = {
+  cost: num,
+  reservationId: str,
+  clientId: str,
+  discountId: nil,
+};
+const table = "transaction";
+
+export const translateTransaction = createTranslation(sql);
+export const createTransaction = createCreate(table, translations);
+export const updateTransaction = createUpdate(table, translations);
+export const deleteTransaction = createDelete(table);

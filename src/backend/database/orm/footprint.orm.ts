@@ -1,8 +1,9 @@
-import { SqlResponse } from "$sql/types";
 import { BaseModel } from "@models";
+import { SqlMap } from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateFootprint = (raw: SqlResponse): BaseModel => ({
-  id: raw.id,
-  createdAt: new Date(raw.created_at),
-  updatedAt: raw.updated_at && new Date(raw.updated_at),
-});
+export const footprintTranslation: SqlMap<BaseModel> = {
+  id: identity,
+  createdAt: (value) => new Date(value),
+  updatedAt: (value) => value && new Date(value),
+};
