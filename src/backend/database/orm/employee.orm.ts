@@ -11,12 +11,10 @@ import {
   str,
   TranslationMap,
 } from "$sql/orm/utils";
-import { footprintTranslation } from "$sql/orm/footprint.orm";
 import { identity } from "lodash";
 
 const table = "employee";
 const translations: TranslationMap<Employee.Model> = {
-  ...footprintTranslation,
   name: str,
   surname: str,
   address: str,

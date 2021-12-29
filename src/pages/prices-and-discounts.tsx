@@ -3,7 +3,7 @@ import { discountService, priceService } from "@services";
 import { useListContext } from "shared/contexts";
 import { Discount, Price } from "@models";
 import faker from "faker";
-import { useTransactionList, useDiscountList } from "components/hooks";
+import { useDiscountList, usePriceList } from "components/hooks";
 
 export const CreateItemButton = () => {
   const { refresh } = useListContext();
@@ -112,18 +112,11 @@ export const DeleteDiscountButton = () => {
 };
 
 export default () => {
+  const [PriceList, PriceListContext] = usePriceList();
   const [DiscountList, DiscountListContext] = useDiscountList();
-  const [PriceList, PriceListContext] = useTransactionList();
 
   return (
     <Tile>
-      <PriceListContext>
-        <p>Prices</p>
-        <PriceList />
-        <CreateItemButton />
-        <EditItemButton />
-        <DeleteItemButton />
-      </PriceListContext>
       <DiscountListContext>
         <p>Discounts</p>
         <DiscountList />
@@ -131,6 +124,13 @@ export default () => {
         <EditDiscountButton />
         <DeleteDiscountButton />
       </DiscountListContext>
+      <PriceListContext>
+        <p>Prices</p>
+        <PriceList />
+        <CreateItemButton />
+        <EditItemButton />
+        <DeleteItemButton />
+      </PriceListContext>
     </Tile>
   );
 };

@@ -14,11 +14,11 @@ import {
 import { identity } from "lodash";
 
 const table = "client";
-const translations: TranslationMap<Client.Model> = {
+const sql: SqlMap<Client.Entity> = {
   ...personTranslation,
   isPermanent: identity,
 };
-const sql: SqlMap<Client.Model> = {
+const translations: TranslationMap<Client.Model> = {
   name: str,
   isPermanent: num,
   surname: str,
@@ -31,4 +31,4 @@ const sql: SqlMap<Client.Model> = {
 export const translateClient = createTranslation(sql);
 export const createClient = createCreate(table, translations);
 export const updateClient = createUpdate(table, translations);
-export const deleteClient = createDelete("client");
+export const deleteClient = createDelete(table);

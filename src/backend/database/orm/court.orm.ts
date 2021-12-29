@@ -5,6 +5,7 @@ import {
   createDelete,
   createTranslation,
   createUpdate,
+  num,
   SqlMap,
   str,
   TranslationMap,
@@ -20,8 +21,8 @@ const sql: SqlMap<Court.Entity> = {
 };
 const translations: TranslationMap<Court.Model> = {
   name: str,
-  isUnderMaintenance: str,
-  isCovered: str,
+  isUnderMaintenance: num,
+  isCovered: num,
   floor: str,
 };
 const table = "court";

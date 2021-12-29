@@ -36,6 +36,9 @@ export const createListPost =
   async ({ request, response }) => {
     const { body } = request;
 
+    console.log(body);
+    console.log(createFn(body));
+
     await run(createFn(body));
 
     const [{ id, created_at }] = await select(selectNewestFootprintId(name));

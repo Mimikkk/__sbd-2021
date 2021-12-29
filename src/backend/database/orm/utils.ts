@@ -12,43 +12,44 @@ export type SqlMap<T extends object> = Record<
   (value: SqlResponse) => T[keyof T]
 >;
 
-export const str = (value: SqlResponse) => `${value}`;
-export const nil = (value: SqlResponse) => (value ? str(value) : null);
+export const str = (value: SqlResponse) => `'${value}'`;
+export const nil = (value: SqlResponse) => (value ? str(value) : "null");
 export const num = (value: SqlResponse) => value;
+export const quote = (value: SqlResponse) => `"${value}"`;
 
+type Pair = [any, any];
 export const createTranslation =
   <T extends object>(fields: SqlMap<T>) =>
-  (entity: SqlResponse): T =>
-    fromPairs(
-      entries(fields).map(([field, fn]) => [
-        field,
-        (fn as any)(entity[snakeCase(field)]),
-      ])
-    ) as any;
+  (entity: SqlResponse): T => {
+    const result = ([field, fn]: Pair) => [field, fn(entity[snakeCase(field)])];
+
+    return fromPairs(entries(fields).map(result)) as T;
+  };
 
 export const createCreate =
   <T extends object>(table: string, translations: TranslationMap<T>) =>
-  (model: T) =>
-    `
-        insert into ${table}(${keys(translations).map(snakeCase).join(", ")})
-        values (${entries(translations)
-          .map(([field, fn]) => (fn as any)(model[field as keyof T]))
-          .join(", ")});
+  (model: T): SqlCommand => {
+    const fields = keys(translations).map(snakeCase).map(quote).join(", ");
+    const setter = ([field, fn]: Pair) => fn(model[field as keyof T]);
+
+    return `
+        insert into ${table}(${fields})
+        values (${entries(translations).map(setter).join(", ")});
       `;
+  };
 
 export const createUpdate =
   <T extends object>(table: string, translations: TranslationMap<T>) =>
-  (id: uuid, model: T) =>
-    `
+  (id: uuid, model: T): SqlCommand => {
+    const setter = ([field, fn]: Pair) =>
+      `${quote(snakeCase(field))} = ${fn(model[field as keyof T])}`;
+
+    return `
         update ${table}
-        set ${entries(translations)
-          .map(
-            ([field, fn]) =>
-              `${field} = ${(fn as any)(model[field as keyof T])}`
-          )
-          .join(", ")}
+        set ${entries(translations).map(setter).join(", ")}
         where id = ${str(id)};
       `;
+  };
 
 export const createDelete =
   (table: string) =>
