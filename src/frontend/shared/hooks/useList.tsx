@@ -55,11 +55,11 @@ export const useList = <Item extends BaseModel, Params = undefined>(
 
   const ContextProvider = useCallback(
     ({ children }) => (
-      <ListContext.Provider value={{ refresh }}>
+      <ListContext.Provider value={{ refresh, items }}>
         {children}
       </ListContext.Provider>
     ),
-    []
+    [items]
   );
 
   return [ListComponent, ContextProvider];

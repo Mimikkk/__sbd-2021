@@ -1,5 +1,9 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { createHandler } from "$/api";
+import { createClient, translateClient } from "$sql/orm";
+import { createListGet, createListPost } from "$/api/list.utils";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(405).end();
-};
+const name = "client";
+export default createHandler({
+  get: createListGet({ name, translateFn: translateClient }),
+  post: createListPost({ name, createFn: createClient }),
+});

@@ -8,6 +8,7 @@
 package-lock.json
 /.idea
 /**/.next
+/configs/.env
 
 # Build results
 [Dd]ebug/

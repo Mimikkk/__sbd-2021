@@ -1,5 +1,9 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { createHandler } from "$/api";
+import { createListGet, createListPost } from "$/api/list.utils";
+import { createDiscount, translateDiscount } from "$sql/orm";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(405).end();
-};
+const name = "discount";
+export default createHandler({
+  get: createListGet({ name, translateFn: translateDiscount }),
+  post: createListPost({ name, createFn: createDiscount }),
+});

@@ -1,11 +1,31 @@
-import { SqlResponse } from "$sql/types";
 import { ItemReservation } from "@models";
-import { translateReservation } from "./reservation.orm";
+import {
+  createCreate,
+  createDelete,
+  createTranslation,
+  createUpdate,
+  num,
+  str,
+  TranslationMap,
+  SqlMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
+import { reservationTranslation } from "$sql/orm/reservation.orm";
 
-export const translateItemReservation = (
-  raw: SqlResponse
-): ItemReservation.Entity => ({
-  ...translateReservation(raw),
-  itemId: raw.item_id,
-  count: raw.count,
-});
+const table = "item_reservation";
+const sql: SqlMap<ItemReservation.Entity> = {
+  ...reservationTranslation,
+  itemId: identity,
+  count: identity,
+};
+const translations: TranslationMap<ItemReservation.Model> = {
+  itemId: str,
+  count: num,
+  start: str,
+  end: str,
+};
+
+export const translateItemReservation = createTranslation(sql);
+export const createItemReservation = createCreate(table, translations);
+export const updateItemReservation = createUpdate(table, translations);
+export const deleteItemReservation = createDelete(table);

@@ -1,10 +1,31 @@
-import { SqlResponse } from "$sql/types";
 import { Item } from "@models";
-import { translateFootprint } from "./footprint.orm";
+import { footprintTranslation } from "./footprint.orm";
+import {
+  createCreate,
+  createDelete,
+  createTranslation,
+  createUpdate,
+  num,
+  SqlMap,
+  str,
+  TranslationMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateItem = (raw: SqlResponse): Item.Entity => ({
-  ...translateFootprint(raw),
-  description: raw.description,
-  count: raw.count,
-  name: raw.name,
-});
+const table = "item";
+const translations: TranslationMap<Item.Model> = {
+  name: str,
+  count: num,
+  description: str,
+};
+const sql: SqlMap<Item.Entity> = {
+  ...footprintTranslation,
+  name: identity,
+  description: identity,
+  count: identity,
+};
+
+export const translateItem = createTranslation(sql);
+export const createItem = createCreate(table, translations);
+export const updateItem = createUpdate(table, translations);
+export const deleteItem = createDelete(table);

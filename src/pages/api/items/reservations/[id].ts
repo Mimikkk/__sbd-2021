@@ -1,5 +1,8 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { createHandler } from "$/api";
+import { createListDelete, createListPut } from "$/api/list.utils";
+import { deleteItemReservation, updateItemReservation } from "$sql/orm";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
-  return response.status(405).end();
-};
+export default createHandler({
+  put: createListPut({ updateFn: updateItemReservation }),
+  delete: createListDelete({ deleteFn: deleteItemReservation }),
+});

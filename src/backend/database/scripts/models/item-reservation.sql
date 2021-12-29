@@ -3,7 +3,6 @@
 create table item_reservation
 (
   primary key (id),
-  item_id uuid not null,
-  count   uint not null,
-  foreign key (item_id) references item (id)
+  item_id uuid not null references item (id),
+  count   uint not null
 ) inherits (reservation);
