@@ -34,7 +34,7 @@ export const CreateCourtReservationButton = () => {
 
   return (
     <Button
-      title={`create ${courts.length} random`}
+      title={`create c:${courts.length} random`}
       onClick={async () => {
         const model = {
           courtId: sample(courts)!.id,

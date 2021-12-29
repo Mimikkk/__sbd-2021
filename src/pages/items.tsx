@@ -1,5 +1,5 @@
 import { Button, Tile } from "shared/components";
-import { courtReservationService, itemService } from "@services";
+import { itemService } from "@services";
 import { useListContext } from "shared/contexts";
 import { Item } from "@models";
 import faker from "faker";
@@ -52,7 +52,7 @@ export const DeleteItemButton = () => {
   return (
     <Button
       title={"delete random"}
-      onClick={() => courtReservationService.delete(item.id).then(refresh)}
+      onClick={() => itemService.delete(item.id).then(refresh)}
       disabled={!item}
     />
   );
