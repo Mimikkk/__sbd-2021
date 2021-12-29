@@ -29,8 +29,18 @@ const menus: MenuProps[] = [
   },
   {
     title: "Items",
-    subtitle: "Item",
+    subtitle: "предметы и их стоимость",
     path: "items",
+  },
+  {
+    title: "Prices & Discounts",
+    subtitle: "предметы и цены",
+    path: "prices-and-discounts",
+  },
+  {
+    title: "Transactions",
+    subtitle: "супер круто",
+    path: "transactions",
   },
 ];
 
