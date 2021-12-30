@@ -6,6 +6,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
+import WorkIcon from '@mui/icons-material/Work';
 import { Menu, MenuProps } from "./Menu";
 import { useFactory } from "shared/hooks";
 import { style } from "styles";
@@ -24,10 +25,16 @@ const menus: MenuProps[] = [
     path: "reservations",
     icon: <ListIcon />,
   },
-
   {
-    title: "Clients & Employees",
-    path: "employees-and-clients",
+    title: "Employees",
+    subtitle: "List of employees",
+    path: "employees",
+    icon: <WorkIcon />,
+  },
+  {
+    title: "Clients",
+    subtitle: "List of clients",
+    path: "clients",
     icon: <PersonIcon />,
   },
   {
@@ -39,6 +46,11 @@ const menus: MenuProps[] = [
     title: "Equipment",
     path: "items",
     icon: <SportsTennisIcon />,
+  },
+  {
+    title: "Equipment reservations",
+    path: "reservations",
+    icon: <ListIcon />,
   },
   {
     title: "Transactions",

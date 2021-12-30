@@ -1,5 +1,6 @@
 import { Column } from "shared/components";
 import { Discount } from "@models";
+import { EditCell } from '../../courts/columns/EditCell';
 
 export const columns: Column<Discount.Row>[] = [
   {
@@ -13,5 +14,10 @@ export const columns: Column<Discount.Row>[] = [
   {
     accessor: "description",
     Header: "Description",
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
   },
 ];

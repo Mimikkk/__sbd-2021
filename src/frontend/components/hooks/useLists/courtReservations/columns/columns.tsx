@@ -1,12 +1,13 @@
-import { BoolCell, Column, OptionalCell } from "shared/components";
+import { BoolCell, Column, OptionalCell } from 'shared/components';
 import { CourtReservation } from "@models";
 import { CellProps } from "react-table";
 import { EditCell } from './EditCell';
 
 export const columns: Column<CourtReservation.Row>[] = [
+
   {
     accessor: "courtId",
-    Header: "Court", // TODO link to court
+    Header: "Court",
   },
   {
     accessor: "start",
@@ -25,8 +26,8 @@ export const columns: Column<CourtReservation.Row>[] = [
   },
   {
     accessor: "teacherId",
-    Header: "Teacher", // TODO: Link to teacher
-    Cell: OptionalCell,
+    Header: "Teacher",
+    Cell: OptionalCell
   },
   {
     id: "edit",

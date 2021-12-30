@@ -16,9 +16,8 @@ const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
     start: new Date(),
     end: new Date(),
-    isLesson: false,
-    courtId: 'aaa',
-    teacherId: null,
+    courtId: "",
+    teacherId: "",
   } as T);
 
 
@@ -51,7 +50,6 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
   }, []);
 
 
-
   return (
     <Form
       validationSchema={courtReservationSchema}
@@ -73,12 +71,6 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
         <Grid item xs={12}>
           <TimePicker date={date} name={"end"} label={"End time"}/>
         </Grid>
-        <Grid item xs={12}>
-          <SelectField name={"isLesson"} label={"Lesson"} options={[
-            { value: true, label: "Yes" },
-            { value: false, label: "No" }]}/>
-        </Grid>
-
         <Grid item xs={12}>
           <SelectField name={"teacherId"} label={"Teacher"} options={teachers.map(teacher => new Option(teacher.surname.concat(' ', teacher.name), teacher.id))}/>
         </Grid>

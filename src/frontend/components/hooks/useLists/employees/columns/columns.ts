@@ -1,5 +1,6 @@
 import { BoolCell, Column, OptionalCell } from "shared/components";
 import { Employee } from "@models";
+import { EditCell } from './EditCell';
 
 export const columns: Column<Employee.Row>[] = [
   {
@@ -29,7 +30,7 @@ export const columns: Column<Employee.Row>[] = [
   },
   {
     accessor: "isTeacher",
-    Header: "Is a teacher",
+    Header: "Teacher",
     Cell: BoolCell,
   },
   {
@@ -39,5 +40,10 @@ export const columns: Column<Employee.Row>[] = [
   {
     accessor: "bankAccount",
     Header: "Bank account",
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
   },
 ];

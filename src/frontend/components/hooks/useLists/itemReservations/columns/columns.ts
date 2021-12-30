@@ -1,5 +1,6 @@
 import { Column } from "shared/components";
 import { ItemReservation } from "@models";
+import { EditCell } from '../../courts/columns/EditCell';
 
 export const columns: Column<ItemReservation.Row>[] = [
   {
@@ -17,5 +18,15 @@ export const columns: Column<ItemReservation.Row>[] = [
   {
     accessor: "count",
     Header: "Count",
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
   },
 ];
