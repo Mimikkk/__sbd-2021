@@ -9,4 +9,10 @@ export module Transaction {
     reservationId: uuid;
   }
   export interface Entity extends BaseModel, Model {}
+
+  export interface Row extends Entity {
+    client?: string;
+    discount?: string;
+    reservation?: string;
+  }
 }

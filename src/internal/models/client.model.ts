@@ -6,4 +6,6 @@ export module Client {
   }
 
   export interface Entity extends Person.Entity, Model {}
+
+  export interface Row extends Entity {}
 }

@@ -8,3 +8,4 @@ export * from "./item-reservation.orm";
 export * from "./court-reservation.orm";
 export * from "./item.orm";
 export * from "./price.orm";
+export * from "./transaction.orm";

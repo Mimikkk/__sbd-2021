@@ -1,10 +1,38 @@
-import { SqlResponse } from "$sql/types";
 import { Employee } from "@models";
-import { translatePerson } from "$sql/orm/person.orm";
+import { personTranslation } from "$sql/orm/person.orm";
+import {
+  createCreate,
+  createDelete,
+  createTranslation,
+  createUpdate,
+  nil,
+  num,
+  SqlMap,
+  str,
+  TranslationMap,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translateEmployee = (raw: SqlResponse): Employee.Entity => ({
-  ...translatePerson(raw),
-  isTeacher: raw.is_teacher,
-  payroll: raw.payroll,
-  bankAccount: raw.bank_account,
-});
+const table = "employee";
+const translations: TranslationMap<Employee.Model> = {
+  name: str,
+  surname: str,
+  address: str,
+  phone: str,
+  birthdate: str,
+  email: nil,
+  payroll: str,
+  bankAccount: str,
+  isTeacher: num,
+};
+const sql: SqlMap<Employee.Entity> = {
+  ...personTranslation,
+  isTeacher: identity,
+  payroll: identity,
+  bankAccount: identity,
+};
+
+export const translateEmployee = createTranslation(sql);
+export const createEmployee = createCreate(table, translations);
+export const updateEmployee = createUpdate(table, translations);
+export const deleteEmployee = createDelete(table);

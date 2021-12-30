@@ -7,4 +7,8 @@ export module ItemReservation {
     count: number;
   }
   export interface Entity extends Reservation.Entity, Model {}
+
+  export interface Row extends Entity {
+    item?: string;
+  }
 }

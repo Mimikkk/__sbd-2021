@@ -1,28 +1,37 @@
-import React, { VFC, ReactElement, MouseEventHandler, HTMLProps } from "react";
+import React, { VFC, ReactElement, MouseEventHandler } from "react";
 import { Button as MuiButton } from "@mui/material";
 
-export type ButtonProps = HTMLProps<HTMLInputElement> & {
+export type ButtonProps = {
   title: string;
-  icon: ReactElement;
+  icon?: ReactElement;
   size?: string;
   onClick?: MouseEventHandler;
+  disabled?: boolean;
 };
 
-export const Button: VFC<ButtonProps> = ({ title, icon, onClick }) => {
+export const Button: VFC<ButtonProps> = ({
+  title,
+  icon,
+  onClick,
+  disabled,
+}) => {
   return (
     <MuiButton
+      disabled={disabled}
       onClick={onClick}
       variant="contained"
       startIcon={
-        <span
-          style={{
-            color: "rgba(124, 77, 255, 1)",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {icon}
-        </span>
+        icon && (
+          <span
+            style={{
+              color: "rgba(124, 77, 255, 1)",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {icon}
+          </span>
+        )
       }
       style={{
         backgroundColor: "rgba(124, 77, 255, 0.05)",

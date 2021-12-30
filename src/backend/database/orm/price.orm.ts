@@ -1,9 +1,29 @@
-import { SqlResponse } from "$sql/types";
 import { Price } from "@models";
-import { translateFootprint } from "./footprint.orm";
+import { footprintTranslation } from "./footprint.orm";
+import {
+  createDelete,
+  createTranslation,
+  createUpdate,
+  num,
+  TranslationMap,
+  str,
+  SqlMap,
+  createCreate,
+} from "$sql/orm/utils";
+import { identity } from "lodash";
 
-export const translatePrice = (raw: SqlResponse): Price.Entity => ({
-  ...translateFootprint(raw),
-  description: raw.description,
-  cost: raw.cost,
-});
+export const priceSql: SqlMap<Price.Entity> = {
+  ...footprintTranslation,
+  cost: identity,
+  description: identity,
+};
+export const priceTranslation: TranslationMap<Price.Model> = {
+  cost: num,
+  description: str,
+};
+const table = "price";
+
+export const translatePrice = createTranslation(priceSql);
+export const createPrice = createCreate(table, priceTranslation);
+export const updatePrice = createUpdate(table, priceTranslation);
+export const deletePrice = createDelete(table);

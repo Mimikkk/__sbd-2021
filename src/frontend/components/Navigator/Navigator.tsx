@@ -1,35 +1,8 @@
 import { VFC } from "react";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { Menu, MenuProps } from "./Menu";
 import { useFactory } from "shared/hooks";
 import { style } from "styles";
-import SportsTennisIcon from '@mui/icons-material/SportsTennis';
-
-const development: MenuProps[] = [
-  {
-    title: "Clients",
-    subtitle: "Clients information",
-    path: "/under-development",
-    icon: <CalendarTodayIcon />,
-  },
-  {
-    title: "Prices & discounts",
-    subtitle: "Prices and discounts lists",
-    path: "/under-development",
-  },
-  {
-    title: "Equipment",
-    path: "/under-development",
-    subtitle: "Available equipment",
-    icon: <CalendarTodayIcon />,
-  },
-  {
-    title: "Employees",
-    subtitle: "Staff information",
-    path: "/under-development",
-  },
-];
 
 const menus: MenuProps[] = [
   { title: "Go home", path: "/" },
@@ -40,19 +13,35 @@ const menus: MenuProps[] = [
     icon: <CalendarTodayIcon />,
   },
   {
-    title: "Reservations",
-    subtitle: "List of reservations",
-    path: "/reservations",
-    icon: <FormatListBulletedIcon />,
-  },
-  {
     title: "Courts",
     subtitle: "Court specifications",
     path: "courts",
-    icon: <SportsTennisIcon/>
   },
-
-
+  {
+    title: "Clients & Employees",
+    subtitle: "People stuck in this void",
+    path: "employees-and-clients",
+  },
+  {
+    title: "Reservations",
+    subtitle: "Item and court reservations 🎄",
+    path: "reservations",
+  },
+  {
+    title: "Items",
+    subtitle: "предметы и их стоимость",
+    path: "items",
+  },
+  {
+    title: "Prices & Discounts",
+    subtitle: "предметы и цены",
+    path: "prices-and-discounts",
+  },
+  {
+    title: "Transactions",
+    subtitle: "супер круто",
+    path: "transactions",
+  },
 ];
 
 export const Navigator: VFC = () => {

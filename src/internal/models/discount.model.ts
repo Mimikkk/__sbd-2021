@@ -9,4 +9,6 @@ export module Discount {
   }
 
   export interface Entity extends BaseModel, Model {}
+
+  export interface Row extends Entity {}
 }

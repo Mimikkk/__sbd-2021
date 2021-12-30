@@ -1,4 +1,5 @@
 import { BaseModel } from "@models";
+import { Nullable } from "@internal/types";
 
 export module Person {
   export interface Model {
@@ -7,7 +8,7 @@ export module Person {
     birthdate: Date;
     address: string;
     phone: string;
-    email?: string;
+    email: Nullable<string>;
   }
 
   export interface Entity extends BaseModel, Model {}

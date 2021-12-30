@@ -23,12 +23,7 @@ export const Actions = <T extends object>({ onSubmit, onRemove }: Props<T>) => {
   return (
     <Grid container style={{ justifyContent: "center", padding: "0.5em"}}>
       <Grid item xs={4} style={{ justifyContent: "center" }}>
-        <Button
-          title={"Submit"}
-          icon={<AddIcon />}
-          onClick={handleSubmit}
-          type="submit"
-        />
+        <Button title={"Submit"} icon={<AddIcon />} onClick={handleSubmit} />
       </Grid>
       <Grid item xs={4} style={{ justifyContent: "center" }}>
         <Button title={"Close"} icon={<CloseIcon />} onClick={close} />

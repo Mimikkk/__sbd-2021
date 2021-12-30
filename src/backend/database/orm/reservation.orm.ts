@@ -1,9 +1,10 @@
-import { SqlResponse } from "$sql/types";
 import { Reservation } from "@models";
-import { translateFootprint } from "./footprint.orm";
+import { footprintTranslation } from "./footprint.orm";
+import { createTranslation, SqlMap } from "$sql/orm/utils";
 
-export const translateReservation = (raw: SqlResponse): Reservation.Entity => ({
-  ...translateFootprint(raw),
-  start: new Date(raw.start),
-  end: new Date(raw.end),
-});
+export const reservationTranslation: SqlMap<Reservation.Entity> = {
+  ...footprintTranslation,
+  start: (value) => new Date(value),
+  end: (value) => value && new Date(value),
+};
+export const translateReservation = createTranslation(reservationTranslation);
