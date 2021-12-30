@@ -6,7 +6,7 @@ import { CellProps } from "react-table";
 import EditIcon from "@mui/icons-material/Edit";
 
 export const EditCell = ({ row: { original } }: CellProps<Court.Row>) => {
-  const [CourtModal, open] = useModal(<CourtForm initialValues={original} />);
+  const [CourtModal, open] = useModal(<CourtForm initialValues={original}/>, "Edit court");
 
   return (
     <>

@@ -1,9 +1,11 @@
 import { TextField as MuiTextField, MenuItem } from "@mui/material";
 import { FormField } from "./FormField";
+import { Discount } from '@models';
+import Entity = Discount.Entity;
 
 export interface Option {
   label: string;
-  value: string | number | boolean;
+  value: string | number | boolean | Date| Entity;
 }
 
 interface Props {

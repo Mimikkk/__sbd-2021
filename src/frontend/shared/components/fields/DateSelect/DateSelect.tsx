@@ -9,13 +9,14 @@ interface Props {
   min?: Date;
   max?: Date;
   onChange: (date: Date) => void;
+  classname: string
 }
 
-export const DateSelect: VFC<Props> = ({ date, min, max, onChange }) => {
+export const DateSelect: VFC<Props> = ({ date, min, max, onChange, classname }) => {
   const [, Text] = useFactory(TextField);
 
   return (
-    <span className={style("date-select")}>
+    <span className={classname}>
       <DesktopDatePicker
         value={date}
         minDate={min}

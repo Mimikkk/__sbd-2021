@@ -26,3 +26,9 @@ export const useHeaderReducer = () => {
 
   return { date, setDate, moveBackward, moveForward };
 };
+
+export const useFormReducer = () => {
+  const [date, dispatch] = useReducer(reducer, new Date());
+  const setDate = (payload: Date) => dispatch({ type: Type.SetDate, payload });
+  return { date, setDate};
+};

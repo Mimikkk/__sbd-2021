@@ -1,7 +1,10 @@
-import { object, Schema, date } from "yup";
-import { Reservation } from '@models';
+import { object, Schema, date, string, boolean } from 'yup';
+import { CourtReservation} from '@models';
 
-export const reservationSchema: Schema<Reservation.Model> = object<Reservation.Model>({
+export const courtReservationSchema: Schema<CourtReservation.Model> = object<CourtReservation.Model>({
+  courtId: string().required(),
   start: date().required(),
   end: date().required(),
+  teacherId: string().required(),
+  isLesson: boolean()
 }).defined();

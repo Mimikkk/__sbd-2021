@@ -1,1 +1,1 @@
-export * from "./Reservation.form";
+export * from "./CourtReservation.form";

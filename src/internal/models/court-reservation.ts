@@ -5,6 +5,7 @@ export module CourtReservation {
   export interface Model extends Reservation.Model {
     courtId: uuid;
     teacherId: Nullable<uuid>;
+    isLesson: boolean;
   }
 
   export interface Entity extends Reservation.Entity, Model {}

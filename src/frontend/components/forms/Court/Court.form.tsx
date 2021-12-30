@@ -43,7 +43,16 @@ export const CourtForm = <T extends Court.Model>({
           <TextField name="name" label="Court name" />
         </Grid>
         <Grid item xs={6}>
-          <TextField name="floor" label="Floor type" />
+          <SelectField
+            options={[
+              { value: "Clay", label: "Clay" },
+              { value: "Grass", label: "Grass"},
+              { value: "Hard", label: "Hard"},
+              { value: "Carpet", label: "Carpet"},
+            ]}
+            name="floor"
+            label="Type of surface"
+          />
         </Grid>
         <Grid item xs={12}>
           <SelectField
