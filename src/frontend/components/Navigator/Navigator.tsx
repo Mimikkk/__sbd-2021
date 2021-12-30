@@ -1,13 +1,13 @@
 import { VFC } from "react";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import ListIcon from '@mui/icons-material/List';
-import PersonIcon from '@mui/icons-material/Person';
-import PaidIcon from '@mui/icons-material/Paid';
-import SportsTennisIcon from '@mui/icons-material/SportsTennis';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import WorkIcon from '@mui/icons-material/Work';
+import ListIcon from "@mui/icons-material/List";
+import PersonIcon from "@mui/icons-material/Person";
+import PaidIcon from "@mui/icons-material/Paid";
+import SportsTennisIcon from "@mui/icons-material/SportsTennis";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import WorkIcon from "@mui/icons-material/Work";
 import { Menu, MenuProps } from "./Menu";
 import { useFactory } from "shared/hooks";
 import { style } from "styles";
@@ -62,7 +62,6 @@ const menus: MenuProps[] = [
     path: "reservations",
     icon: <ListIcon />,
   },
-
   {
     title: "Scheduler",
     subtitle: "Reservation scheduler",
@@ -74,7 +73,6 @@ const menus: MenuProps[] = [
     path: "transactions",
     icon: <ReceiptIcon />,
   },
-
 ];
 
 export const Navigator: VFC = () => {
