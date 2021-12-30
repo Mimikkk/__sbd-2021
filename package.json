@@ -38,23 +38,24 @@
     "classnames": "^2.3.1",
     "date-fns": ">=2.25.0",
     "dotenv": "^10.0.0",
-    "faker": ">=5.5.3",
+    "faker": "^5.5.3",
     "formik": ">=2.2.6",
     "i18next": ">=21.3.1",
     "lodash": ">=4.17.21",
-    "next": ">=12.0.3",
+    "next": "^12.0.7",
     "node-sass": "^6.0.1",
     "prettier": ">=2.4.1",
     "prisma": "^3.5.0",
-    "react": ">=17.0.2",
-    "react-dom": ">=17.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "react-table": ">=7.7.0",
     "react-toastify": ">=7.0.0",
     "sass": ">=1.43.4",
+    "schema-to-yup": "^1.11.2",
     "typescript": ">=4.4.4",
     "web-vitals": ">=1.1.2",
-    "yup": ">=0.31.1"
+    "yup": "^0.31.1"
   },
   "eslintConfig": {
     "extends": [
@@ -71,7 +72,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && prisma generate --schema ./configs/schema.prisma",
+    "build": "next build && prisma generate --schema /Users/monikazielinska/WebstormProjects/sbd-tennis/configs/schema.prisma",
     "start": "next start -p $PORT"
   },
   "version": "0.1.0"

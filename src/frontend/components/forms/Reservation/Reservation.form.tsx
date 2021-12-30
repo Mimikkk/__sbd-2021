@@ -1,58 +1,49 @@
 import { Grid } from "@mui/material";
 import { FormProps } from "components/forms/types";
-import { Court } from "@models";
-import { courtService } from "@services";
-import { courtSchema } from "./Court.validation";
+import { CourtReservation, Reservation } from '@models';
+import { courtReservationService } from "@services";
+import { reservationSchema} from "./Reservation.validation";
 import { isEntity } from "shared/utils";
 import { Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 
-const createCourtValues = <T extends Court.Model>(): T =>
+const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
-    name: "",
-    floor: "",
-    isCovered: false,
-    isUnderMaintenance: false,
+    start: new Date(),
+    end: new Date(),
   } as T);
 
-export const CourtForm = <T extends Court.Model>({
-  initialValues,
-}: FormProps<T>) => {
+export const ReservationForm = <T extends CourtReservation.Model>({ initialValues}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
-      ? courtService.update(values.id, values)
-      : courtService.create(values)),
-    refresh()
+      ? courtReservationService.update(values.id, values)
+      : courtReservationService.create(values)),
+      refresh()
   );
 
   const handleRemove = async (values: T) => (
-    await (isEntity(values) && courtService.delete(values.id)), refresh()
+    await (isEntity(values) && courtReservationService.delete(values.id)),
+      refresh()
   );
 
   return (
     <Form
-      validationSchema={courtSchema}
-      initialValues={initialValues || createCourtValues<T>()}
+      validationSchema={reservationSchema}
+      initialValues={initialValues || createReservationValues<T>()}
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
       <Grid container spacing={2.5}>
-        <Grid item xs={6}>
-          <TextField name="name" label="Court name" />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField name="floor" label="Floor type" />
-        </Grid>
         <Grid item xs={12}>
           <SelectField
             options={[
               { value: true, label: "Yes" },
               { value: false, label: "No" },
             ]}
-            name="isCovered"
-            label="Is roof covered"
+            name="start"
+            label="Start hour"
           />
         </Grid>
         <Grid item xs={12}>
@@ -61,8 +52,8 @@ export const CourtForm = <T extends Court.Model>({
               { value: true, label: "Yes" },
               { value: false, label: "No" },
             ]}
-            name="isUnderMaintenance"
-            label="Is under maintenance"
+            name="end"
+            label="End hour"
           />
         </Grid>
       </Grid>

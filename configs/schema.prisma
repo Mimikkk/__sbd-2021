@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  url      = "postgres://xbqscuyuoddnuq:2fcd6c274b7d671bde5beb96305df930fdbc69527a2c0af788ea485524e66701@ec2-34-255-225-151.eu-west-1.compute.amazonaws.com:5432/d7kmb36nmq79ek"
+  }
 
 model UnbearableSuffering {
   id Int @id

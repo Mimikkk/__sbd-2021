@@ -4,14 +4,9 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { Menu, MenuProps } from "./Menu";
 import { useFactory } from "shared/hooks";
 import { style } from "styles";
+import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 
 const development: MenuProps[] = [
-  {
-    title: "Reservations",
-    subtitle: "List of reservations",
-    path: "/under-development",
-    icon: <FormatListBulletedIcon />,
-  },
   {
     title: "Clients",
     subtitle: "Clients information",
@@ -45,10 +40,19 @@ const menus: MenuProps[] = [
     icon: <CalendarTodayIcon />,
   },
   {
+    title: "Reservations",
+    subtitle: "List of reservations",
+    path: "/reservations",
+    icon: <FormatListBulletedIcon />,
+  },
+  {
     title: "Courts",
     subtitle: "Court specifications",
     path: "courts",
+    icon: <SportsTennisIcon/>
   },
+
+
 ];
 
 export const Navigator: VFC = () => {

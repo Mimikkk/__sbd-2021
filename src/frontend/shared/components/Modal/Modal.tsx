@@ -12,12 +12,12 @@ export const Modal: FC = ({ children }) => {
     <Dialog fullWidth maxWidth="xs" open={isOpen}>
       <Grid container item style={{ padding: "1em" }}>
         <Grid container item style={{ justifyContent: "space-between" }}>
-          <DialogTitle style={{ padding: "0" }}>Edit court</DialogTitle>
-          <IconButton style={{ padding: "0" }} onClick={close}>
+          <DialogTitle style={{ padding: "1em" }}>Edit court</DialogTitle>
+          <IconButton style={{ padding: "0em" }} onClick={close}>
             <CloseIcon />
           </IconButton>
         </Grid>
-        <Grid item container>
+        <Grid item container spacing={1}>
           {children}
         </Grid>
       </Grid>
