@@ -1,29 +1,27 @@
-import { Column } from 'shared/components';
-import { Item, ItemReservation } from '@models';
-import { EditCell } from './EditCell';
-import { format } from 'date-fns';
-import { uuid } from '@internal/types';
-
+import { Column, DateCell, IntegralCell } from "shared/components";
+import { Item, ItemReservation } from "@models";
+import { EditCell } from "./EditCell";
+import { uuid } from "@internal/types";
 
 interface Props {
   items: Record<uuid, Item.Entity>;
 }
 
-export const getColumns = ({items}: Props): Column<ItemReservation.Row>[] => [
+export const getColumns = ({ items }: Props): Column<ItemReservation.Row>[] => [
   {
     accessor: "itemId",
-    Header: "Item", // TODO: Link to items
-    Cell: ({ value }) => items[value].name,
+    Header: "Item",
+    Cell: IntegralCell(items, "name"),
   },
   {
     accessor: "start",
     Header: "Since",
-    Cell: ({value}) => format(new Date(value), "dd-MM-yyyy  HH:mm")
+    Cell: DateCell,
   },
   {
     accessor: "end",
     Header: "To",
-    Cell: ({value}) => format(new Date(value), "dd-MM-yyyy  HH:mm")
+    Cell: DateCell,
   },
   {
     accessor: "count",
