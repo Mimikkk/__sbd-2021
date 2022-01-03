@@ -1,12 +1,19 @@
 import { useList } from "shared/hooks";
-import { columns } from "./columns";
-import { CourtReservation } from "@models";
-import { courtReservationService } from "$/services";
+import { getColumns } from './columns';
+import { Court, CourtReservation, Employee } from '@models';
+import { courtReservationService, courtService, employeeService } from '$/services';
+import { useEffect, useState } from 'react';
+import { uuid } from '@internal/types';
+import { keyBy } from 'lodash';
 
 export const useCourtReservationList = () => {
-  const [Items, Context] = useList<CourtReservation.Row>(
-    courtReservationService.readAll
-  );
+  const [Items, Context] = useList<CourtReservation.Row>(courtReservationService.readAll);
 
-  return [() => <Items columns={columns} pagination />, Context] as const;
+  const [courts, setCourts] = useState<Record<uuid, Court.Entity>>({});
+  useEffect(() => {courtService.readAll().then(({ items }) => setCourts(keyBy(items, "id")));}, []);
+
+  const [teachers, setTeachers] = useState<Record<uuid, Employee.Entity>>({});
+  useEffect(() => {employeeService.readAll().then(({ items }) => setTeachers(keyBy(items, "id")));}, []);
+
+  return [() => <Items columns={getColumns({courts, teachers})} pagination />, Context,] as const;
 };

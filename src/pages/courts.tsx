@@ -7,7 +7,7 @@ import { useCourtList } from "components/hooks";
 
 export default () => {
   const [CourtList, CourtListContext] = useCourtList();
-  const [CourtModal, open] = useModal(<CourtForm />);
+  const [CourtModal, open] = useModal(<CourtForm />, "Add new court");
 
   return (
     <Tile>

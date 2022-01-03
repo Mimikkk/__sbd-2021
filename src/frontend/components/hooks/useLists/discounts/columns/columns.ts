@@ -1,5 +1,6 @@
-import { Column } from "shared/components";
+import { BoolCell, Column } from 'shared/components';
 import { Discount } from "@models";
+import { EditCell } from './EditCell';
 
 export const columns: Column<Discount.Row>[] = [
   {
@@ -7,11 +8,21 @@ export const columns: Column<Discount.Row>[] = [
     Header: "Name",
   },
   {
+    accessor: "isPercentage",
+    Header: "Is a percentage?",
+    Cell: BoolCell
+  },
+  {
     accessor: "value",
-    Header: "Name",
+    Header: "Value",
   },
   {
     accessor: "description",
     Header: "Description",
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
   },
 ];

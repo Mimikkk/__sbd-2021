@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
-import { addDays } from 'date-fns';
-import { Type, Action } from './actions';
+import { useReducer } from "react";
+import { addDays } from "date-fns";
+import { Type, Action } from "./actions";
 
-export const reducer = (current: Date, action: Action) => {
+const reducer = (current: Date, action: Action) => {
   switch (action.type) {
     case Type.SetDate:
       return action.payload;
@@ -11,7 +11,7 @@ export const reducer = (current: Date, action: Action) => {
     case Type.MoveForward:
       return addDays(current, 1);
     default:
-      throw new Error('Unknown action type');
+      throw new Error("Unknown action type");
   }
 };
 

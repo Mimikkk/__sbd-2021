@@ -1,73 +1,39 @@
+import AddIcon from "@mui/icons-material/Add";
+import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
-import { itemService } from "@services";
-import { useListContext } from "shared/contexts";
-import { Item } from "@models";
-import faker from "faker";
+import { useModal } from "shared/hooks";
+import { ItemForm } from "components/forms";
 import { useItemList } from "components/hooks";
-
-export const CreateItemButton = () => {
-  const { refresh } = useListContext();
-
-  return (
-    <Button
-      title={"create random"}
-      onClick={async () => {
-        await itemService.create({
-          name: faker.lorem.word(),
-          count: faker.datatype.number({ min: 20, max: 100 }),
-          description: faker.lorem.sentence(),
-        });
-        refresh();
-      }}
-    />
-  );
-};
-export const EditItemButton = () => {
-  const {
-    refresh,
-    items: [item],
-  } = useListContext<Item.Row>();
-
-  return (
-    <Button
-      title={"update random"}
-      onClick={async () => {
-        await itemService.update(item.id, {
-          name: faker.lorem.word(),
-          count: faker.datatype.number({ min: 20, max: 100 }),
-          description: faker.lorem.sentence(),
-        });
-        refresh();
-      }}
-      disabled={!item}
-    />
-  );
-};
-export const DeleteItemButton = () => {
-  const {
-    refresh,
-    items: [item],
-  } = useListContext<Item.Row>();
-
-  return (
-    <Button
-      title={"delete random"}
-      onClick={() => itemService.delete(item.id).then(refresh)}
-      disabled={!item}
-    />
-  );
-};
 
 export default () => {
   const [ItemList, ItemListContext] = useItemList();
+  const [ItemModal, open] = useModal(<ItemForm />, "Add new item");
 
   return (
     <Tile>
       <ItemListContext>
-        <ItemList />
-        <CreateItemButton />
-        <EditItemButton />
-        <DeleteItemButton />
+        <Grid container spacing={2} style={{ width: "100%" }}>
+          <Grid item container justifyContent={"space-between"}>
+            <Grid item>
+              <Typography variant="h3">Items</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Button
+                    title={"Add new item"}
+                    icon={<AddIcon />}
+                    onClick={open}
+                  />
+                  <ItemModal />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
+            <ItemList />
+          </Grid>
+        </Grid>
       </ItemListContext>
     </Tile>
   );

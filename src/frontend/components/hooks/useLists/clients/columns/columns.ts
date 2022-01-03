@@ -1,5 +1,6 @@
 import { BoolCell, Column, OptionalCell } from "shared/components";
 import { Client } from "@models";
+import { EditCell } from './EditCell';
 
 export const columns: Column<Client.Row>[] = [
   {
@@ -31,5 +32,10 @@ export const columns: Column<Client.Row>[] = [
     accessor: "isPermanent",
     Header: "Is permanent",
     Cell: BoolCell,
+  },
+  {
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
   },
 ];

@@ -3,7 +3,7 @@ import { ModalContext } from "shared/contexts";
 import { Modal } from "shared/components/Modal";
 
 export const useModal = (
-  component: ReactNode
+  component: ReactNode, title: string
 ): readonly [() => ReactElement, () => void] => {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
@@ -12,7 +12,7 @@ export const useModal = (
   return [
     () => (
       <ModalContext.Provider value={{ isOpen, close, open }}>
-        <Modal>{component}</Modal>
+        <Modal title={title}>{component}</Modal>
       </ModalContext.Provider>
     ),
     open,

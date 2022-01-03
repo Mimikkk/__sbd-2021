@@ -25,7 +25,7 @@ export const Form = <T extends object>({
           <Grid container>{children}</Grid>
           <Grid container style={{ padding: 0 }}>
             <Actions
-              onSubmit={async () => (props.submitForm(), props.isValid)}
+              onSubmit={async () => (await props.submitForm(), props.isValid)}
               onRemove={
                 (isEntity(props.values) || undefined) &&
                 (async () => onRemove?.(props.values))
