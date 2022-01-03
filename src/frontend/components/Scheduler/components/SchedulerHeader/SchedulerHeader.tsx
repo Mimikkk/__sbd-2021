@@ -5,7 +5,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useHeaderReducer } from './reducer';
 import { addDays, getDayOfYear } from 'date-fns';
 import { DateSelect } from 'shared/components';
-import { style } from "styles";
 
 const offset = 14;
 export const SchedulerHeader = () => {
@@ -28,7 +27,6 @@ export const SchedulerHeader = () => {
           min={today}
           max={addDays(today, offset)}
           onChange={setDate}
-          classname={style('date-select')}
         />
       </Grid>
       <Grid item xs={3}>

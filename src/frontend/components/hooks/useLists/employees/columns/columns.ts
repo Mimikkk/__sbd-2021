@@ -1,6 +1,7 @@
 import { BoolCell, Column, OptionalCell } from "shared/components";
 import { Employee } from "@models";
 import { EditCell } from './EditCell';
+import { format } from 'date-fns';
 
 export const columns: Column<Employee.Row>[] = [
   {
@@ -18,6 +19,7 @@ export const columns: Column<Employee.Row>[] = [
   {
     accessor: "birthdate",
     Header: "Birthdate",
+    Cell: ({value}) => format(new Date(value), "dd-MM-yyyy")
   },
   {
     accessor: "phone",

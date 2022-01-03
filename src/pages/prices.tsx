@@ -1,43 +1,40 @@
+import AddIcon from "@mui/icons-material/Add";
+import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
-import {
-  useClientList,
-} from "components/hooks";
-import { Grid, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useModal } from '../frontend/shared/hooks';
-import { ClientForm} from '../frontend/components/forms';
-
+import { useModal } from "shared/hooks";
+import { PriceForm } from "components/forms";
+import { usePriceList } from "components/hooks";
 
 export default () => {
-  const [ClientList, ClientListContext] = useClientList();
-  const [ClientModal, open] = useModal(<ClientForm />, "Add new client");
+  const [PriceList, PriceListContext] = usePriceList();
+  const [PriceModal, open] = useModal(<PriceForm />, "Add new service");
 
   return (
     <Tile>
-      <ClientListContext>
+      <PriceListContext>
         <Grid container spacing={2} style={{ width: "100%" }}>
           <Grid item container justifyContent={"space-between"}>
             <Grid item>
-              <Typography variant="h3">Clients</Typography>
+              <Typography variant="h3">Services and prices</Typography>
             </Grid>
             <Grid item>
               <Grid container spacing={2}>
                 <Grid item>
                   <Button
-                    title={"Add new client"}
+                    title={"Add new service"}
                     icon={<AddIcon />}
                     onClick={open}
                   />
-                  <ClientModal />
+                  <PriceModal />
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
           <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
-            <ClientList />
+            <PriceList />
           </Grid>
         </Grid>
-      </ClientListContext>
+      </PriceListContext>
     </Tile>
   );
 };

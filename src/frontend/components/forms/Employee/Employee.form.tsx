@@ -7,7 +7,6 @@ import { DateSelect, Form, SelectField, TextField } from 'shared/components';
 import { useListContext } from "shared/contexts";
 import { employeeSchema } from './Employee.validation';
 import { useMemo } from 'react';
-import { style } from '../../../styles';
 import { useFormReducer } from '../../Scheduler/components/SchedulerHeader/reducer';
 
 const createEmployeeValues = <T extends Employee.Model>(): T =>
@@ -56,8 +55,8 @@ export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormP
         <Grid item xs={12}>
           <TextField name="address" label="Address" />
         </Grid>
-        <Grid item xs={6}>
-          <DateSelect date={date} onChange={setDate}  classname={style("form-date-select")}/>
+        <Grid item xs={12}>
+          <DateSelect date={date} onChange={setDate} max={useMemo(() => new Date(), [])}/>
         </Grid>
         <Grid item xs={12}>
           <TextField name="phone" label="Phone number" />
@@ -81,9 +80,6 @@ export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormP
             name="isTeacher"
             label="Is a teacher?"
           />
-
-
-
         </Grid>
       </Grid>
       </Grid>

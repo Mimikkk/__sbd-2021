@@ -2,7 +2,7 @@ import React, { VFC, ReactElement, MouseEventHandler } from "react";
 import { Button as MuiButton } from "@mui/material";
 
 export type ButtonProps = {
-  title: string;
+  title?: string;
   icon?: ReactElement;
   size?: string;
   onClick?: MouseEventHandler;
@@ -27,6 +27,9 @@ export const Button: VFC<ButtonProps> = ({
               color: "rgba(124, 77, 255, 1)",
               display: "flex",
               justifyContent: "center",
+              alignItems: "center",
+              justifyItems: "center",
+              alignContent: "center"
             }}
           >
             {icon}

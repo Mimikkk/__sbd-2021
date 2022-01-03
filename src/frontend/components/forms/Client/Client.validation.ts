@@ -1,12 +1,12 @@
-import { object, string, boolean, Schema, date, number } from 'yup';
+import { object, string, boolean, Schema, date } from 'yup';
 import { Client } from '@models';
 
 export const clientSchema: Schema<Client.Model> = object<Client.Model>({
-  address: string(),
-  birthdate: date(),
-  email: string(),
+  address: string().required(),
+  birthdate: date().required(),
+  email: string().required().email(),
   isPermanent: boolean(),
-  name: string(),
-  phone: string(),
-  surname: string()
+  name: string().required(),
+  phone: string().required(),
+  surname: string().required()
 }).defined();

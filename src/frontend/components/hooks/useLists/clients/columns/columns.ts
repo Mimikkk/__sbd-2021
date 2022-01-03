@@ -1,6 +1,6 @@
 import { BoolCell, Column, OptionalCell } from "shared/components";
 import { Client } from "@models";
-import { EditCell } from '../../clients/columns/EditCell';
+import { EditCell } from './EditCell';
 
 export const columns: Column<Client.Row>[] = [
   {

@@ -1,16 +1,13 @@
-import { Grid, MenuItem } from '@mui/material';
+import { Grid} from '@mui/material';
 import { FormProps } from "components/forms/types";
 import { Court, CourtReservation, Employee } from '@models';
 import { courtReservationService, courtService, employeeService } from '@services';
-import { courtReservationSchema} from "./Reservation.validation";
+import { courtReservationSchema} from "./CourtReservation.validation";
 import { isEntity } from "shared/utils";
-import { Button, DateSelect, Form, SelectField, TimePicker } from 'shared/components';
+import { DateSelect, Form, SelectField, TimePicker } from 'shared/components';
 import { useListContext } from "shared/contexts";
 import { useFormReducer} from '../../Scheduler/components/SchedulerHeader/reducer';
 import { useEffect, useMemo, useState } from 'react';
-import { style } from "styles";
-import { values } from 'lodash';
-
 
 const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
@@ -19,7 +16,6 @@ const createReservationValues = <T extends CourtReservation.Model>(): T =>
     courtId: "",
     teacherId: "",
   } as T);
-
 
 export const CourtReservationForm = <T extends CourtReservation.Model>({ initialValues}: FormProps<T>) => {
   const { refresh } = useListContext();
@@ -49,7 +45,6 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
       );
   }, []);
 
-
   return (
     <Form
       validationSchema={courtReservationSchema}
@@ -60,10 +55,10 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
       <Grid container spacing={2.5}>
         <Grid item xs={12}>
           <SelectField name={"courtId"} label={"Choose court"}
-          options={courts.map(court => new Option(court.name, court.id))}/>
+          options={courts.sort().map(court => new Option(court.name, court.id))}/>
         </Grid>
         <Grid item xs={12}>
-          <DateSelect date={date} onChange={setDate} min={useMemo(() => new Date(), [])} classname={style("form-date-select")}/>
+          <DateSelect date={date} onChange={setDate} min={useMemo(() => new Date(), [])}/>
         </Grid>
         <Grid item xs={12}>
           <TimePicker date={date} name={"start"} label={"Start time"}/>
@@ -72,7 +67,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
           <TimePicker date={date} name={"end"} label={"End time"}/>
         </Grid>
         <Grid item xs={12}>
-          <SelectField name={"teacherId"} label={"Teacher"} options={teachers.map(teacher => new Option(teacher.surname.concat(' ', teacher.name), teacher.id))}/>
+          <SelectField name={"teacherId"} label={"Teacher"} options={teachers.sort().map(teacher => new Option(teacher.surname.concat(' ', teacher.name), teacher.id))}/>
         </Grid>
       </Grid>
     </Form>

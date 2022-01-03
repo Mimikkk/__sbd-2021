@@ -1,16 +1,13 @@
-import { object, Schema, date, string, boolean } from 'yup';
-import { CourtReservation, Employee } from '@models';
+import { object, string, Schema, number, date } from 'yup';
+import { ItemReservation } from "@models";
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { courtReservationService, courtService } from '@services';
 
 const isSameOrBefore = (startTime: moment.MomentInput, endTime: moment.MomentInput) => {
   return moment(startTime, 'HH:mm').isSameOrBefore(moment(endTime, 'HH:mm'));
 }
-
-
-export const courtReservationSchema: Schema<CourtReservation.Model> = object<CourtReservation.Model>({
-  courtId: string().required(),
+export const ItemReservationSchema: Schema<ItemReservation.Model> = object<ItemReservation.Model>({
+  count: number().required(),
+  itemId: string().required(),
   start: date().required().test(
     'not empty',
     'Start time cant be empty',
@@ -25,5 +22,4 @@ export const courtReservationSchema: Schema<CourtReservation.Model> = object<Cou
     }
   ),
   end: date().required(),
-  teacherId: string(),
 }).defined();

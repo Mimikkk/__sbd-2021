@@ -1,6 +1,6 @@
 import { Column } from "shared/components";
 import { Price } from "@models";
-import { EditCell } from '../../courts/columns/EditCell';
+import { EditCell } from './EditCell';
 
 export const columns: Column<Price.Row>[] = [
   {
@@ -9,7 +9,7 @@ export const columns: Column<Price.Row>[] = [
   },
   {
     accessor: "description",
-    Header: "Description",
+    Header: "Service",
   },
   {
     id: "edit",

@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid} from '@mui/material';
 import { FormProps } from "components/forms/types";
 import { Client } from '@models';
 import { clientService } from '@services';
@@ -6,7 +6,6 @@ import { isEntity } from "shared/utils";
 import { DateSelect, Form, SelectField, TextField } from 'shared/components';
 import { useListContext } from "shared/contexts";
 import { clientSchema } from './Client.validation';
-import { style } from '../../../styles';
 import { useFormReducer } from '../../Scheduler/components/SchedulerHeader/reducer';
 
 const createClientValues = <T extends Client.Model>(): T =>
@@ -54,8 +53,9 @@ export const ClientForm = <T extends Client.Model>({ initialValues, }: FormProps
           <Grid item xs={12}>
             <TextField name="address" label="Address" />
           </Grid>
+
           <Grid item xs={6}>
-            <DateSelect date={date} onChange={setDate}  classname={style("form-date-select")}/>
+              <DateSelect  date={date} onChange={setDate}/>
           </Grid>
           <Grid item xs={12}>
             <TextField name="phone" label="Phone number" />
@@ -72,9 +72,6 @@ export const ClientForm = <T extends Client.Model>({ initialValues, }: FormProps
               name="isPermanent"
               label="Is permanent client?"
             />
-
-
-
           </Grid>
         </Grid>
       </Grid>

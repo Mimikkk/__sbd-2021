@@ -1,19 +1,28 @@
-import { Column } from "shared/components";
-import { Transaction } from "@models";
-import { EditCell } from '../../courts/columns/EditCell';
+import { Column } from 'shared/components';
+import { Client, Discount, Transaction } from '@models';
+import { EditCell } from './EditCell';
+import { uuid } from '@internal/types';
 
-export const columns: Column<Transaction.Row>[] = [
+
+interface Props {
+  clients: Record<uuid, Client.Entity>;
+  discounts: Record<uuid, Discount.Entity>;
+}
+
+export const getColumns = ({clients, discounts}: Props): Column<Transaction.Row>[] => [
   {
     accessor: "clientId",
     Header: "Client",
-  },
-  {
-    accessor: "discountId",
-    Header: "Discount",
+    Cell: ({value}) => clients[value].name.concat(' ', clients[value].surname)
   },
   {
     accessor: "reservationId",
     Header: "Reservation",
+  },
+  {
+    accessor: "discountId",
+    Header: "Discount",
+    Cell: ({value}) => !!value ? discounts[value].name : "-"
   },
   {
     accessor: "cost",
