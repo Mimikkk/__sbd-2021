@@ -7,6 +7,7 @@ export const courtReservationSchema: Schema<CourtReservation.Model> =
     courtId: string().required(),
     start: date()
       .required("Start time cant be empty")
+      .test("not empty", "Start time cannot be empty", (value) => !!value)
       .test(
         "is end before start",
         "Start time must be before end time",

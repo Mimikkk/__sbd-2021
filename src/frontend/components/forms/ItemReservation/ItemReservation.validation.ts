@@ -8,6 +8,7 @@ export const ItemReservationSchema: Schema<ItemReservation.Model> =
     itemId: string().required(),
     start: date()
       .required("Start time cannot be empty")
+      .test("not empty", "Start time cannot be empty", (value) => !!value)
       .test(
         "start_time_test",
         "Start time must be before the end time",

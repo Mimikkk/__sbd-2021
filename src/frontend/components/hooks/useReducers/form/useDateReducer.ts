@@ -10,7 +10,7 @@ const reducer = (current: Date, action: Action) => {
   }
 };
 
-export const useFormReducer = () => {
+export const useDateReducer = () => {
   const [date, dispatch] = useReducer(reducer, new Date());
 
   const setDate = (payload: Date) => dispatch({ type: Type.SetDate, payload });

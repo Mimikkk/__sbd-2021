@@ -7,7 +7,7 @@ import { DateSelect, Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { employeeSchema } from "./Employee.validation";
 import { useMemo } from "react";
-import { useFormReducer } from "components/hooks";
+import { useDateReducer } from "components/hooks";
 
 const createEmployeeValues = <T extends Employee.Model>(): T =>
   ({
@@ -37,7 +37,7 @@ export const EmployeeForm = <T extends Employee.Model>({
     await (isEntity(values) && employeeService.delete(values.id)), refresh()
   );
 
-  const { date, setDate } = useFormReducer();
+  const { date, setDate } = useDateReducer();
 
   return (
     <Form

@@ -12,7 +12,7 @@ import {
   TimePicker,
 } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { useFormReducer } from "components/hooks";
+import { useDateReducer } from "components/hooks";
 import { useEffect, useMemo, useState } from "react";
 
 const createItemReservationValues = <T extends ItemReservation.Model>(): T =>
@@ -40,7 +40,7 @@ export const ItemReservationForm = <T extends ItemReservation.Model>({
     refresh()
   );
 
-  const { date, setDate } = useFormReducer();
+  const { date, setDate } = useDateReducer();
 
   const [items, setItems] = useState<Item.Entity[]>([]);
   useEffect(() => {
