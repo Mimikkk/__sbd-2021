@@ -1,39 +1,41 @@
-import { Grid} from '@mui/material';
+import { Grid } from "@mui/material";
 import { FormProps } from "components/forms/types";
-import { Client } from '@models';
-import { clientService } from '@services';
+import { Client } from "@models";
+import { clientService } from "@services";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TextField } from 'shared/components';
+import { DateSelect, Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { clientSchema } from './Client.validation';
-import { useFormReducer } from '../../Scheduler/components/SchedulerHeader/reducer';
+import { clientSchema } from "./Client.validation";
+import { useFormReducer } from "components/hooks";
 
 const createClientValues = <T extends Client.Model>(): T =>
   ({
     address: "",
     birthdate: new Date(),
-    email: "" ,
+    email: "",
     isPermanent: false,
-    name: "" ,
-    phone: "" ,
-    surname: ""
+    name: "",
+    phone: "",
+    surname: "",
   } as T);
 
-export const ClientForm = <T extends Client.Model>({ initialValues, }: FormProps<T>) => {
+export const ClientForm = <T extends Client.Model>({
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? clientService.update(values.id, values)
       : clientService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
     await (isEntity(values) && clientService.delete(values.id)), refresh()
   );
 
-  const {date, setDate} = useFormReducer();
+  const { date, setDate } = useFormReducer();
 
   return (
     <Form
@@ -42,37 +44,34 @@ export const ClientForm = <T extends Client.Model>({ initialValues, }: FormProps
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container>
-        <Grid container item spacing={2.5}>
-          <Grid item xs={6}>
-            <TextField name="name" label="Name" />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField name="surname" label="Surname" />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField name="address" label="Address" />
-          </Grid>
-
-          <Grid item xs={6}>
-              <DateSelect  date={date} onChange={setDate}/>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField name="phone" label="Phone number" />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField name="email" label="Email address" />
-          </Grid>
-          <Grid item xs={12}>
-            <SelectField
-              options={[
-                { value: true, label: "Yes" },
-                { value: false, label: "No" },
-              ]}
-              name="isPermanent"
-              label="Is permanent client?"
-            />
-          </Grid>
+      <Grid container item spacing={2.5}>
+        <Grid item xs={6}>
+          <TextField name="name" label="Name" />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField name="surname" label="Surname" />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField name="address" label="Address" />
+        </Grid>
+        <Grid item xs={6}>
+          <DateSelect date={date} onChange={setDate} />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField name="phone" label="Phone number" />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField name="email" label="Email address" />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectField
+            options={[
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
+            ]}
+            name="isPermanent"
+            label="Is permanent client?"
+          />
         </Grid>
       </Grid>
     </Form>

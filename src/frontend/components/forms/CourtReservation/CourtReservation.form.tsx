@@ -1,13 +1,17 @@
-import { Grid} from '@mui/material';
+import { Grid } from "@mui/material";
 import { FormProps } from "components/forms/types";
-import { Court, CourtReservation, Employee } from '@models';
-import { courtReservationService, courtService, employeeService } from '@services';
-import { courtReservationSchema} from "./CourtReservation.validation";
+import { Court, CourtReservation, Employee } from "@models";
+import {
+  courtReservationService,
+  courtService,
+  employeeService,
+} from "@services";
+import { courtReservationSchema } from "./CourtReservation.validation";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TimePicker } from 'shared/components';
+import { DateSelect, Form, SelectField, TimePicker } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { useFormReducer} from '../../Scheduler/components/SchedulerHeader/reducer';
-import { useEffect, useMemo, useState } from 'react';
+import { useFormReducer } from "components/hooks";
+import { useEffect, useMemo, useState } from "react";
 
 const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
@@ -17,22 +21,24 @@ const createReservationValues = <T extends CourtReservation.Model>(): T =>
     teacherId: "",
   } as T);
 
-export const CourtReservationForm = <T extends CourtReservation.Model>({ initialValues}: FormProps<T>) => {
+export const CourtReservationForm = <T extends CourtReservation.Model>({
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? courtReservationService.update(values.id, values)
       : courtReservationService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
     await (isEntity(values) && courtReservationService.delete(values.id)),
-      refresh()
+    refresh()
   );
 
-  const {date, setDate} = useFormReducer();
+  const { date, setDate } = useFormReducer();
   const [courts, setCourts] = useState<Court.Entity[]>([]);
   const [teachers, setTeachers] = useState<Employee.Entity[]>([]);
 
@@ -40,8 +46,11 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
     courtService.readAll().then(({ items }) => setCourts(items));
   }, []);
 
-  useEffect(() => {employeeService.readAll().then(({ items }) =>
-        setTeachers(items.filter(({ isTeacher, surname, name}) => isTeacher))
+  useEffect(() => {
+    employeeService
+      .readAll()
+      .then(({ items }) =>
+        setTeachers(items.filter(({ isTeacher, surname, name }) => isTeacher))
       );
   }, []);
 
@@ -54,20 +63,41 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
     >
       <Grid container spacing={2.5}>
         <Grid item xs={12}>
-          <SelectField name={"courtId"} label={"Choose court"}
-          options={courts.sort().map(court => new Option(court.name, court.id))}/>
+          <SelectField
+            name={"courtId"}
+            label={"Choose court"}
+            options={courts
+              .sort()
+              .map((court) => new Option(court.name, court.id))}
+          />
         </Grid>
         <Grid item xs={12}>
-          <DateSelect date={date} onChange={setDate} min={useMemo(() => new Date(), [])}/>
+          <DateSelect
+            date={date}
+            onChange={setDate}
+            min={useMemo(() => new Date(), [])}
+          />
         </Grid>
         <Grid item xs={12}>
-          <TimePicker date={date} name={"start"} label={"Start time"}/>
+          <TimePicker date={date} name={"start"} label={"Start time"} />
         </Grid>
         <Grid item xs={12}>
-          <TimePicker date={date} name={"end"} label={"End time"}/>
+          <TimePicker date={date} name={"end"} label={"End time"} />
         </Grid>
         <Grid item xs={12}>
-          <SelectField name={"teacherId"} label={"Teacher"} options={teachers.sort().map(teacher => new Option(teacher.surname.concat(' ', teacher.name), teacher.id))}/>
+          <SelectField
+            name={"teacherId"}
+            label={"Teacher"}
+            options={teachers
+              .sort()
+              .map(
+                (teacher) =>
+                  new Option(
+                    teacher.surname.concat(" ", teacher.name),
+                    teacher.id
+                  )
+              )}
+          />
         </Grid>
       </Grid>
     </Form>

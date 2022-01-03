@@ -10,19 +10,19 @@ import { useListContext } from "shared/contexts";
 const createPriceValues = <T extends Price.Model>(): T =>
   ({
     cost: 0,
-    description: ""
+    description: "",
   } as T);
 
 export const PriceForm = <T extends Price.Model>({
-                                                 initialValues,
-                                               }: FormProps<T>) => {
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? priceService.update(values.id, values)
       : priceService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (

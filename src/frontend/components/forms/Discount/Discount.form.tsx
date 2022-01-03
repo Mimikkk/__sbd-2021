@@ -12,16 +12,18 @@ const createDiscountValues = <T extends Discount.Model>(): T =>
     description: "",
     isPercentage: true,
     name: "",
-    value: 0
+    value: 0,
   } as T);
 
-export const DiscountForm = <T extends Discount.Model>({ initialValues}: FormProps<T>) => {
-  const {refresh} = useListContext();
+export const DiscountForm = <T extends Discount.Model>({
+  initialValues,
+}: FormProps<T>) => {
+  const { refresh } = useListContext();
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? discountService.update(values.id, values)
       : discountService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
@@ -31,31 +33,31 @@ export const DiscountForm = <T extends Discount.Model>({ initialValues}: FormPro
   return (
     <Form
       validationSchema={discountSchema}
-  initialValues={initialValues || createDiscountValues<T>()}
-  onSubmit={handleSuccess}
-  onRemove={handleRemove}
+      initialValues={initialValues || createDiscountValues<T>()}
+      onSubmit={handleSuccess}
+      onRemove={handleRemove}
     >
-    <Grid container spacing={2.5}>
-    <Grid item xs={12}>
-  <TextField name="name" label="Discount name" />
-    </Grid>
-      <Grid item xs={6}>
-        <SelectField
-          options={[
-            { value: true, label: "Yes" },
-            { value: false, label: "No" },
-          ]}
-          name="isPercentage"
-          label="Is a percentage?"
-        />
+      <Grid container spacing={2.5}>
+        <Grid item xs={12}>
+          <TextField name="name" label="Discount name" />
+        </Grid>
+        <Grid item xs={6}>
+          <SelectField
+            options={[
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
+            ]}
+            name="isPercentage"
+            label="Is a percentage?"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField name="value" label="Value of discount" />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField name="description" label="Description" />
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <TextField name="value" label="Value of discount" />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField name="description" label="Description" />
-      </Grid>
-    </Grid>
     </Form>
-);
+  );
 };

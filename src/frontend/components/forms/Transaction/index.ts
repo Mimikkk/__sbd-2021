@@ -1,2 +1,2 @@
-export * from './Transaction.form';
-export * from './Transaction.validation';
+export * from "./Transaction.form";
+export * from "./Transaction.validation";

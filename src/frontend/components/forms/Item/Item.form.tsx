@@ -11,19 +11,19 @@ const createItemValues = <T extends Item.Model>(): T =>
   ({
     count: 0,
     description: "",
-    name: ""
+    name: "",
   } as T);
 
 export const ItemForm = <T extends Item.Model>({
-                                                   initialValues,
-                                                 }: FormProps<T>) => {
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? itemService.update(values.id, values)
       : itemService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
@@ -47,7 +47,6 @@ export const ItemForm = <T extends Item.Model>({
         <Grid item xs={12}>
           <TextField name="description" label="Description" />
         </Grid>
-
       </Grid>
     </Form>
   );

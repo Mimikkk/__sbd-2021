@@ -1,1 +1,1 @@
-export * from './Discount.form';
+export * from "./Discount.form";

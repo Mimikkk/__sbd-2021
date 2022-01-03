@@ -1,5 +1,5 @@
-import { object, string, boolean, Schema, date, number } from 'yup';
-import { Employee } from '@models';
+import { object, string, boolean, Schema, date, number } from "yup";
+import { Employee } from "@models";
 
 export const employeeSchema: Schema<Employee.Model> = object<Employee.Model>({
   address: string().required(),
@@ -10,5 +10,5 @@ export const employeeSchema: Schema<Employee.Model> = object<Employee.Model>({
   name: string().required(),
   payroll: number().required(),
   phone: string().required(),
-  surname: string().required()
+  surname: string().required(),
 }).defined();

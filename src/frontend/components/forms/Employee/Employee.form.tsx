@@ -1,13 +1,13 @@
 import { Grid } from "@mui/material";
 import { FormProps } from "components/forms/types";
-import { Employee } from '@models';
-import { employeeService } from '@services';
+import { Employee } from "@models";
+import { employeeService } from "@services";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TextField } from 'shared/components';
+import { DateSelect, Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { employeeSchema } from './Employee.validation';
-import { useMemo } from 'react';
-import { useFormReducer } from '../../Scheduler/components/SchedulerHeader/reducer';
+import { employeeSchema } from "./Employee.validation";
+import { useMemo } from "react";
+import { useFormReducer } from "components/hooks";
 
 const createEmployeeValues = <T extends Employee.Model>(): T =>
   ({
@@ -18,24 +18,26 @@ const createEmployeeValues = <T extends Employee.Model>(): T =>
     phone: "",
     isTeacher: false,
     payroll: 0,
-    bankAccount: ""
+    bankAccount: "",
   } as T);
 
-export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormProps<T>) => {
+export const EmployeeForm = <T extends Employee.Model>({
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? employeeService.update(values.id, values)
       : employeeService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
     await (isEntity(values) && employeeService.delete(values.id)), refresh()
   );
 
-  const {date, setDate} = useFormReducer();
+  const { date, setDate } = useFormReducer();
 
   return (
     <Form
@@ -44,7 +46,6 @@ export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormP
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container>
       <Grid container item spacing={2.5}>
         <Grid item xs={6}>
           <TextField name="name" label="Name" />
@@ -56,7 +57,11 @@ export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormP
           <TextField name="address" label="Address" />
         </Grid>
         <Grid item xs={12}>
-          <DateSelect date={date} onChange={setDate} max={useMemo(() => new Date(), [])}/>
+          <DateSelect
+            date={date}
+            onChange={setDate}
+            max={useMemo(() => new Date(), [])}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField name="phone" label="Phone number" />
@@ -81,7 +86,6 @@ export const EmployeeForm = <T extends Employee.Model>({ initialValues, }: FormP
             label="Is a teacher?"
           />
         </Grid>
-      </Grid>
       </Grid>
     </Form>
   );

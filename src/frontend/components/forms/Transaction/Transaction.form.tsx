@@ -12,19 +12,19 @@ const createTransactionValues = <T extends Transaction.Model>(): T =>
     clientId: "",
     cost: 0,
     discountId: "",
-    reservationId: ""
+    reservationId: "",
   } as T);
 
 export const TransactionForm = <T extends Transaction.Model>({
-                                                   initialValues,
-                                                 }: FormProps<T>) => {
+  initialValues,
+}: FormProps<T>) => {
   const { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
       ? transactionService.update(values.id, values)
       : transactionService.create(values)),
-      refresh()
+    refresh()
   );
 
   const handleRemove = async (values: T) => (
@@ -39,7 +39,6 @@ export const TransactionForm = <T extends Transaction.Model>({
       onRemove={handleRemove}
     >
       <Grid container spacing={2.5}>
-
         <Grid item xs={12}>
           <TextField name="description" label="Service" />
         </Grid>
