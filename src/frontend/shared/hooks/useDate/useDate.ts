@@ -15,7 +15,7 @@ const reducer = (current: Date, action: Action) => {
   }
 };
 
-export const useHeaderReducer = () => {
+export const useDate = () => {
   const [date, dispatch] = useReducer(reducer, new Date());
 
   const setDate = (payload: Date) => dispatch({ type: Type.SetDate, payload });
