@@ -7,11 +7,11 @@ import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 export const SchedulerBody = () => {
   const { status, courts } = useSchedulerContext();
 
-  return isSuccess(status) ? (
-    <SchedulerEmpty />
+  return !isSuccess(status) ? (
+    <SchedulerLoading />
   ) : courts.length > 0 ? (
     <SchedulerContents />
   ) : (
-    <SchedulerLoading />
+    <SchedulerEmpty />
   );
 };

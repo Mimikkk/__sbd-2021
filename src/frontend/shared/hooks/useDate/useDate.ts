@@ -15,7 +15,14 @@ const reducer = (current: Date, action: Action) => {
   }
 };
 
-export const useDate = () => {
+export interface UseDateProps {
+  date: Date;
+  setDate: (date: Date) => void;
+  moveBackward: () => void;
+  moveForward: () => void;
+}
+
+export const useDate = (): UseDateProps => {
   const [date, dispatch] = useReducer(reducer, new Date());
 
   const setDate = (payload: Date) => dispatch({ type: Type.SetDate, payload });
@@ -24,5 +31,5 @@ export const useDate = () => {
   const moveForward = () =>
     dispatch({ type: Type.MoveForward, payload: undefined });
 
-  return { date, setDate, moveBackward, moveForward };
+  return { date, setDate, moveBackward, moveForward } as const;
 };
