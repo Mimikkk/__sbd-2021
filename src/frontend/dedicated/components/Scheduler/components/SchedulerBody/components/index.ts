@@ -1,2 +1,1 @@
-export * from './ReservationDragContainer';
-export * from './SchedulerDragContainer';
+export * from "./ReservationDragContainer";

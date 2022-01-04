@@ -29,7 +29,7 @@ export const SchedulerBody = () => {
           className={cx(style("scheduler-body"))}
           columns={columns}
           items={items}
-          initialRef={Scheduler.initialRef}
+          ref={Scheduler.initialRef}
         />
       </Grid>
     </Grid>

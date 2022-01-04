@@ -1,6 +1,6 @@
-import { Cell as ListCell } from 'react-table';
-import { Column as ListColumn } from 'shared/components/List';
-import { Nullable } from '@internal/types';
+import { Cell as ListCell } from "react-table";
+import { Column as ListColumn } from "shared/components/List";
+import { Nullable } from "@internal/types";
 
 export module Scheduler {
   export interface Row {
@@ -29,7 +29,7 @@ export module Scheduler {
 
   export type Column = ListColumn<Row, RowRef>;
 
-  export const initialRef: Scheduler.RowRef = {
+  export const ref: Scheduler.RowRef = {
     selected: null,
     start: null,
     current: null,
