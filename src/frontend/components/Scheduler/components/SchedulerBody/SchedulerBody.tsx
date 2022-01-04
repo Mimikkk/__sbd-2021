@@ -1,7 +1,6 @@
 import { List } from "shared/components";
 import { useEffect } from "react";
 import { style } from "styles";
-import { SchedulerDragContainer } from "./components";
 import { Grid } from "@mui/material";
 import { cx } from "shared/utils";
 import { useReservations } from "./reducer";
@@ -33,7 +32,6 @@ export const SchedulerBody = () => {
           initialRef={Scheduler.initialRef}
         />
       </Grid>
-      <SchedulerDragContainer />
     </Grid>
   );
 };

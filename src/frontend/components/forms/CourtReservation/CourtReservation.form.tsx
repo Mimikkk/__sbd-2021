@@ -10,7 +10,7 @@ import { courtReservationSchema } from "./CourtReservation.validation";
 import { isEntity } from "shared/utils";
 import { DateSelect, Form, SelectField, TimePicker } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { useDateReducer } from "components/hooks";
+import { useDate } from "shared/hooks";
 import { useEffect, useMemo, useState } from "react";
 
 const createReservationValues = <T extends CourtReservation.Model>(): T =>
@@ -38,7 +38,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
     refresh()
   );
 
-  const { date, setDate } = useDateReducer();
+  const { date, setDate } = useDate();
   const [courts, setCourts] = useState<Court.Entity[]>([]);
   const [teachers, setTeachers] = useState<Employee.Entity[]>([]);
 

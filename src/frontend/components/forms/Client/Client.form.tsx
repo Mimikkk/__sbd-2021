@@ -6,7 +6,7 @@ import { isEntity } from "shared/utils";
 import { DateSelect, Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { clientSchema } from "./Client.validation";
-import { useDateReducer } from "components/hooks";
+import { useDate } from "shared/hooks";
 
 const createClientValues = <T extends Client.Model>(): T =>
   ({
@@ -35,7 +35,7 @@ export const ClientForm = <T extends Client.Model>({
     await (isEntity(values) && clientService.delete(values.id)), refresh()
   );
 
-  const { date, setDate } = useDateReducer();
+  const { date, setDate } = useDate();
 
   return (
     <Form
