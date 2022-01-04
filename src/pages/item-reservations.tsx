@@ -1,16 +1,17 @@
 import { Button, Tile } from "shared/components";
-import {
-  useItemReservationList,
-} from "components/hooks";
-import { Grid, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useModal } from '../frontend/shared/hooks';
-import { ItemReservationForm} from '../frontend/components/forms';
-
+import { useItemReservationList } from "dedicated/hooks";
+import { Grid, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useModal } from "shared/hooks";
+import { ItemReservationForm } from "dedicated/forms";
 
 export default () => {
-  const [ItemReservationList, ItemReservationListContext] = useItemReservationList();
-  const [ItemReservationModal, open] = useModal(<ItemReservationForm />, "Add item reservation");
+  const [ItemReservationList, ItemReservationListContext] =
+    useItemReservationList();
+  const [ItemReservationModal, open] = useModal(
+    <ItemReservationForm />,
+    "Add item reservation"
+  );
 
   return (
     <Tile>

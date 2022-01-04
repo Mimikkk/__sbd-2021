@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { Tile } from "shared/components";
-import { useTransactionList } from "components/hooks";
+import { useTransactionList } from "dedicated/hooks";
 
 export default () => {
   const [TransactionList, TransactionListContext] = useTransactionList();

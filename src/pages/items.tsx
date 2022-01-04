@@ -2,8 +2,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
-import { ItemForm } from "components/forms";
-import { useItemList } from "components/hooks";
+import { ItemForm } from "dedicated/forms";
+import { useItemList } from "dedicated/hooks";
 
 export default () => {
   const [ItemList, ItemListContext] = useItemList();

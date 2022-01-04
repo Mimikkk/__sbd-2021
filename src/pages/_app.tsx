@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, Grid, ThemeProvider } from "@mui/material";
-import { Navigator, Toaster } from "components";
+import { Navigator, Toaster } from "dedicated/components";
 import { AppProps } from "next/app";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
