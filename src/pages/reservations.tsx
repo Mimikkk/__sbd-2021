@@ -8,14 +8,15 @@ import { CourtReservationForm } from "dedicated/forms";
 export default () => {
   const [CourtReservationList, CourtReservationListContext] =
     useCourtReservationList();
+
   const [CourtReservationModal, open] = useModal(
     <CourtReservationForm />,
     "Add reservation"
   );
 
   return (
-    <Tile>
-      <CourtReservationListContext>
+    <CourtReservationListContext>
+      <Tile>
         <Grid container spacing={2} style={{ width: "100%" }}>
           <Grid item container justifyContent={"space-between"}>
             <Grid item>
@@ -38,7 +39,7 @@ export default () => {
             <CourtReservationList />
           </Grid>
         </Grid>
-      </CourtReservationListContext>
-    </Tile>
+      </Tile>
+    </CourtReservationListContext>
   );
 };

@@ -9,7 +9,7 @@ import {
   Form,
   SelectField,
   TextField,
-  TimePicker,
+  HourSelectField,
 } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { useDate } from "shared/hooks";
@@ -72,10 +72,24 @@ export const ItemReservationForm = <T extends ItemReservation.Model>({
           />
         </Grid>
         <Grid item xs={12}>
-          <TimePicker date={date} name={"start"} label={"Start time"} />
+          <HourSelectField
+            name="start"
+            label="Start time"
+            date={date}
+            minHour={7}
+            maxHour={22}
+            minutesStep={30}
+          />
         </Grid>
         <Grid item xs={12}>
-          <TimePicker date={date} name={"end"} label={"End time"} />
+          <HourSelectField
+            name="end"
+            label="End time"
+            date={date}
+            minHour={7}
+            maxHour={22}
+            minutesStep={30}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField name="count" label="Count" />

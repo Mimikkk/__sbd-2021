@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Court, CourtReservation, Employee } from "@models";
 import {
@@ -8,10 +7,17 @@ import {
 } from "@services";
 import { courtReservationSchema } from "./CourtReservation.validation";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TimePicker } from "shared/components";
+import {
+  DateSelect,
+  Form,
+  SelectField,
+  HourSelectField,
+} from "shared/components";
 import { useListContext } from "shared/contexts";
 import { useDate } from "shared/hooks";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { formatTeacherName } from "dedicated/hooks/useLists/courtReservations/columns";
+import { style } from "styles";
 
 const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
@@ -24,7 +30,7 @@ const createReservationValues = <T extends CourtReservation.Model>(): T =>
 export const CourtReservationForm = <T extends CourtReservation.Model>({
   initialValues,
 }: FormProps<T>) => {
-  const { refresh } = useListContext();
+  let { refresh } = useListContext();
 
   const handleSuccess = async (values: T) => (
     await (isEntity(values)
@@ -61,45 +67,41 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={12}>
-          <SelectField
-            name={"courtId"}
-            label={"Choose court"}
-            options={courts
-              .sort()
-              .map((court) => new Option(court.name, court.id))}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <DateSelect
-            date={date}
-            onChange={setDate}
-            min={useMemo(() => new Date(), [])}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TimePicker date={date} name={"start"} label={"Start time"} />
-        </Grid>
-        <Grid item xs={12}>
-          <TimePicker date={date} name={"end"} label={"End time"} />
-        </Grid>
-        <Grid item xs={12}>
-          <SelectField
-            name={"teacherId"}
-            label={"Teacher"}
-            options={teachers
-              .sort()
-              .map(
-                (teacher) =>
-                  new Option(
-                    teacher.surname.concat(" ", teacher.name),
-                    teacher.id
-                  )
-              )}
-          />
-        </Grid>
-      </Grid>
+      <div className={style("form")}>
+        <SelectField
+          name={"courtId"}
+          label={"Choose court"}
+          options={courts.map((court) => new Option(court.name, court.id))}
+        />
+        <DateSelect
+          date={date}
+          onChange={setDate}
+          min={useMemo(() => new Date(), [])}
+        />
+        <HourSelectField
+          name="start"
+          minHour={7}
+          maxHour={22}
+          minutesStep={30}
+          label="Start time"
+          date={date}
+        />
+        <HourSelectField
+          name="end"
+          minHour={7}
+          maxHour={22}
+          minutesStep={30}
+          label="End time"
+          date={date}
+        />
+        <SelectField
+          name="teacherId"
+          label="Teacher"
+          options={teachers.map(
+            (teacher) => new Option(formatTeacherName(teacher), teacher.id)
+          )}
+        />
+      </div>
     </Form>
   );
 };

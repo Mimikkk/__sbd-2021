@@ -6,19 +6,20 @@ import { uuid } from "@internal/types";
 
 interface Props {
   courts: Record<uuid, Court.Entity>;
-  teachers: Record<uuid, Employee.Entity>;
+  employees: Record<uuid, Employee.Entity>;
 }
 
+export const formatTeacherName = (teacher?: Employee.Entity) =>
+  teacher ? `${teacher.name} ${teacher.surname}` : "-";
+
 const TeacherCell =
-  (teachers: Record<uuid, Employee.Entity>) =>
+  (employees: Record<uuid, Employee.Entity>) =>
   ({ value }: CellProps<CourtReservation.Row>) =>
-    value && teachers[value]
-      ? `${teachers[value].name} ${teachers[value].surname}`
-      : "-";
+    formatTeacherName(employees[value]);
 
 export const getColumns = ({
   courts,
-  teachers,
+  employees,
 }: Props): Column<CourtReservation.Row>[] => [
   {
     accessor: "courtId",
@@ -45,7 +46,7 @@ export const getColumns = ({
   {
     accessor: "teacherId",
     Header: "Teacher",
-    Cell: TeacherCell(teachers),
+    Cell: TeacherCell(employees),
   },
   {
     id: "edit",

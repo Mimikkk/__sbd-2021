@@ -1,10 +1,11 @@
 import { Cell as ListCell } from "react-table";
 import { Column as ListColumn } from "shared/components/List";
 import { Nullable } from "@internal/types";
+import { CourtReservation } from "@models/court-reservation";
 
 export module Scheduler {
   export interface Row {
-    selected: boolean[];
+    selected: Nullable<CourtReservation.Entity>[];
     time: Date;
   }
   export interface Cell extends ListCell<Row> {}
@@ -29,7 +30,7 @@ export module Scheduler {
 
   export type Column = ListColumn<Row, RowRef>;
 
-  export const ref: Scheduler.RowRef = {
+  export const initialRef: Scheduler.RowRef = {
     selected: null,
     start: null,
     current: null,

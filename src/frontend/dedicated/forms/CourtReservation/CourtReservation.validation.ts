@@ -1,18 +1,17 @@
 import { object, Schema, date, string } from "yup";
 import { CourtReservation } from "@models";
-import { isSameOrBefore } from "shared/utils/dates";
+import { isAfter } from "date-fns";
 
 export const courtReservationSchema: Schema<CourtReservation.Model> =
   object<CourtReservation.Model>({
     courtId: string().required(),
-    start: date()
-      .required("Start time cant be empty")
-      .test("not empty", "Start time cannot be empty", (value) => !!value)
+    start: date().required("Start time cant be empty"),
+    end: date()
+      .required()
       .test(
         "is end before start",
         "Start time must be before end time",
-        (value, { parent: { end } }) => isSameOrBefore(value as Date, end)
+        (end, { parent: { start } }) => isAfter(end!, start)
       ),
-    end: date().required(),
-    teacherId: string(),
+    teacherId: string().nullable() as any,
   }).defined();

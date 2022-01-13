@@ -1,22 +1,30 @@
-import { Court } from "@internal/models";
+import { Court, CourtReservation, Employee } from "@internal/models";
 import { createContext, useContext } from "react";
 import { RequestStatus } from "@internal/enums";
 import { UseDateProps } from "shared/hooks/useDate";
+import { noop } from "lodash";
 
 export interface SchedulerContextState {
   courts: Court.Entity[];
+  reservations: CourtReservation.Entity[];
+  employees: Employee.Entity[];
   status: RequestStatus;
   day: UseDateProps;
+  refresh: () => void;
 }
-export const initial: SchedulerContextState = {
+
+const initial: SchedulerContextState = {
   status: RequestStatus.Idle,
   courts: [],
+  reservations: [],
+  employees: [],
   day: {
     date: new Date(),
-    setDate: () => {},
-    moveForward: () => {},
-    moveBackward: () => {},
+    setDate: noop,
+    moveForward: noop,
+    moveBackward: noop,
   },
+  refresh: noop,
 };
 
 export const SchedulerContext = createContext<SchedulerContextState>(initial);

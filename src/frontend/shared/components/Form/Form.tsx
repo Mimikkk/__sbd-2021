@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import { ReactElement } from "react";
 import { style } from "styles";
-import { cx, isEntity } from "shared/utils";
+import { isEntity } from "shared/utils";
 import { Grid } from "@mui/material";
 import { Actions } from "./Actions";
 
@@ -20,7 +20,7 @@ export const Form = <T extends object>({
 }: Props<T>) => (
   <Formik {...props} validateOnMount>
     {(props) => (
-      <form className={cx(style("form"))}>
+      <form className={style("form")}>
         <Grid container>
           <Grid container>{children}</Grid>
           <Grid container style={{ padding: 0 }}>

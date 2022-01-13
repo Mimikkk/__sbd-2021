@@ -1,25 +1,21 @@
 import { Court, Scheduler } from "@models";
 import { HourCell } from "shared/components";
 import { CourtCell } from "./cells";
-import { map, range } from "lodash";
 
-const createSchedulerTimeColumn = (): Scheduler.Column => ({
+const timeColumn = (): Scheduler.Column => ({
   accessor: "time",
   Header: "Czas",
   Cell: HourCell,
   width: 40,
 });
-
-const createSchedulerCourtColumn = (index: number): Scheduler.Column => ({
+const courtColumn = (court: Court.Entity, index: number): Scheduler.Column => ({
   accessor: `selected`,
-  Header: `Kort ${index + 1}`,
+  Header: `Kort - ${court.name}`,
   id: `${index}`,
-  Cell: CourtCell(index),
+  Cell: CourtCell,
 });
 
-export const createColumns = ({
-  length,
-}: Court.Entity[]): Scheduler.Column[] => [
-  createSchedulerTimeColumn(),
-  ...map(range(length), createSchedulerCourtColumn),
+export const createColumns = (courts: Court.Entity[]): Scheduler.Column[] => [
+  timeColumn(),
+  ...courts.map(courtColumn),
 ];

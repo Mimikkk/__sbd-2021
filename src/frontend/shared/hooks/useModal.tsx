@@ -3,7 +3,8 @@ import { ModalContext } from "shared/contexts";
 import { Modal } from "shared/components/Modal";
 
 export const useModal = (
-  component: ReactNode, title: string
+  component: ReactNode,
+  title: string
 ): readonly [() => ReactElement, () => void] => {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
