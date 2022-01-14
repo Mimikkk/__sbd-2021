@@ -7,12 +7,7 @@ import {
 } from "@services";
 import { courtReservationSchema } from "./CourtReservation.validation";
 import { isEntity, personToOptions } from "shared/utils";
-import {
-  DateSelect,
-  Form,
-  SelectField,
-  HourSelectField,
-} from "shared/components";
+import { DateSelect, Form, SelectField, HourField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { useDate } from "shared/hooks";
 import React, { useEffect, useMemo, useState } from "react";
@@ -79,7 +74,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
         min={useMemo(() => new Date(addDays(date, 1)), [])}
         max={useMemo(() => new Date(addDays(date, 15)), [])}
       />
-      <HourSelectField
+      <HourField
         name="start"
         day={date}
         minHour={7}
@@ -87,7 +82,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
         minutesStep={30}
         label="Start time"
       />
-      <HourSelectField
+      <HourField
         name="end"
         day={date}
         minHour={7}

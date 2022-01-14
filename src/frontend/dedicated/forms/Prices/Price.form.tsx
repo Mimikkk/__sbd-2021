@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Price } from "@models";
 import { priceService } from "@services";
@@ -36,14 +35,8 @@ export const PriceForm = <T extends Price.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={12}>
-          <TextField name="description" label="Service" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="cost" label="Value" />
-        </Grid>
-      </Grid>
+      <TextField name="description" label="Service" />
+      <TextField name="cost" label="Value" />
     </Form>
   );
 };

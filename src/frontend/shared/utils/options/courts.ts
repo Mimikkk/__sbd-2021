@@ -1,13 +1,14 @@
 import { BaseModel } from "@models";
-import { Option } from "shared/components";
+import { Option } from "./types";
+import { uuid } from "@internal/types";
 
 export const itemsToOptions = <T extends { name: string } & BaseModel>(
   items: T[]
-): Option[] => items.map(itemToOption);
+): Option<uuid>[] => items.map(itemToOption);
 
 export const itemToOption = <T extends { name: string } & BaseModel>(
   item: T
-): Option => ({
+): Option<uuid> => ({
   value: item.id,
   label: item.name,
 });

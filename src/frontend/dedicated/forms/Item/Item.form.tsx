@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Item } from "@models";
 import { itemService } from "@services";
@@ -37,17 +36,9 @@ export const ItemForm = <T extends Item.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={12}>
-          <TextField name="name" label="Item name" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="count" label="Available items" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="description" label="Description" />
-        </Grid>
-      </Grid>
+      <TextField name="name" label="Item name" />
+      <TextField name="count" label="Available items" />
+      <TextField name="description" label="Description" />
     </Form>
   );
 };

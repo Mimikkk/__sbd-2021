@@ -7,7 +7,7 @@ import { useModal } from "shared/hooks";
 import { Typography, TextField } from "@mui/material";
 import { format } from "date-fns";
 import { Nullable, uuid } from "@internal/types";
-import { formatPersonName } from "dedicated/hooks/useLists/courtReservations/columns";
+import { formatPerson } from "shared/utils";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -22,8 +22,9 @@ const translate = <T extends BaseModel>(id: Nullable<uuid>, items: T[]): T =>
 
 export const ReservationView: VFC<Propss> = ({ reservation }) => {
   const { courts, employees } = useSchedulerContext();
-
   const { start, end, courtId, teacherId } = reservation;
+  const teacher = translate(teacherId, employees);
+
   return (
     <div className={style("form")}>
       <TextField
@@ -34,7 +35,7 @@ export const ReservationView: VFC<Propss> = ({ reservation }) => {
       <TextField value={format(start, "HH:mm")} label="Start" disabled />
       <TextField value={format(end, "HH:mm")} label="End" disabled />
       <TextField
-        value={formatPersonName(translate(teacherId, employees))}
+        value={teacher && formatPerson(teacher)}
         label="Teacher"
         disabled
       />

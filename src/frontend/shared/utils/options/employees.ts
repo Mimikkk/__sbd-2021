@@ -1,12 +1,15 @@
+import { uuid } from "@internal/types";
 import { Person } from "@models";
-import { Option } from "shared/components";
+import { Option } from "./types";
 import { formatPerson } from "shared/utils";
 
 export const personToOptions = <T extends Person.Entity>(
   people: T[]
-): Option[] => people.map(personToOption);
+): Option<uuid>[] => people.map(personToOption);
 
-export const personToOption = <T extends Person.Entity>(person: T): Option => ({
+export const personToOption = <T extends Person.Entity>(
+  person: T
+): Option<uuid> => ({
   value: person.id,
   label: formatPerson(person),
 });

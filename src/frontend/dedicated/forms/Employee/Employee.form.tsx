@@ -1,13 +1,12 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Employee } from "@models";
 import { employeeService } from "@services";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TextField } from "shared/components";
+import { BooleanField, Form, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { employeeSchema } from "./Employee.validation";
-import { useMemo } from "react";
-import { useDate } from "shared/hooks";
+import { style } from "styles";
+import { DateField } from "shared/components/Form/fields/DateField";
 
 const createEmployeeValues = <T extends Employee.Model>(): T =>
   ({
@@ -37,8 +36,6 @@ export const EmployeeForm = <T extends Employee.Model>({
     await (isEntity(values) && employeeService.delete(values.id)), refresh()
   );
 
-  const { date, setDate } = useDate();
-
   return (
     <Form
       validationSchema={employeeSchema}
@@ -46,47 +43,24 @@ export const EmployeeForm = <T extends Employee.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container item spacing={2.5}>
-        <Grid item xs={6}>
-          <TextField name="name" label="Name" />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField name="surname" label="Surname" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="address" label="Address" />
-        </Grid>
-        <Grid item xs={12}>
-          <DateSelect
-            date={date}
-            onChange={setDate}
-            max={useMemo(() => new Date(), [])}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="phone" label="Phone number" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="email" label="Email address" />
-        </Grid>
-
-        <Grid item xs={12}>
-          <TextField name="bankAccount" label="Bank account number" />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField name="payroll" label="Salary" />
-        </Grid>
-        <Grid item xs={6}>
-          <SelectField
-            options={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            name="isTeacher"
-            label="Is a teacher?"
-          />
-        </Grid>
-      </Grid>
+      <div className={style("form--split")}>
+        <TextField name="name" label="Name" />
+        <TextField name="surname" label="Surname" />
+      </div>
+      <TextField name="address" label="Address" />
+      <DateField
+        name="birthdate"
+        label="Birthdate"
+        minYear={1950}
+        maxYear={2010}
+      />
+      <TextField name="phone" label="Phone number" />
+      <TextField name="email" label="Email address" />
+      <TextField name="bankAccount" label="Bank account number" />
+      <div className={style("form--split")}>
+        <TextField name="payroll" label="Salary" />
+        <BooleanField name="isTeacher" label="Is a teacher" />
+      </div>
     </Form>
   );
 };

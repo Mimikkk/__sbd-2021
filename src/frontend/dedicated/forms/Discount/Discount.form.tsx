@@ -1,11 +1,11 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Discount } from "@models";
 import { discountService } from "@services";
 import { discountSchema } from "./Discount.validation";
 import { isEntity } from "shared/utils";
-import { Form, SelectField, TextField } from "shared/components";
+import { BooleanField, Form, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
+import { style } from "styles";
 
 const createDiscountValues = <T extends Discount.Model>(): T =>
   ({
@@ -37,27 +37,12 @@ export const DiscountForm = <T extends Discount.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={12}>
-          <TextField name="name" label="Discount name" />
-        </Grid>
-        <Grid item xs={6}>
-          <SelectField
-            options={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            name="isPercentage"
-            label="Is a percentage?"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField name="value" label="Value of discount" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="description" label="Description" />
-        </Grid>
-      </Grid>
+      <TextField name="name" label="Discount name" />
+      <div className={style("form--split")}>
+        <BooleanField name="isPercentage" label="Is a percentage" />
+        <TextField name="value" label="Value" />
+      </div>
+      <TextField name="description" label="Description" />
     </Form>
   );
 };

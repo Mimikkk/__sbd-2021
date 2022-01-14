@@ -1,11 +1,11 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Court } from "@models";
 import { courtService } from "@services";
 import { courtSchema } from "./Court.validation";
 import { isEntity } from "shared/utils";
-import { Form, SelectField, TextField } from "shared/components";
+import { BooleanField, Form, SelectField, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
+import { style } from "styles";
 
 const createCourtValues = <T extends Court.Model>(): T =>
   ({
@@ -14,6 +14,13 @@ const createCourtValues = <T extends Court.Model>(): T =>
     isCovered: false,
     isUnderMaintenance: false,
   } as T);
+
+const coverOptions = [
+  { value: "Clay", label: "Clay" },
+  { value: "Grass", label: "Grass" },
+  { value: "Hard", label: "Hard" },
+  { value: "Carpet", label: "Carpet" },
+];
 
 export const CourtForm = <T extends Court.Model>({
   initialValues,
@@ -38,43 +45,16 @@ export const CourtForm = <T extends Court.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={6}>
-          <TextField name="name" label="Court name" />
-        </Grid>
-        <Grid item xs={6}>
-          <SelectField
-            options={[
-              { value: "Clay", label: "Clay" },
-              { value: "Grass", label: "Grass" },
-              { value: "Hard", label: "Hard" },
-              { value: "Carpet", label: "Carpet" },
-            ]}
-            name="floor"
-            label="Type of surface"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <SelectField
-            options={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            name="isCovered"
-            label="Is roof covered"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <SelectField
-            options={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            name="isUnderMaintenance"
-            label="Is under maintenance"
-          />
-        </Grid>
-      </Grid>
+      <div className={style("form--split")}>
+        <TextField name="name" label="Court name" />
+        <SelectField
+          options={coverOptions}
+          name="floor"
+          label="Type of surface"
+        />
+      </div>
+      <BooleanField name="isCovered" label="Is roof covered" />
+      <BooleanField name="isUnderMaintenance" label="Is under maintenance" />
     </Form>
   );
 };

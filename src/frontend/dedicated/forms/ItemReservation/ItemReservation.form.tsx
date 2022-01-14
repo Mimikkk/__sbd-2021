@@ -1,19 +1,20 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Item, ItemReservation } from "@models";
 import { itemReservationService, itemService } from "@services";
 import { ItemReservationSchema } from "./ItemReservation.validation";
-import { isEntity } from "shared/utils";
+import { isEntity, itemsToOptions } from "shared/utils";
 import {
   DateSelect,
   Form,
   SelectField,
   TextField,
-  HourSelectField,
+  HourField,
 } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { useDate } from "shared/hooks";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { addDays } from "date-fns";
+import { style } from "styles";
 
 const createItemReservationValues = <T extends ItemReservation.Model>(): T =>
   ({
@@ -56,45 +57,32 @@ export const ItemReservationForm = <T extends ItemReservation.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container spacing={2.5}>
-        <Grid item xs={12}>
-          <SelectField
-            name={"itemId"}
-            label={"ItemID"}
-            options={items.map((item) => new Option(item.name, item.id))}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <DateSelect
-            date={date}
-            onChange={setDate}
-            min={useMemo(() => new Date(), [])}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <HourSelectField
-            name="start"
-            label="Start time"
-            date={date}
-            minHour={7}
-            maxHour={22}
-            minutesStep={30}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <HourSelectField
-            name="end"
-            label="End time"
-            date={date}
-            minHour={7}
-            maxHour={22}
-            minutesStep={30}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="count" label="Count" />
-        </Grid>
-      </Grid>
+      <SelectField name="itemId" label="Name" options={itemsToOptions(items)} />
+      <DateSelect
+        date={date}
+        onChange={setDate}
+        min={useMemo(() => new Date(addDays(date, 1)), [])}
+        max={useMemo(() => new Date(addDays(date, 15)), [])}
+      />
+      <div className={style("form--split")}>
+        <HourField
+          name="start"
+          label="Start time"
+          minHour={7}
+          maxHour={22}
+          minutesStep={30}
+          day={date}
+        />
+        <HourField
+          name="end"
+          label="End time"
+          minHour={7}
+          maxHour={22}
+          minutesStep={30}
+          day={date}
+        />
+      </div>
+      <TextField name="count" label="Count" />
     </Form>
   );
 };

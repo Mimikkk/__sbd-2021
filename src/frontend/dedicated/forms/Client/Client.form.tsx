@@ -1,23 +1,23 @@
-import { Grid } from "@mui/material";
 import { FormProps } from "dedicated/forms/types";
 import { Client } from "@models";
 import { clientService } from "@services";
 import { isEntity } from "shared/utils";
-import { DateSelect, Form, SelectField, TextField } from "shared/components";
+import { BooleanField, Form, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { clientSchema } from "./Client.validation";
-import { useDate } from "shared/hooks";
+import { style } from "styles";
+import { DateField } from "shared/components/Form/fields/DateField";
 
 const createClientValues = <T extends Client.Model>(): T =>
   ({
     address: "",
-    birthdate: new Date(),
+    birthdate: null,
     email: "",
     isPermanent: false,
     name: "",
     phone: "",
     surname: "",
-  } as T);
+  } as any);
 
 export const ClientForm = <T extends Client.Model>({
   initialValues,
@@ -35,8 +35,6 @@ export const ClientForm = <T extends Client.Model>({
     await (isEntity(values) && clientService.delete(values.id)), refresh()
   );
 
-  const { date, setDate } = useDate();
-
   return (
     <Form
       validationSchema={clientSchema}
@@ -44,36 +42,20 @@ export const ClientForm = <T extends Client.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <Grid container item spacing={2.5}>
-        <Grid item xs={6}>
-          <TextField name="name" label="Name" />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField name="surname" label="Surname" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="address" label="Address" />
-        </Grid>
-        <Grid item xs={6}>
-          <DateSelect date={date} onChange={setDate} />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="phone" label="Phone number" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField name="email" label="Email address" />
-        </Grid>
-        <Grid item xs={12}>
-          <SelectField
-            options={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            name="isPermanent"
-            label="Is permanent client?"
-          />
-        </Grid>
-      </Grid>
+      <div className={style("form--split")}>
+        <TextField name="name" label="Name" />
+        <TextField name="surname" label="Surname" />
+      </div>
+      <TextField name="address" label="Address" />
+      <DateField
+        name="birthdate"
+        label="Birthdate"
+        minYear={1950}
+        maxYear={2010}
+      />
+      <TextField name="phone" label="Phone number" />
+      <TextField name="email" label="Email address" />
+      <BooleanField name="isPermanent" label="Is a permanent client" />
     </Form>
   );
 };

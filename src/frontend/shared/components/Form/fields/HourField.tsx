@@ -16,7 +16,7 @@ export interface Props {
   onChange?: (date: Nullable<Date>) => void;
 }
 
-export const HourSelectField: VFC<Props> = ({
+export const HourField: VFC<Props> = ({
   day,
   name,
   label,
