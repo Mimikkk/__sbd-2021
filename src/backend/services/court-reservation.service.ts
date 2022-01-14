@@ -2,14 +2,17 @@ import { CourtReservation } from "@models";
 import { uuid } from "@internal/types";
 import { servicant } from "./servicant";
 import { ListResponse } from "$/services/types";
+import { parseReservations } from "$/services/parsing";
 
 const url = "api/courts/reservations";
 
 export const courtReservationService = {
   create: (item: CourtReservation.Model) =>
     servicant.create({ url, item, successMessage: "Created resource" }),
-
-  readAll: () => servicant.read<ListResponse<CourtReservation.Entity>>({ url }),
+  readAll: () =>
+    servicant
+      .read<ListResponse<CourtReservation.Entity>>({ url })
+      .then(parseReservations),
 
   update: (id: uuid, item: CourtReservation.Model) =>
     servicant.update<CourtReservation.Model>({

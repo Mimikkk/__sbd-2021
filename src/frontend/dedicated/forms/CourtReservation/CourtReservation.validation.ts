@@ -10,7 +10,7 @@ export const courtReservationSchema: Schema<CourtReservation.Model> =
       .required()
       .test(
         "is end before start",
-        "Start time must be before end time",
+        "End must be after the start",
         (end, { parent: { start } }) => isAfter(end!, start)
       ),
     teacherId: string().nullable() as any,

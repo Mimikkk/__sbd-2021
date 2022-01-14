@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const formatTeacherName = (teacher?: Employee.Entity) =>
-  teacher ? `${teacher.name} ${teacher.surname}` : "-";
+  teacher ? `${teacher.name} ${teacher.surname}` : null;
 
 const TeacherCell =
   (employees: Record<uuid, Employee.Entity>) =>

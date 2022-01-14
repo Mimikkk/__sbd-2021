@@ -19,7 +19,6 @@ export const useScheduler = () => {
     list: { status: reservationsStatus, items: reservations },
     refresh,
   } = useListFetch(courtReservationService.readAll);
-
   const {
     list: { status: employeesStatus, items: employees },
   } = useListFetch(employeeService.readAll);

@@ -32,15 +32,6 @@ export const FormField = <T,>({
     error: touched && Boolean(error),
     helperText: (touched && error) || helper || "",
     onChange: (event: ChangeEvent<{ value: T }>) => {
-      if (event instanceof Date)
-        event = {
-          type: "click",
-          target: {
-            value: event as any,
-            name: name,
-          },
-        } as any;
-
       onChange?.(event.target.value);
       field.onChange(event);
     },

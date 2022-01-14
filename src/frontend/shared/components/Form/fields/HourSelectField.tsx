@@ -1,22 +1,23 @@
-import React, { VFC } from "react";
-import { FormField } from "shared/components/Form/fields/FormField";
+import { useEffect, VFC } from "react";
 import { TimePicker } from "@mui/lab";
-import { useFactory } from "shared/hooks";
 import { TextField } from "@mui/material";
 import { Nullable } from "@internal/types";
+import { useField } from "formik";
+import { isSameDay, isValid, getMinutes, getHours } from "date-fns";
 
 export interface Props {
-  date: Date;
+  value?: Nullable<Date>;
   name: string;
   label: string;
   minHour: number;
   maxHour: number;
   minutesStep: number;
+  day: Date;
   onChange?: (date: Nullable<Date>) => void;
 }
 
 export const HourSelectField: VFC<Props> = ({
-  date,
+  day,
   name,
   label,
   minHour,
@@ -24,20 +25,40 @@ export const HourSelectField: VFC<Props> = ({
   minutesStep,
   onChange,
 }) => {
-  const [, Text] = useFactory(TextField);
+  const [field, meta, helpers] = useField({ name });
+  console.log({
+    v: field.value,
+    day,
+    val: isValid(field.value),
+    x: !isSameDay(field.value, day),
+  });
+  useEffect(() => {
+    if (isValid(field.value) && !isSameDay(field.value, day)) {
+      const minutes = getMinutes(field.value);
+      const hours = getHours(field.value);
+      helpers.setValue(new Date(day.setHours(hours, minutes, 0, 0)));
+    }
+  }, [day, field.value]);
 
   return (
-    <FormField name={name}>
-      <TimePicker
-        value={date}
-        ampm={false}
-        minutesStep={minutesStep}
-        minTime={new Date(date.setHours(minHour, 0, 0))}
-        maxTime={new Date(date.setHours(maxHour, 0, 0))}
-        renderInput={Text}
-        onChange={onChange!}
-        label={label}
-      />
-    </FormField>
+    <TimePicker
+      ampm={false}
+      minutesStep={minutesStep}
+      minTime={new Date(day.setHours(minHour, 0, 0))}
+      maxTime={new Date(day.setHours(maxHour, 0, 0))}
+      renderInput={(props) => (
+        <TextField
+          {...props}
+          error={meta.touched && Boolean(meta.error)}
+          helperText={meta.touched && meta.error}
+        />
+      )}
+      onChange={(date) => {
+        onChange?.(date);
+        helpers.setValue(date);
+      }}
+      label={label}
+      value={field.value}
+    />
   );
 };

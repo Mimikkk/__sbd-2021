@@ -21,11 +21,11 @@ import { style } from "styles";
 
 const createReservationValues = <T extends CourtReservation.Model>(): T =>
   ({
-    start: new Date(),
-    end: new Date(),
+    start: null,
+    end: null,
     courtId: "",
     teacherId: "",
-  } as T);
+  } as any);
 
 export const CourtReservationForm = <T extends CourtReservation.Model>({
   initialValues,
@@ -60,6 +60,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
       );
   }, []);
 
+  console.log({ date });
   return (
     <Form
       validationSchema={courtReservationSchema}
@@ -80,25 +81,25 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
         />
         <HourSelectField
           name="start"
+          day={date}
           minHour={7}
           maxHour={22}
           minutesStep={30}
           label="Start time"
-          date={date}
         />
         <HourSelectField
           name="end"
+          day={date}
           minHour={7}
           maxHour={22}
           minutesStep={30}
           label="End time"
-          date={date}
         />
         <SelectField
           name="teacherId"
           label="Teacher"
           options={teachers.map(
-            (teacher) => new Option(formatTeacherName(teacher), teacher.id)
+            (teacher) => new Option(formatTeacherName(teacher)!, teacher.id)
           )}
         />
       </div>
