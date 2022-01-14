@@ -5,9 +5,8 @@ import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 import { style } from "styles";
 import { useModal } from "shared/hooks";
 import { Typography, TextField } from "@mui/material";
-import { format } from "date-fns";
 import { Nullable, uuid } from "@internal/types";
-import { formatPerson } from "shared/utils";
+import { formatPerson, formatTime } from "shared/utils";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -27,13 +26,32 @@ export const ReservationView: VFC<Propss> = ({ reservation }) => {
 
   return (
     <div className={style("form")}>
+      <div className={style("form--split")}>
+        <TextField label="Name" disabled />
+        <TextField label="Surname" disabled />
+        <TextField label="Is permanent" disabled />
+      </div>
+      <div className={style("form--split")}>
+        <TextField label="Item" disabled size="small" />
+        <TextField label="Count" disabled size="small" />
+      </div>
+      <div className={style("form--split")}>
+        <TextField label="Item" disabled size="small" />
+        <TextField label="Count" disabled size="small" />
+      </div>
+      <div className={style("form--split")}>
+        <TextField label="Item" disabled size="small" />
+        <TextField label="Count" disabled size="small" />
+      </div>
       <TextField
         value={translate(courtId, courts).name}
         label="Court"
         disabled
       />
-      <TextField value={format(start, "HH:mm")} label="Start" disabled />
-      <TextField value={format(end, "HH:mm")} label="End" disabled />
+      <div className={style("form--split")}>
+        <TextField value={formatTime(start)} label="Start" disabled />
+        <TextField value={formatTime(end)} label="End" disabled />
+      </div>
       <TextField
         value={teacher && formatPerson(teacher)}
         label="Teacher"
@@ -51,7 +69,7 @@ export const Reservation: VFC<Props> = ({ reservation }) => {
   } = useSchedulerContext();
   const [CourtReservationModal, open] = useModal(
     <ReservationView reservation={reservation} />,
-    "Edit reservation"
+    "Reservation details"
   );
 
   return (
