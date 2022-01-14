@@ -1,5 +1,5 @@
 import { FormProps } from "dedicated/forms/types";
-import { Court, CourtReservation, Employee } from "@models";
+import { Court, CourtReservation } from "@models";
 import {
   courtReservationService,
   courtService,
@@ -9,8 +9,8 @@ import { courtReservationSchema } from "./CourtReservation.validation";
 import { isEntity, personToOptions } from "shared/utils";
 import { DateSelect, Form, SelectField, HourField } from "shared/components";
 import { useListContext } from "shared/contexts";
-import { useDate } from "shared/hooks";
-import React, { useEffect, useMemo, useState } from "react";
+import { useDate, useListFetch } from "shared/hooks";
+import { useMemo } from "react";
 import { filter } from "lodash";
 import { itemsToOptions } from "shared/utils/options";
 import { addDays } from "date-fns";
@@ -43,19 +43,26 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
   );
 
   const { date, setDate } = useDate();
-  const [courts, setCourts] = useState<Court.Entity[]>([]);
-  const [teachers, setTeachers] = useState<Employee.Entity[]>([]);
 
-  useEffect(() => {
-    courtService.readAll().then(({ items }) => setCourts(items));
-  }, []);
+  const {
+    list: { items: courts },
+  } = useListFetch(courtService.readAll);
+  const {
+    list: { items: teachers },
+  } = useListFetch(() =>
+    employeeService.readAll().then(({ items, ...meta }) => ({
+      items: filter(items, "isTeacher"),
+      ...meta,
+    }))
+  );
 
-  useEffect(() => {
-    employeeService
-      .readAll()
-      .then(({ items }) => setTeachers(filter(items, "isTeacher")));
-  }, []);
-
+  const { min, max } = useMemo(
+    () => ({
+      min: new Date(addDays(date, 1)),
+      max: new Date(addDays(date, 15)),
+    }),
+    []
+  );
   return (
     <Form
       validationSchema={courtReservationSchema}
@@ -65,15 +72,10 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
     >
       <SelectField
         name={"courtId"}
-        label={"Choose court"}
+        label={"Court"}
         options={itemsToOptions(courts)}
       />
-      <DateSelect
-        date={date}
-        onChange={setDate}
-        min={useMemo(() => new Date(addDays(date, 1)), [])}
-        max={useMemo(() => new Date(addDays(date, 15)), [])}
-      />
+      <DateSelect date={date} onChange={setDate} min={min} max={max} />
       <HourField
         name="start"
         day={date}
