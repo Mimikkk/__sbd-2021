@@ -7,7 +7,7 @@ import { useModal } from "shared/hooks";
 import { Typography, TextField } from "@mui/material";
 import { format } from "date-fns";
 import { Nullable, uuid } from "@internal/types";
-import { formatTeacherName } from "dedicated/hooks/useLists/courtReservations/columns";
+import { formatPersonName } from "dedicated/hooks/useLists/courtReservations/columns";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -34,7 +34,7 @@ export const ReservationView: VFC<Propss> = ({ reservation }) => {
       <TextField value={format(start, "HH:mm")} label="Start" disabled />
       <TextField value={format(end, "HH:mm")} label="End" disabled />
       <TextField
-        value={formatTeacherName(translate(teacherId, employees))}
+        value={formatPersonName(translate(teacherId, employees))}
         label="Teacher"
         disabled
       />

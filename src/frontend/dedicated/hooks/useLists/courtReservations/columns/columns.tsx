@@ -3,19 +3,17 @@ import { Court, CourtReservation, Employee } from "@models";
 import { CellProps } from "react-table";
 import { EditCell } from "./EditCell";
 import { uuid } from "@internal/types";
+import { formatPerson } from "shared/utils";
 
 interface Props {
   courts: Record<uuid, Court.Entity>;
   employees: Record<uuid, Employee.Entity>;
 }
 
-export const formatTeacherName = (teacher?: Employee.Entity) =>
-  teacher ? `${teacher.name} ${teacher.surname}` : null;
-
 const TeacherCell =
   (employees: Record<uuid, Employee.Entity>) =>
   ({ value }: CellProps<CourtReservation.Row>) =>
-    formatTeacherName(employees[value]);
+    (employees[value] && formatPerson(employees[value])) || "-";
 
 export const getColumns = ({
   courts,

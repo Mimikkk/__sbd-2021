@@ -16,10 +16,13 @@ import {
 import { useListContext } from "shared/contexts";
 import { useDate } from "shared/hooks";
 import React, { useEffect, useMemo, useState } from "react";
-import { formatTeacherName } from "dedicated/hooks/useLists/courtReservations/columns";
 import { style } from "styles";
+import { filter } from "lodash";
+import { itemsToOptions, personToOptions } from "shared/utils/options";
 
-const createReservationValues = <T extends CourtReservation.Model>(): T =>
+export const createReservationValues = <
+  T extends CourtReservation.Model
+>(): T =>
   ({
     start: null,
     end: null,
@@ -55,9 +58,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
   useEffect(() => {
     employeeService
       .readAll()
-      .then(({ items }) =>
-        setTeachers(items.filter(({ isTeacher, surname, name }) => isTeacher))
-      );
+      .then(({ items }) => setTeachers(filter(items, "isTeacher")));
   }, []);
 
   console.log({ date });
@@ -72,7 +73,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
         <SelectField
           name={"courtId"}
           label={"Choose court"}
-          options={courts.map((court) => new Option(court.name, court.id))}
+          options={itemsToOptions(courts)}
         />
         <DateSelect
           date={date}
@@ -98,9 +99,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
         <SelectField
           name="teacherId"
           label="Teacher"
-          options={teachers.map(
-            (teacher) => new Option(formatTeacherName(teacher)!, teacher.id)
-          )}
+          options={personToOptions(teachers)}
         />
       </div>
     </Form>
