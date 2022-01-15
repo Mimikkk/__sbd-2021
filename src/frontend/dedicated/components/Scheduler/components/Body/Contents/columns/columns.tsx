@@ -50,16 +50,26 @@ const createCourtColumn = (
     const container = document.getElementById(`${column}.${rowid}`)!;
     render(<ReservationDrag start={start!} end={end} />, container);
   },
-  onCellDragEnd: ({ ref }) => {
+  onCellDragEnd: async ({ ref }) => {
     const { start, end, refresh } = ref.current;
+
+    if (!start || !end || differenceInMinutes(end, start) <= 0) {
+      const drag = document.getElementById("reservation-drag-container");
+      drag?.remove();
+      return;
+    }
+
+    await courtReservationService.create({
+      end,
+      start,
+      courtId: court.id,
+      teacherId: null,
+    });
+
     const drag = document.getElementById("reservation-drag-container");
     drag?.remove();
 
-    if (!start || !end || differenceInMinutes(end, start) <= 0) return;
-
-    courtReservationService
-      .create({ end, start, courtId: court.id, teacherId: null })
-      .then(refresh);
+    refresh();
   },
 });
 
