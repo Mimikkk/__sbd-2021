@@ -1,8 +1,6 @@
 const dragContainer = "drag__container";
 
-const getElement = () => document.getElementById(dragContainer)!;
+const getContainer = () => document.getElementById(dragContainer)!;
 const Container = () => <span id={dragContainer} />;
 
-export const useDrag = () => {
-  return { getElement, Container } as const;
-};
+export const useDrag = () => ({ getContainer, Container } as const);

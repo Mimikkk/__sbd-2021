@@ -9,7 +9,7 @@ export module CourtReservation {
 
   export interface Entity extends Reservation.Entity, Model {}
 
-  export interface Row extends Entity {
+  export interface Row extends Model {
     court?: string;
     teacher?: string;
   }

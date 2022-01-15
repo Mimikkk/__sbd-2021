@@ -26,12 +26,6 @@ export const HourField: VFC<Props> = ({
   onChange,
 }) => {
   const [field, meta, helpers] = useField({ name });
-  console.log({
-    v: field.value,
-    day,
-    val: isValid(field.value),
-    x: !isSameDay(field.value, day),
-  });
   useEffect(() => {
     if (isValid(field.value) && !isSameDay(field.value, day)) {
       const minutes = getMinutes(field.value);

@@ -13,7 +13,7 @@ export interface ListProps<T extends object, R = undefined>
   columns: Column<T, R>[];
   items: T[];
   pagination?: boolean;
-  initialRef?: R;
+  cellRef?: R;
   loading?: boolean;
 }
 
@@ -23,11 +23,11 @@ export const List = <T extends object, R = undefined>({
   pagination = false,
   className,
   loading,
-  initialRef,
+  cellRef,
   ...props
 }: ListProps<T, R>) => {
   const reference = useRef<R>();
-  if (!reference.current) reference.current = initialRef;
+  if (!reference.current) reference.current = cellRef;
 
   const {
     columns: cols,

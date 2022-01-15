@@ -61,6 +61,28 @@ export const ReservationView: VFC<Propss> = ({ reservation }) => {
   );
 };
 
+interface Propsss {
+  start: Date;
+  end: Date;
+}
+
+export const ReservationDrag: VFC<Propsss> = ({ start, end }) => (
+  <div
+    className={style("scheduler-body__reservation")}
+    style={{
+      height: `${(differenceInMinutes(end, start) / 30 + 1) * 17}px`,
+      minWidth: "20%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      userSelect: "none",
+      pointerEvents: "none",
+    }}
+  >
+    <Typography>Reserving...</Typography>
+  </div>
+);
+
 export const Reservation: VFC<Props> = ({ reservation }) => {
   const { start, end } = reservation;
 
@@ -77,7 +99,7 @@ export const Reservation: VFC<Props> = ({ reservation }) => {
       <div
         className={style("scheduler-body__reservation")}
         style={{
-          height: `${(differenceInMinutes(end, start) / 30) * 17}px`,
+          height: `${(differenceInMinutes(end, start) / 30 + 1) * 17}px`,
           minWidth: `${100 / (length + 1) - 8}%`,
         }}
         onClick={open}
