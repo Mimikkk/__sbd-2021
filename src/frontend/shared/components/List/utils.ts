@@ -6,13 +6,13 @@ import {
   keyBy,
   mapValues,
   omitBy,
-} from 'lodash';
-import { MutableRefObject } from 'react';
-import { HeaderGroup, Row } from 'react-table';
-import { Column } from './types';
+} from "lodash";
+import { MutableRefObject } from "react";
+import { HeaderGroup, Row } from "react-table";
+import { Column } from "./types";
 
 const columnKey = <T extends object, R>(column: Column<T, R>) =>
-  'id' in column ? column.id : column.accessor;
+  "id" in column ? column.id : column.accessor;
 
 export const getColumnsById = <T extends object, R>(columns: Column<T, R>[]) =>
   keyBy(columns, columnKey) as Dictionary<Column<T, R>>;
@@ -20,12 +20,12 @@ export const getColumnsById = <T extends object, R>(columns: Column<T, R>[]) =>
 export const prepareCells = <T extends object, R>(
   rows: Row<T>[],
   columns: Column<T, R>[],
-  ref: MutableRefObject<R>,
+  ref: MutableRefObject<R>
 ) => {
   const columnById = getColumnsById(columns);
 
   each(rows, (row) =>
-    each(row.cells, (cell, index) => {
+    each(row.cells, (cell) => {
       const {
         onCellClick: onClick,
         onCellDragEnd: onDragEnd,
@@ -34,17 +34,17 @@ export const prepareCells = <T extends object, R>(
         onCellDragStart: onDragStart,
       } = columnById[cell.column.id];
 
-      const props = { index, cell, rows, columns, ref };
+      const props = { cell, rows, columns, ref };
       const fns = { onClick, onDragEnd, onDragEnter, onDragOver, onDragStart };
 
       extend(
         cell,
         mapValues(
           omitBy(fns, isNil),
-          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
-        ),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event })
+        )
       );
-    }),
+    })
   );
 };
 
@@ -52,7 +52,7 @@ export const prepareHeaders = <T extends object, R>(
   groups: HeaderGroup<T>[],
   rows: Row<T>[],
   columns: Column<T, R>[],
-  ref: MutableRefObject<R>,
+  ref: MutableRefObject<R>
 ) => {
   const columnById = getColumnsById(columns);
 
@@ -73,9 +73,9 @@ export const prepareHeaders = <T extends object, R>(
         header,
         mapValues(
           omitBy(fns, isNil),
-          (fn) => (event: DragEvent) => fn?.({ ...props, event }),
-        ),
+          (fn) => (event: DragEvent) => fn?.({ ...props, event })
+        )
       );
-    }),
+    })
   );
 };

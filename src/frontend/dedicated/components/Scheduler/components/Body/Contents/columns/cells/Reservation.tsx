@@ -78,6 +78,7 @@ export const ReservationDrag: VFC<Propsss> = ({ start, end }) => (
       userSelect: "none",
       pointerEvents: "none",
     }}
+    id="reservation-drag-container"
   >
     <Typography>Reserving...</Typography>
   </div>

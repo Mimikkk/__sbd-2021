@@ -6,7 +6,8 @@ import { ReservationDrag } from "./cells/Reservation";
 import { removeDragImage } from "shared/utils/dom";
 import { courtReservationService } from "@services";
 import { curry } from "lodash";
-import { differenceInMinutes } from "date-fns";
+import { differenceInMinutes, isWithinInterval } from "date-fns";
+import { findContainingInterval } from "./utils";
 
 const timeColumn: Scheduler.Column = {
   accessor: "time",
@@ -20,39 +21,44 @@ const createCourtColumn = (
   court: Court.Entity,
   index: number
 ): Scheduler.Column => ({
-  accessor: `selected`,
   Header: `Kort - ${court.name}`,
   id: `${index}`,
   Cell: CourtCell,
-  onCellDragStart: ({ cell, event, index, ref }) => {
-    if (cell.row.original.selected[index]) event.preventDefault();
+  onCellDragStart: ({ cell, event, ref, rows }) => {
+    if (cell.row.original.reserved[index]) event.preventDefault();
     ref.current = {
       ...ref.current,
       column: index,
       row: cell.row.index,
       start: cell.row.original.time,
+      interval: findContainingInterval(index, rows, cell),
     };
+
     removeDragImage(event);
   },
-  onCellDragEnter: (event) => {
-    const { column, start, row } = event.ref.current;
-    if (column !== event.index) return;
-    if (row! > event.cell.row.index) return;
-    event.ref.current.end = event.cell.row.original.time;
-    const end = event.ref.current.end;
+  onCellDragEnter: ({ ref, cell }) => {
+    const { column, start, row, interval } = ref.current;
+    if (column !== index) return;
+    const { time } = cell.row.original;
+    if (row! > cell.row.index) return;
+    if (!isWithinInterval(time, interval)) return;
 
-    const container = document.getElementById(`${column - 1}.${row}`)!;
+    ref.current.end = time;
+    const end = ref.current.end;
+
+    const rowid = Math.min(row!, cell.row.index);
+    const container = document.getElementById(`${column}.${rowid}`)!;
     render(<ReservationDrag start={start!} end={end} />, container);
   },
-  onCellDragEnd: (event) => {
-    const { column, start, end, row, refresh } = event.ref.current;
-    const container = document.getElementById(`${column! - 1}.${row}`)!;
-    container.removeChild(container.lastChild!);
+  onCellDragEnd: ({ ref }) => {
+    const { start, end, refresh } = ref.current;
+    const drag = document.getElementById("reservation-drag-container");
+    drag?.remove();
 
-    if (differenceInMinutes(end!, start!) <= 0) return;
+    if (!start || !end || differenceInMinutes(end, start) <= 0) return;
 
     courtReservationService
-      .create({ end: end!, start: start!, courtId: court.id, teacherId: null })
+      .create({ end, start, courtId: court.id, teacherId: null })
       .then(refresh);
   },
 });

@@ -10,14 +10,14 @@ const createSchedulerRow = (
 ): Scheduler.Row => {
   const courtById = keyBy(courts, "id");
   const row: Scheduler.Row = {
-    selected: times(courts.length, constant(null)),
+    reserved: times(courts.length, constant(null)),
     time,
   };
 
   const assignTime = (reservation: CourtReservation.Entity) => {
     const { start, end, courtId } = reservation;
     if (isWithinInterval(time, { start, end })) {
-      row.selected[courts.indexOf(courtById[courtId])] = reservation;
+      row.reserved[courts.indexOf(courtById[courtId])] = reservation;
     }
   };
   each(reservations, assignTime);

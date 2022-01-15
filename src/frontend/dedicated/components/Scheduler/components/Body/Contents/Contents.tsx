@@ -29,7 +29,7 @@ export const SchedulerContents = () => {
         className={style("scheduler-body")}
         columns={columns}
         items={items}
-        cellRef={{ ...Scheduler.ref, refresh }}
+        cellRef={{ ...Scheduler.ref, refresh, reservations }}
       />
       <Container />
     </>

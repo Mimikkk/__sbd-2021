@@ -6,7 +6,7 @@ import { noop } from "lodash";
 
 export module Scheduler {
   export interface Row {
-    selected: Nullable<CourtReservation.Entity>[];
+    reserved: Nullable<CourtReservation.Entity>[];
     time: Date;
   }
   export interface Cell extends ListCell<Row> {}
@@ -21,11 +21,13 @@ export module Scheduler {
     extends Record<number, Record<number, Reservation>> {}
 
   export interface CellRef {
-    start: Nullable<Date>;
-    end: Nullable<Date>;
+    reservations: CourtReservation.Entity[];
     column: Nullable<number>;
     row: Nullable<number>;
+    start: Nullable<Date>;
+    end: Nullable<Date>;
     refresh: () => void;
+    interval: Interval;
   }
 
   export type Column = ListColumn<Row, CellRef>;
@@ -36,5 +38,10 @@ export module Scheduler {
     start: null,
     end: null,
     refresh: noop,
+    reservations: [],
+    interval: {
+      start: new Date(),
+      end: new Date(),
+    },
   };
 }
