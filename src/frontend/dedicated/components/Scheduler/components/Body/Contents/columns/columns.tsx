@@ -1,9 +1,9 @@
-import { Court, Scheduler } from "@models";
+import { ReservationDrag } from "dedicated/components/Scheduler/components/Body/Contents/components";
 import { HourCell } from "shared/components";
 import { CourtCell } from "./cells";
 import { render } from "react-dom";
-import { ReservationDrag } from "./cells/Reservation";
 import { removeDragImage } from "shared/utils/dom";
+import { Court, Scheduler } from "@models";
 import { courtReservationService } from "@services";
 import { curry } from "lodash";
 import { differenceInMinutes, isWithinInterval } from "date-fns";

@@ -16,6 +16,7 @@ const sql: SqlMap<CourtReservation.Entity> = {
   ...reservationTranslation,
   teacherId: identity,
   courtId: identity,
+  pending: () => false,
 };
 const translations: TranslationMap<CourtReservation.Model> = {
   start: str,

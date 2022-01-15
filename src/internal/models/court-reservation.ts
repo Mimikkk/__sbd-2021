@@ -7,7 +7,9 @@ export module CourtReservation {
     teacherId: Nullable<uuid>;
   }
 
-  export interface Entity extends Reservation.Entity, Model {}
+  export interface Entity extends Reservation.Entity, Model {
+    pending: boolean;
+  }
 
   export interface Row extends Model {
     court?: string;

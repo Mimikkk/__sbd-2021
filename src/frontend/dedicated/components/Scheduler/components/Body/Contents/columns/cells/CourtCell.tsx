@@ -1,6 +1,6 @@
+import { Reservation } from "dedicated/components/Scheduler/components/Body/Contents/components";
 import { CellProps } from "react-table";
 import { Scheduler } from "@models";
-import { Reservation } from "./Reservation";
 import { isEqual } from "date-fns";
 
 export const CourtCell = (cell: CellProps<Scheduler.Row, boolean[]>) => {

@@ -1,25 +1,19 @@
-import { VFC } from "react";
+import { TextField } from "@mui/material";
 import { BaseModel, CourtReservation } from "@models";
-import { differenceInMinutes } from "date-fns";
+import { Nullable, uuid } from "@internal/types";
+import { VFC } from "react";
 import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 import { style } from "styles";
-import { useModal } from "shared/hooks";
-import { Typography, TextField } from "@mui/material";
-import { Nullable, uuid } from "@internal/types";
 import { formatPerson, formatTime } from "shared/utils";
 
 interface Props {
   reservation: CourtReservation.Entity;
 }
 
-interface Propss {
-  reservation: CourtReservation.Entity;
-}
-
 const translate = <T extends BaseModel>(id: Nullable<uuid>, items: T[]): T =>
   items.find((i) => i.id === id)!;
 
-export const ReservationView: VFC<Propss> = ({ reservation }) => {
+export const ReservationView: VFC<Props> = ({ reservation }) => {
   const { courts, employees } = useSchedulerContext();
   const { start, end, courtId, teacherId } = reservation;
   const teacher = translate(teacherId, employees);
@@ -61,53 +55,3 @@ export const ReservationView: VFC<Propss> = ({ reservation }) => {
   );
 };
 
-interface Propsss {
-  start: Date;
-  end: Date;
-}
-
-export const ReservationDrag: VFC<Propsss> = ({ start, end }) => (
-  <div
-    className={style("scheduler-body__reservation")}
-    style={{
-      height: `${(differenceInMinutes(end, start) / 30 + 1) * 17}px`,
-      minWidth: "20%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      userSelect: "none",
-      pointerEvents: "none",
-    }}
-    id="reservation-drag-container"
-  >
-    <Typography>Reserving...</Typography>
-  </div>
-);
-
-export const Reservation: VFC<Props> = ({ reservation }) => {
-  const { start, end } = reservation;
-
-  const {
-    courts: { length },
-  } = useSchedulerContext();
-  const [CourtReservationModal, open] = useModal(
-    <ReservationView reservation={reservation} />,
-    "Reservation details"
-  );
-
-  return (
-    <>
-      <div
-        className={style("scheduler-body__reservation")}
-        style={{
-          height: `${(differenceInMinutes(end, start) / 30 + 1) * 17}px`,
-          minWidth: `${100 / (length + 1) - 8}%`,
-        }}
-        onClick={open}
-      >
-        <Typography>Reservation</Typography>
-      </div>
-      <CourtReservationModal />
-    </>
-  );
-};
