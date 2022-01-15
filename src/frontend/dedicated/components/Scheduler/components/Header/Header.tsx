@@ -15,7 +15,7 @@ export const SchedulerHeader = () => {
   const today = useMemo(() => new Date(), []);
 
   const reachedMin = useMemo(
-    () => getDayOfYear(date) <= getDayOfYear(today),
+    () => getDayOfYear(date) <= getDayOfYear(today) - offset,
     [date]
   );
   const reachedMax = useMemo(
@@ -30,7 +30,7 @@ export const SchedulerHeader = () => {
       </IconButton>
       <DateSelect
         date={date}
-        min={today}
+        min={addDays(today, -offset)}
         max={addDays(today, offset)}
         onChange={setDate}
       />

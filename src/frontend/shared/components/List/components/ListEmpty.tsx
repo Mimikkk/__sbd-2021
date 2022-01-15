@@ -1,5 +1,4 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import { Grid } from "@mui/material";
+import { Grid, CircularProgress } from "@mui/material";
 
 export const ListEmpty = () => {
   return (
