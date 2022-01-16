@@ -7,7 +7,7 @@ const url = "api/transactions";
 
 export const transactionService = {
   create: (item: Transaction.Model) =>
-    servicant.create({ url, item, successMessage: "Added a new client" }),
+    servicant.create({ url, item, successMessage: "Added a new transaction" }),
 
   readAll: () => servicant.read<ListResponse<Transaction.Entity>>({ url }),
 
@@ -16,9 +16,9 @@ export const transactionService = {
       url,
       item,
       id,
-      successMessage: "Updated a client",
+      successMessage: "Updated a transaction",
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed a client" }),
+    servicant.delete({ url, id, successMessage: "Removed a transaction" }),
 };

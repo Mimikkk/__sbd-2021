@@ -6,18 +6,14 @@ import { useModalContext } from "shared/contexts";
 
 interface Props<T extends object> {
   onSubmit?: false | (() => Promise<boolean>);
-  onRemove?: () => Promise<void>;
+  onRemove?: false | (() => Promise<void>);
 }
 
 export const Actions = <T extends object>({ onSubmit, onRemove }: Props<T>) => {
   const { close } = useModalContext();
-  const handleSubmit = async () => {
-    if (await (onSubmit as () => Promise<boolean>)()) close();
-  };
-  const handleRemove = async () => {
-    await onRemove?.();
-    close();
-  };
+  const handleSubmit = async () =>
+    onSubmit && onSubmit().then((exit) => exit && close());
+  const handleRemove = async () => onRemove && onRemove().then(close);
 
   return (
     <div

@@ -13,7 +13,7 @@ export default () => {
     <Tile>
       <ClientListContext>
         <Grid container spacing={2} style={{ width: "100%" }}>
-          <Grid item container justifyContent={"space-between"}>
+          <Grid item container justifyContent="space-between">
             <Grid item>
               <Typography variant="h3">Clients</Typography>
             </Grid>
@@ -21,7 +21,7 @@ export default () => {
               <Grid container spacing={2}>
                 <Grid item>
                   <Button
-                    title={"Add new client"}
+                    title="Add new client"
                     icon={<AddIcon />}
                     onClick={open}
                   />

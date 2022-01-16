@@ -27,7 +27,7 @@ import { filter } from "lodash";
 import { Formik } from "formik";
 import { pricesToOptions } from "shared/utils/options/prices";
 import { formatPrice } from "shared/utils/formats/formatPrice";
-import { pendingSchema } from "dedicated/components/Scheduler/components/Body/Contents/components/Reservation.validation";
+import { pendingSchema } from "./Reservation.validation";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -128,6 +128,26 @@ export const ReservationPendingForm: VFC<Props> = ({
         })
       ),
     ]);
+  };
+
+  const handleRemove = (values: any) => async () => {
+    await Promise.all([
+      courtReservationService.delete(reservation.id),
+      ...itemReservations.map(({ id }) => itemReservationService.delete(id)),
+    ]);
+
+    const courtTransactionId = transactions.find(
+      ({ reservationId }) => reservationId === reservation.id
+    )?.id;
+
+    if (!courtTransactionId) return;
+    await transactionService.delete(courtTransactionId);
+
+    const itemTransactionsIds = itemReservations
+      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
+      .flatMap(({ id }) => id);
+
+    await Promise.all(itemTransactionsIds.map(transactionService.delete));
   };
 
   const initialValues = {
@@ -298,6 +318,7 @@ export const ReservationPendingForm: VFC<Props> = ({
               onSubmit={
                 !disabled && (async () => (await submitForm(), isValid))
               }
+              onRemove={disabled && handleRemove(values)}
             />
           </form>
         );
