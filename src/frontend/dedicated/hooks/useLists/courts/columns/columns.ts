@@ -17,11 +17,6 @@ export const columns: Column<Court.Row>[] = [
     Cell: BoolCell,
   },
   {
-    accessor: "isUnderMaintenance",
-    Header: "Available",
-    Cell: BoolCell,
-  },
-  {
     id: "edit",
     Header: "Edit",
     Cell: EditCell,

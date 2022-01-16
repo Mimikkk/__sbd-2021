@@ -8,11 +8,11 @@ import { useListContext } from "shared/contexts";
 
 const createTransactionValues = <T extends Transaction.Model>(): T =>
   ({
-    clientId: "",
-    priceId: 0,
-    discountId: "",
-    reservationId: "",
-  } as T);
+    clientId: null,
+    priceId: null,
+    discountId: null,
+    reservationId: null,
+  } as any);
 
 export const TransactionForm = <T extends Transaction.Model>({
   initialValues,

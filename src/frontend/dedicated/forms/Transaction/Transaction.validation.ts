@@ -1,10 +1,10 @@
-import { object, string, Schema, number } from "yup";
+import { object, string, Schema } from "yup";
 import { Transaction } from "@models";
 
 export const TransactionSchema: Schema<Transaction.Model> =
   object<Transaction.Model>({
     clientId: string().required(),
-    cost: number().required(),
+    priceId: string().required(),
     discountId: string().required(),
     reservationId: string().required(),
   }).defined();

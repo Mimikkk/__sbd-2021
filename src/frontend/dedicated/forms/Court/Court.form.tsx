@@ -12,7 +12,6 @@ const createCourtValues = <T extends Court.Model>(): T =>
     name: "",
     floor: "",
     isCovered: false,
-    isUnderMaintenance: false,
   } as T);
 
 const coverOptions = [
@@ -54,7 +53,6 @@ export const CourtForm = <T extends Court.Model>({
         />
       </div>
       <BooleanField name="isCovered" label="Is roof covered" />
-      <BooleanField name="isUnderMaintenance" label="Is under maintenance" />
     </Form>
   );
 };

@@ -32,9 +32,9 @@ export const FormField = <T,>({
     error: touched && Boolean(error),
     helperText: (touched && error) || helper || "",
     onChange: (event: ChangeEvent<{ value: T }>) => {
-      onChange?.(event.target.value);
       helpers.setValue(event.target.value);
       field.onChange(event);
+      onChange?.(event.target.value);
     },
     InputLabelProps: {
       shrink: value !== null && value !== "",

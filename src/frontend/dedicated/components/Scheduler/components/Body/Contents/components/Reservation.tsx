@@ -19,7 +19,8 @@ export const Reservation: VFC<Props> = ({ reservation }) => {
 
   const [CourtReservationFormModal, open] = useModal(
     <ReservationPendingForm reservation={reservation} disabled={!isPending} />,
-    isPending ? `fill ${court!.name} reservation` : "Reservation details"
+    isPending ? `fill ${court!.name} reservation` : "Reservation details",
+    "sm"
   );
 
   return (

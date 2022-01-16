@@ -6,6 +6,7 @@ export module ItemReservation {
     courtReservationId: uuid;
     courtId: uuid;
     itemId: uuid;
+    priceId: uuid;
     count: number;
   }
   export interface Entity extends Reservation.Entity, Model {}

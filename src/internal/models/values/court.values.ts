@@ -8,6 +8,5 @@ export const mockCourt = (initial?: Partial<Court.Model>): Court.Entity => ({
   name: faker.lorem.word(),
   floor: faker.lorem.word(),
   isCovered: faker.datatype.boolean(),
-  isUnderMaintenance: faker.datatype.boolean(),
   ...initial,
 });

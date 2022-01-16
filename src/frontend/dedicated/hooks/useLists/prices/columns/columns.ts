@@ -1,4 +1,4 @@
-import { Column } from "shared/components";
+import { BoolCell, Column } from "shared/components";
 import { Price } from "@models";
 import { EditCell } from "./EditCell";
 
@@ -10,6 +10,11 @@ export const columns: Column<Price.Row>[] = [
   {
     accessor: "name",
     Header: "Service",
+  },
+  {
+    accessor: "isItem",
+    Header: "Is an item price",
+    Cell: BoolCell,
   },
   {
     id: "edit",

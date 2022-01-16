@@ -12,14 +12,16 @@ import {
 } from "$sql/orm/utils";
 import { identity } from "lodash";
 
+export const priceTranslation: TranslationMap<Price.Model> = {
+  cost: num,
+  name: str,
+  isItem: str,
+};
 export const priceSql: SqlMap<Price.Entity> = {
   ...footprintTranslation,
   cost: identity,
   name: identity,
-};
-export const priceTranslation: TranslationMap<Price.Model> = {
-  cost: num,
-  name: str,
+  isItem: identity,
 };
 const table = "price";
 

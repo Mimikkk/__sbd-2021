@@ -16,6 +16,7 @@ const table = "item_reservation";
 const sql: SqlMap<ItemReservation.Entity> = {
   ...reservationTranslation,
   courtReservationId: identity,
+  priceId: identity,
   courtId: identity,
   itemId: identity,
   count: identity,
@@ -24,6 +25,7 @@ const translations: TranslationMap<ItemReservation.Model> = {
   courtReservationId: str,
   courtId: str,
   itemId: str,
+  priceId: str,
   count: num,
   start: str,
   end: str,

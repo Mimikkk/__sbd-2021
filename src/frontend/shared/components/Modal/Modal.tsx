@@ -1,19 +1,19 @@
-import { Grid, IconButton} from '@mui/material';
-import Dialog from "@mui/material/Dialog";
+import { Grid, IconButton } from "@mui/material";
+import { Dialog, DialogProps } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
-import { FC} from 'react';
+import { FC } from "react";
 import { useModalContext } from "shared/contexts";
 
-export interface ModalProps {
+export type ModalProps = {
   title: string;
-}
+} & DialogProps;
 
-export const Modal: FC<ModalProps> = ({ title, children }) => {
+export const Modal: FC<ModalProps> = ({ title, children, ...props }) => {
   const { isOpen, close } = useModalContext();
 
   return (
-    <Dialog fullWidth maxWidth="xs" open={isOpen}>
+    <Dialog {...props} fullWidth open={isOpen}>
       <Grid container item style={{ padding: "1em" }}>
         <Grid container item style={{ justifyContent: "space-between" }}>
           <DialogTitle style={{ padding: "1em" }}>{title}</DialogTitle>

@@ -5,7 +5,6 @@ export module Court {
     name: string;
     floor: string;
     isCovered: boolean;
-    isUnderMaintenance: boolean;
   }
   export interface Entity extends BaseModel, Model {}
   export interface Row extends Entity {}

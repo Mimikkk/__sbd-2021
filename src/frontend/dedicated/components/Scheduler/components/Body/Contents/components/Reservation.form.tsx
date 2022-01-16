@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import { useEffect, VFC } from "react";
 import { useListFetch } from "shared/hooks";
 import {
   clientService,
@@ -26,6 +26,7 @@ import { object, Schema, string, array, number } from "yup";
 import { filter } from "lodash";
 import { Formik } from "formik";
 import { pricesToOptions } from "shared/utils/options/prices";
+import { formatPrice } from "shared/utils/formats/formatPrice";
 
 interface FormValues {}
 export const pendingSchema: Schema<FormValues> = object<any>({
@@ -87,6 +88,9 @@ export const ReservationPendingForm: VFC<Props> = ({
     list: { status: pricesStatus, items: prices },
   } = useListFetch(priceService.readAll);
 
+  const itemsPrices = prices.filter(({ isItem }) => isItem);
+  const servicesPrices = prices.filter(({ isItem }) => !isItem);
+
   const {
     list: { status: employeesStatus, items: employees },
   } = useListFetch(employeeService.readAll);
@@ -128,7 +132,7 @@ export const ReservationPendingForm: VFC<Props> = ({
         const addItem = () =>
           setFieldValue("itemReservations", [
             ...values.itemReservations,
-            { id: null, count: null },
+            { id: null, count: null, cost: 0, priceId: null },
           ]);
 
         const removeItem = (index: number) => () =>
@@ -136,6 +140,40 @@ export const ReservationPendingForm: VFC<Props> = ({
             "itemReservations",
             values.itemReservations.filter((_, i) => i !== index)
           );
+
+        useEffect(() => {
+          const service = prices.find(({ id }) => id === values.priceId);
+          if (!service) {
+            setFieldValue("cost", null);
+            return;
+          }
+
+          const { cost: serviceValue } = service;
+
+          const itemsValue = values.itemReservations
+            .filter(({ id, priceId, count }) => id && priceId && count)
+            .map(
+              ({ priceId, count }) =>
+                itemsPrices.find(({ id }) => id === priceId)!.cost * count
+            )
+            .reduce((acc, cur) => acc + cur, 0);
+
+          let total = serviceValue + itemsValue;
+
+          const discount = discounts.find(({ id }) => id === values.discountId);
+          if (discount) {
+            const discountValue = discount
+              ? discount.isPercentage
+                ? discount.value / 100
+                : discount.value
+              : 0;
+
+            total -= discount.isPercentage
+              ? total * discountValue
+              : discountValue;
+          }
+          setFieldValue("cost", formatPrice(Math.max(0, total)));
+        }, [values]);
 
         return (
           <form onSubmit={handleSubmit}>
@@ -165,7 +203,7 @@ export const ReservationPendingForm: VFC<Props> = ({
             <SelectField
               name="priceId"
               label="Price"
-              options={pricesToOptions(prices)}
+              options={pricesToOptions(servicesPrices)}
               loading={!isSuccess(pricesStatus)}
               disabled={disabled}
             />
@@ -179,6 +217,14 @@ export const ReservationPendingForm: VFC<Props> = ({
                   loading={!isSuccess(itemsStatus)}
                   disabled={disabled}
                 />
+                <SelectField
+                  name={`itemReservations.${index}.priceId`}
+                  label="Price"
+                  size="small"
+                  options={pricesToOptions(itemsPrices)}
+                  loading={!isSuccess(itemsStatus)}
+                  disabled={disabled}
+                />
                 <TextField
                   name={`itemReservations.${index}.count`}
                   label="Count"
@@ -186,29 +232,18 @@ export const ReservationPendingForm: VFC<Props> = ({
                   type="number"
                   disabled={disabled}
                   onChange={(value) => {
-                    setFieldValue(
-                      `itemReservations.${index}.cost`,
-                      `${(Number(value) * 4).toFixed(2)}zł`
+                    const price = itemsPrices.find(
+                      ({ id }) => id === values.itemReservations[index].priceId
                     );
-                    const discount = values.discountId
-                      ? discounts.find(({ id }) => id === values.discountId)
-                      : null;
-
-                    let total = values.itemReservations.reduce(
-                      (acc, { count }) => count * 4 + acc,
-                      0
-                    );
-
-                    total +=
-                      prices.find(({ id }) => id === values.priceId)?.cost || 0;
-
-                    if (discount) {
-                      total -= discount.isPercentage
-                        ? (discount.value / 100) * total
-                        : discount.value;
+                    if (!price) {
+                      setFieldValue(`itemReservations.${index}.cost`, 0);
+                      return;
                     }
 
-                    setFieldValue("cost", `${total.toFixed(2)}zł`);
+                    setFieldValue(
+                      `itemReservations.${index}.cost`,
+                      `${(Number(value) * price.cost).toFixed(2)}zł`
+                    );
                   }}
                 />
                 <TextField

@@ -3,13 +3,14 @@ import { Price } from "@models";
 import { priceService } from "@services";
 import { priceSchema } from "./Price.validation";
 import { isEntity } from "shared/utils";
-import { Form, TextField } from "shared/components";
+import { BooleanField, Form, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
 
 const createPriceValues = <T extends Price.Model>(): T =>
   ({
     cost: null,
     name: null,
+    isItem: false,
   } as any);
 
 export const PriceForm = <T extends Price.Model>({
@@ -37,6 +38,7 @@ export const PriceForm = <T extends Price.Model>({
     >
       <TextField name="name" label="Service" />
       <TextField name="cost" label="Value" type="number" />
+      <BooleanField name="isItem" label="Is an item" />
     </Form>
   );
 };
