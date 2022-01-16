@@ -11,7 +11,7 @@ import { StatusCode } from "@internal/enums";
 import { SqlCommand, SqlResponse } from "$sql/types";
 import { uuid } from "@internal/types";
 
-interface GetProps<T> {
+export interface GetProps<T> {
   name: string;
   translateFn: (raw: SqlResponse) => T;
 }

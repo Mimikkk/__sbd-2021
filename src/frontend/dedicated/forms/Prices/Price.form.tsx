@@ -8,9 +8,9 @@ import { useListContext } from "shared/contexts";
 
 const createPriceValues = <T extends Price.Model>(): T =>
   ({
-    cost: 0,
-    description: "",
-  } as T);
+    cost: null,
+    name: null,
+  } as any);
 
 export const PriceForm = <T extends Price.Model>({
   initialValues,
@@ -35,8 +35,8 @@ export const PriceForm = <T extends Price.Model>({
       onSubmit={handleSuccess}
       onRemove={handleRemove}
     >
-      <TextField name="description" label="Service" />
-      <TextField name="cost" label="Value" />
+      <TextField name="name" label="Service" />
+      <TextField name="cost" label="Value" type="number" />
     </Form>
   );
 };

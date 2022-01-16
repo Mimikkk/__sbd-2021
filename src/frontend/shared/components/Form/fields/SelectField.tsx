@@ -1,22 +1,34 @@
-import { TextField as MuiTextField, MenuItem } from "@mui/material";
+import {
+  TextField as MuiTextField,
+  MenuItem,
+  TextFieldProps,
+} from "@mui/material";
 import { FormField } from "./FormField";
 import { Option } from "shared/utils/options/types";
 
-interface Props<T> {
+type Props<T> = {
   name: string;
   options: Option<T>[];
   label?: string;
   onChange?: (value: T) => void;
-}
+  loading?: boolean;
+} & TextFieldProps;
 
 export const SelectField = <T,>({
   name,
   onChange,
   options,
+  loading,
+  value,
   ...props
 }: Props<T>) => (
   <FormField name={name} onChange={onChange}>
-    <MuiTextField select label="Select" fullWidth {...props}>
+    <MuiTextField
+      select
+      fullWidth
+      {...props}
+      {...(loading && { label: "Loading...", disabled: true })}
+    >
       {options.map(({ label, value }, index) => (
         <MenuItem key={index} value={value as any}>
           {label}

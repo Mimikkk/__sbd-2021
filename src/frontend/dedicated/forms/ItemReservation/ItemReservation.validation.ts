@@ -4,6 +4,8 @@ import { isAfter } from "date-fns";
 
 export const ItemReservationSchema: Schema<ItemReservation.Model> =
   object<ItemReservation.Model>({
+    courtId: string().required(),
+    courtReservationId: string().required(),
     count: number().required(),
     itemId: string().required(),
     start: date()

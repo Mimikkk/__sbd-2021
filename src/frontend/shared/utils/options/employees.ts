@@ -3,7 +3,7 @@ import { Person } from "@models";
 import { Option } from "./types";
 import { formatPerson } from "shared/utils";
 
-export const personToOptions = <T extends Person.Entity>(
+export const peopleToOptions = <T extends Person.Entity>(
   people: T[]
 ): Option<uuid>[] => people.map(personToOption);
 

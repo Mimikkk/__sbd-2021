@@ -23,15 +23,23 @@
     &__reservation {
       border-radius: 4px;
       position: absolute;
-      background: rgb(149,167,227);
+      background: rgb(149, 167, 227);
       cursor: pointer;
 
       transition: all 0.15s;
+
       &:hover {
         transition: all 0.15s;
         background: rgb(105, 128, 204);
       }
-    }
 
+      &--pending {
+        background: rgb(227, 161, 149);
+        &:hover {
+          transition: all 0.15s;
+          background: rgb(206, 105, 88);
+        }
+      }
+    }
   }
 }

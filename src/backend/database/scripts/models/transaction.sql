@@ -1,3 +1,4 @@
+drop index if exists pending_reservation;
 drop table if exists transaction;
 drop function if exists reservation_fk;
 
@@ -13,6 +14,8 @@ create table transaction
   primary key (id),
   cost           udecimal not null,
   reservation_id uuid     not null check (reservation_fk(reservation_id)),
-  client_id      uuid     not null references client (id),
-  discount_id    uuid     null default null references discount (id)
+  discount_id    uuid     null default null references discount (id),
+  client_id      uuid     not null references client (id)
 ) inherits (footprint);
+
+create index pending_reservation on transaction (reservation_id);

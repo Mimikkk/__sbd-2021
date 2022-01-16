@@ -15,11 +15,11 @@ import { identity } from "lodash";
 export const priceSql: SqlMap<Price.Entity> = {
   ...footprintTranslation,
   cost: identity,
-  description: identity,
+  name: identity,
 };
 export const priceTranslation: TranslationMap<Price.Model> = {
   cost: num,
-  description: str,
+  name: str,
 };
 const table = "price";
 

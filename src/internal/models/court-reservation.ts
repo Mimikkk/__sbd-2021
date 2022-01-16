@@ -8,10 +8,10 @@ export module CourtReservation {
   }
 
   export interface Entity extends Reservation.Entity, Model {
-    pending: boolean;
+    isPending: boolean;
   }
 
-  export interface Row extends Model {
+  export interface Row extends Entity {
     court?: string;
     teacher?: string;
   }

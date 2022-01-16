@@ -1,6 +1,6 @@
 import { Column } from "shared/components";
 import { Price } from "@models";
-import { EditCell } from './EditCell';
+import { EditCell } from "./EditCell";
 
 export const columns: Column<Price.Row>[] = [
   {
@@ -8,7 +8,7 @@ export const columns: Column<Price.Row>[] = [
     Header: "Cost",
   },
   {
-    accessor: "description",
+    accessor: "name",
     Header: "Service",
   },
   {

@@ -18,14 +18,13 @@ export const Form = <T extends object>({
   ...props
 }: Props<T>) => (
   <Formik {...props} validateOnMount>
-    {(props) => (
+    {({ isValid, submitForm, values }) => (
       <form className={style("form")}>
         {children}
         <Actions
-          onSubmit={async () => (await props.submitForm(), props.isValid)}
+          onSubmit={async () => (await submitForm(), isValid)}
           onRemove={
-            (isEntity(props.values) || undefined) &&
-            (async () => onRemove?.(props.values))
+            (isEntity(values) || undefined) && (async () => onRemove?.(values))
           }
         />
       </form>

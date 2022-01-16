@@ -64,6 +64,7 @@ const createCourtColumn = (
       start,
       courtId: court.id,
       teacherId: null,
+      isPending: false,
     });
 
     const drag = document.getElementById("reservation-drag-container");

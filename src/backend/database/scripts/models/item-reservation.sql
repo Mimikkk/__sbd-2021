@@ -3,6 +3,8 @@
 create table item_reservation
 (
   primary key (id),
-  item_id uuid not null references item (id),
-  count   uint not null
+  court_reservation_id uuid not null references court_reservation (id),
+  court_id             uuid not null references court (id),
+  item_id              uuid not null references item (id),
+  count                uint not null
 ) inherits (reservation);

@@ -20,7 +20,7 @@ export const FormField = <T,>({
   onChange,
   ...props
 }: Props<T>) => {
-  const [field, meta] = useField(props);
+  const [field, meta, helpers] = useField(props);
   const { name, value, onBlur } = field;
   const { touched, error } = meta;
 
@@ -33,7 +33,11 @@ export const FormField = <T,>({
     helperText: (touched && error) || helper || "",
     onChange: (event: ChangeEvent<{ value: T }>) => {
       onChange?.(event.target.value);
+      helpers.setValue(event.target.value);
       field.onChange(event);
+    },
+    InputLabelProps: {
+      shrink: !!value,
     },
   };
   const extend = useCallback(

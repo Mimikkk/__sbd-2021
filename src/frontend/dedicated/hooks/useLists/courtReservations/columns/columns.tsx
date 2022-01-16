@@ -47,6 +47,11 @@ export const getColumns = ({
     Cell: TeacherCell(employees),
   },
   {
+    accessor: "isPending",
+    Header: "Is pending",
+    Cell: BoolCell,
+  },
+  {
     id: "edit",
     Header: "Edit",
     Cell: EditCell,

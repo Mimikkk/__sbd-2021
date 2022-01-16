@@ -6,7 +6,7 @@ import {
   employeeService,
 } from "@services";
 import { courtReservationSchema } from "./CourtReservation.validation";
-import { isEntity, personToOptions } from "shared/utils";
+import { isEntity, peopleToOptions } from "shared/utils";
 import { DateSelect, Form, SelectField, HourField } from "shared/components";
 import { useListContext } from "shared/contexts";
 import { useDate, useListFetch } from "shared/hooks";
@@ -95,7 +95,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({
       <SelectField
         name="teacherId"
         label="Teacher"
-        options={personToOptions(teachers)}
+        options={peopleToOptions(teachers)}
       />
     </Form>
   );

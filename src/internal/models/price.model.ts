@@ -2,7 +2,7 @@ import { BaseModel } from "@models";
 
 export module Price {
   export interface Model {
-    description: string;
+    name: string;
     cost: number;
   }
   export interface Entity extends BaseModel, Model {}

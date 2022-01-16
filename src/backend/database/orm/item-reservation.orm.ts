@@ -15,10 +15,14 @@ import { reservationTranslation } from "$sql/orm/reservation.orm";
 const table = "item_reservation";
 const sql: SqlMap<ItemReservation.Entity> = {
   ...reservationTranslation,
+  courtReservationId: identity,
+  courtId: identity,
   itemId: identity,
   count: identity,
 };
 const translations: TranslationMap<ItemReservation.Model> = {
+  courtReservationId: str,
+  courtId: str,
   itemId: str,
   count: num,
   start: str,
