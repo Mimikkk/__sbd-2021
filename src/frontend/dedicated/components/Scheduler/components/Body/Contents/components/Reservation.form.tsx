@@ -4,11 +4,17 @@ import {
   clientService,
   discountService,
   employeeService,
+  itemReservationService,
   itemService,
   priceService,
   transactionService,
 } from "@services";
-import { formatTime, itemsToOptions, peopleToOptions } from "shared/utils";
+import {
+  discountsToOptions,
+  formatTime,
+  itemsToOptions,
+  peopleToOptions,
+} from "shared/utils";
 import { style } from "styles";
 import { Button, SelectField, TextField } from "shared/components";
 import { isSuccess } from "shared/utils/requests";
@@ -19,13 +25,15 @@ import { CourtReservation } from "@models";
 import { object, Schema, string, array, number } from "yup";
 import { filter } from "lodash";
 import { Formik } from "formik";
+import { pricesToOptions } from "shared/utils/options/prices";
 
 interface FormValues {}
 export const pendingSchema: Schema<FormValues> = object<any>({
   clientId: string().required("Client is required").nullable(),
   discountId: string().nullable(),
   teacherId: string().nullable(),
-  items: array()
+  priceId: string().required("Price is required").nullable(),
+  itemReservations: array()
     .of(
       object<any>({
         id: string().required("Item is required").nullable(),
@@ -33,6 +41,7 @@ export const pendingSchema: Schema<FormValues> = object<any>({
       })
     )
     .min(0)
+    .max(20)
     .required(),
 }).defined();
 
@@ -51,20 +60,29 @@ export const ReservationPendingForm: VFC<Props> = ({
     list: { items: transactions },
   } = useListFetch(transactionService.readAll);
 
-  const { discountId = null, clientId = null } =
-    transactions.find(
-      ({ reservationId }) => reservationId === reservation.id
-    ) || {};
-
-  const item = transactions.filter(
-    ({ reservationId, clientId }) =>
-      reservationId !== reservation.id && clientId
-  );
+  const {
+    discountId = null,
+    clientId = null,
+    reservationId = null,
+    priceId = null,
+  } = transactions.find(
+    ({ reservationId }) => reservationId === reservation.id
+  ) || {};
 
   const {
     list: { status: itemsStatus, items: items },
   } = useListFetch(itemService.readAll);
 
+  const {
+    list: { items: itemReservations },
+  } = useListFetch(() => {
+    return itemReservationService.readAll().then(({ items, ...meta }) => ({
+      items: items.filter(
+        ({ courtReservationId }) => courtReservationId === reservationId
+      ),
+      ...meta,
+    }));
+  });
   const {
     list: { status: pricesStatus, items: prices },
   } = useListFetch(priceService.readAll);
@@ -93,9 +111,10 @@ export const ReservationPendingForm: VFC<Props> = ({
       initialValues={{
         courtId,
         teacherId,
+        priceId,
         clientId,
         discountId,
-        items: [],
+        itemReservations,
         reservation: {
           start: formatTime(start),
           end: formatTime(end),
@@ -107,12 +126,15 @@ export const ReservationPendingForm: VFC<Props> = ({
     >
       {({ handleSubmit, submitForm, isValid, values, setFieldValue }) => {
         const addItem = () =>
-          setFieldValue("items", [...values.items, { id: null, count: null }]);
+          setFieldValue("itemReservations", [
+            ...values.itemReservations,
+            { id: null, count: null },
+          ]);
 
         const removeItem = (index: number) => () =>
           setFieldValue(
-            "items",
-            values.items.filter((_, i) => i !== index)
+            "itemReservations",
+            values.itemReservations.filter((_, i) => i !== index)
           );
 
         return (
@@ -136,21 +158,21 @@ export const ReservationPendingForm: VFC<Props> = ({
             <SelectField
               name="discountId"
               label="Discount"
-              options={itemsToOptions(discounts)}
+              options={discountsToOptions(discounts)}
               loading={!isSuccess(discountsStatus)}
               disabled={disabled}
             />
             <SelectField
               name="priceId"
               label="Price"
-              options={itemsToOptions(prices)}
+              options={pricesToOptions(prices)}
               loading={!isSuccess(pricesStatus)}
               disabled={disabled}
             />
-            {values.items.map((item, index) => (
+            {values.itemReservations.map((item, index) => (
               <div className={style("form--split")}>
                 <SelectField
-                  name={`items.${index}.id`}
+                  name={`itemReservations.${index}.id`}
                   label="Item"
                   size="small"
                   options={itemsToOptions(items)}
@@ -158,10 +180,42 @@ export const ReservationPendingForm: VFC<Props> = ({
                   disabled={disabled}
                 />
                 <TextField
-                  name={`items.${index}.count`}
+                  name={`itemReservations.${index}.count`}
                   label="Count"
                   size="small"
+                  type="number"
                   disabled={disabled}
+                  onChange={(value) => {
+                    setFieldValue(
+                      `itemReservations.${index}.cost`,
+                      `${(Number(value) * 4).toFixed(2)}zł`
+                    );
+                    const discount = values.discountId
+                      ? discounts.find(({ id }) => id === values.discountId)
+                      : null;
+
+                    let total = values.itemReservations.reduce(
+                      (acc, { count }) => count * 4 + acc,
+                      0
+                    );
+
+                    total +=
+                      prices.find(({ id }) => id === values.priceId)?.cost || 0;
+
+                    if (discount) {
+                      total -= discount.isPercentage
+                        ? (discount.value / 100) * total
+                        : discount.value;
+                    }
+
+                    setFieldValue("cost", `${total.toFixed(2)}zł`);
+                  }}
+                />
+                <TextField
+                  name={`itemReservations.${index}.cost`}
+                  label="cost"
+                  size="small"
+                  disabled
                 />
                 {disabled || (
                   <Button icon={<RemoveIcon />} onClick={removeItem(index)} />
@@ -179,6 +233,7 @@ export const ReservationPendingForm: VFC<Props> = ({
               <TextField name="reservation.start" label="Start" disabled />
               <TextField name="reservation.end" label="End" disabled />
             </div>
+            <TextField name="cost" label="Total" disabled />
             <Actions
               onSubmit={
                 !disabled && (async () => (await submitForm(), isValid))

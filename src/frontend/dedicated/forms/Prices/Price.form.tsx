@@ -5,6 +5,7 @@ import { priceSchema } from "./Price.validation";
 import { isEntity } from "shared/utils";
 import { Form, TextField } from "shared/components";
 import { useListContext } from "shared/contexts";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const createPriceValues = <T extends Price.Model>(): T =>
   ({
@@ -36,7 +37,14 @@ export const PriceForm = <T extends Price.Model>({
       onRemove={handleRemove}
     >
       <TextField name="name" label="Service" />
-      <TextField name="cost" label="Value" type="number" />
+      <TextField
+        name="cost"
+        label="Value"
+        type="number"
+        InputProps={{
+          endAdornment: <InputAdornment position="start">zł</InputAdornment>,
+        }}
+      />
     </Form>
   );
 };

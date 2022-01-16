@@ -24,7 +24,7 @@ export const Button: VFC<ButtonProps> = ({
       color: "rgba(0, 0, 0, 0.87)",
       textTransform: "none",
       boxShadow: "none",
-      minWidth: 100,
+      minWidth: 0,
     }}
   >
     <span style={{ color: "rgb(124, 77, 255)", display: "flex" }}>{icon}</span>
