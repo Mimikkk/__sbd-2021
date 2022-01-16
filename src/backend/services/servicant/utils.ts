@@ -13,6 +13,7 @@ export const handleError =
   (error: AxiosError | any): never => {
     if (error.response.status === StatusCode.Teapot) {
       toast.warn(message || error.response.data.message);
+      return undefined as never;
     }
     if (message || error.message) toast.error(message || error.message);
     throw error;
