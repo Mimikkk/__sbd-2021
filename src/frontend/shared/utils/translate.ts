@@ -3,6 +3,7 @@ import { Nullable, uuid } from "@internal/types";
 
 export const translate = <T extends BaseModel>(
   id: Nullable<uuid>,
-  items: T[]
-): T => items.find((i) => i.id === id)!;
-
+  items: T[] | Record<uuid, T>
+): Nullable<T> =>
+  (items instanceof Array ? items.find((i) => i.id === id) : items[id!]) ||
+  null;

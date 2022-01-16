@@ -3,6 +3,7 @@ import { isDraggable, runEvents } from "./utils";
 
 export interface ListCellProps<T extends object, V = any> {
   cell: Cell<T, V>;
+  value: V;
 }
 
 export const ListCell = <T extends object, V = any>({

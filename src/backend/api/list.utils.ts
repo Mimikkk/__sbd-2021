@@ -55,7 +55,13 @@ export const createListDelete =
   async ({ request, response }) => {
     const { id } = request.query;
 
-    await run(deleteFn(id as string));
+    try {
+      await run(deleteFn(id as string));
+    } catch {
+      return await response
+        .status(StatusCode.Teapot)
+        .json({ message: `Would affect constraints.` });
+    }
 
     await response
       .status(StatusCode.Ok)
