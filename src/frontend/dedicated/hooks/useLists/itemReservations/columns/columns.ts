@@ -1,6 +1,5 @@
 import { Column, DateCell, IntegralCell } from "shared/components";
 import { Item, ItemReservation } from "@models";
-import { EditCell } from "./EditCell";
 import { uuid } from "@internal/types";
 
 interface Props {
@@ -26,10 +25,5 @@ export const getColumns = ({ items }: Props): Column<ItemReservation.Row>[] => [
   {
     accessor: "count",
     Header: "Count",
-  },
-  {
-    id: "edit",
-    Header: "Edit",
-    Cell: EditCell,
   },
 ];

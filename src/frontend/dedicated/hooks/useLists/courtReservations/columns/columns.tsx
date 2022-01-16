@@ -1,19 +1,13 @@
 import { BoolCell, Column, DateCell, IntegralCell } from "shared/components";
 import { Court, CourtReservation, Employee } from "@models";
 import { CellProps } from "react-table";
-import { EditCell } from "./EditCell";
 import { uuid } from "@internal/types";
-import { formatPerson } from "shared/utils";
+import { PersonCell } from "shared/components/List/components/cells/PersonCell";
 
 interface Props {
   courts: Record<uuid, Court.Entity>;
   employees: Record<uuid, Employee.Entity>;
 }
-
-const TeacherCell =
-  (employees: Record<uuid, Employee.Entity>) =>
-  ({ value }: CellProps<CourtReservation.Row>) =>
-    (employees[value] && formatPerson(employees[value])) || "-";
 
 export const getColumns = ({
   courts,
@@ -44,16 +38,11 @@ export const getColumns = ({
   {
     accessor: "teacherId",
     Header: "Teacher",
-    Cell: TeacherCell(employees),
+    Cell: PersonCell(employees),
   },
   {
     accessor: "isPending",
     Header: "Is pending",
     Cell: BoolCell,
-  },
-  {
-    id: "edit",
-    Header: "Edit",
-    Cell: EditCell,
   },
 ];

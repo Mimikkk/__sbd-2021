@@ -1,7 +1,8 @@
 import { BoolCell, Column, OptionalCell } from "shared/components";
 import { Employee } from "@models";
-import { EditCell } from './EditCell';
-import { format } from 'date-fns';
+import { EditCell } from "./EditCell";
+import { format } from "date-fns";
+import { PriceCell } from "./PriceCell";
 
 export const columns: Column<Employee.Row>[] = [
   {
@@ -19,7 +20,7 @@ export const columns: Column<Employee.Row>[] = [
   {
     accessor: "birthdate",
     Header: "Birthdate",
-    Cell: ({value}) => format(new Date(value), "dd-MM-yyyy")
+    Cell: ({ value }) => format(new Date(value), "dd-MM-yyyy"),
   },
   {
     accessor: "phone",
@@ -36,8 +37,9 @@ export const columns: Column<Employee.Row>[] = [
     Cell: BoolCell,
   },
   {
-    accessor: "payroll",
+    id: "payroll",
     Header: "Payroll",
+    Cell: PriceCell("payroll"),
   },
   {
     accessor: "bankAccount",

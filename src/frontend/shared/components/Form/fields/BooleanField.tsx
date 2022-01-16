@@ -6,14 +6,14 @@ interface Props {
   label: string;
   onChange?: (value: boolean) => void;
 }
-export const BooleanField: VFC<Props> = (props) => (
+export const BooleanField: VFC<Props> = ({ label, name, onChange }) => (
   <SelectField
     options={[
       { value: true, label: "Yes" },
       { value: false, label: "No" },
     ]}
-    name={props.name}
-    label={props.label}
-    onChange={props.onChange}
+    name={name}
+    label={label}
+    onChange={onChange as any}
   />
 );

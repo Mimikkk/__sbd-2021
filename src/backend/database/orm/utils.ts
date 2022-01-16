@@ -32,10 +32,6 @@ export const createCreate =
     const fields = keys(translations).map(snakeCase).map(quote).join(", ");
     const setter = ([field, fn]: Pair) => fn(model[field as keyof T]);
 
-    console.log(`
-        insert into ${table}(${fields})
-        values (${entries(translations).map(setter).join(", ")});
-      `);
     return `
         insert into ${table}(${fields})
         values (${entries(translations).map(setter).join(", ")});

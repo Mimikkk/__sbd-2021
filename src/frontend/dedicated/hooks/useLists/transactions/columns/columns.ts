@@ -1,7 +1,9 @@
 import { Column } from "shared/components";
 import { Client, Discount, Transaction } from "@models";
-import { EditCell } from "./EditCell";
 import { uuid } from "@internal/types";
+import { translate } from "shared/utils/translate";
+import { PersonCell } from "shared/components/List/components/cells/PersonCell";
+import { formatDiscount } from "shared/utils";
 
 interface Props {
   clients: Record<uuid, Client.Entity>;
@@ -15,22 +17,14 @@ export const getColumns = ({
   {
     accessor: "clientId",
     Header: "Client",
-    Cell: ({ value }) =>
-      clients?.[value].name.concat(" ", clients[value].surname) || "",
-  },
-  {
-    accessor: "reservationId",
-    Header: "Reservation",
+    Cell: PersonCell(clients),
   },
   {
     accessor: "discountId",
     Header: "Discount",
-    Cell: ({ value }) =>
-      value && discounts[value] ? discounts[value].name : "-",
-  },
-  {
-    id: "edit",
-    Header: "Edit",
-    Cell: EditCell,
+    Cell({ value }) {
+      const discount = translate(value!, discounts);
+      return discount ? formatDiscount(discount) : "-";
+    },
   },
 ];
