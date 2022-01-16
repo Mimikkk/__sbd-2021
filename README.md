@@ -20,7 +20,9 @@ Aplikacja symulująca działanie systemu administracyjnego w firmie zarządzają
 > Uruchomienia
 >> npm start
 
-Autorzy:
+## Aplikacja również dostępna pod:
+https://sbd-tennis.herokuapp.com/
 
+Autorzy:
 - Monika Zielińska [143719]
 - Daniel Zdancewicz [145317]
