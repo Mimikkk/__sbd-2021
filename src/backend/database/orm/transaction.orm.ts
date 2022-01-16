@@ -6,7 +6,6 @@ import {
   createUpdate,
   createDelete,
   nil,
-  num,
   SqlMap,
   str,
   TranslationMap,
@@ -15,16 +14,16 @@ import { identity } from "lodash";
 
 const sql: SqlMap<Transaction.Entity> = {
   ...footprintTranslation,
-  cost: identity,
+  priceId: identity,
   clientId: identity,
   discountId: identity,
   reservationId: identity,
 };
 const translations: TranslationMap<Transaction.Model> = {
-  cost: num,
   reservationId: str,
-  clientId: str,
   discountId: nil,
+  clientId: str,
+  priceId: str,
 };
 const table = "transaction";
 

@@ -1,12 +1,11 @@
 import { Formik } from "formik";
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { style } from "styles";
-import { cx, isEntity } from "shared/utils";
-import { Grid } from "@mui/material";
+import { isEntity } from "shared/utils";
 import { Actions } from "./Actions";
 
 interface Props<T extends object> {
-  children?: ReactElement;
+  children?: ReactNode;
   initialValues: T;
   onSubmit: (values: T) => Promise<void>;
   onRemove?: (values: T) => void;
@@ -19,20 +18,15 @@ export const Form = <T extends object>({
   ...props
 }: Props<T>) => (
   <Formik {...props} validateOnMount>
-    {(props) => (
-      <form className={cx(style("form"))}>
-        <Grid container>
-          <Grid container>{children}</Grid>
-          <Grid container style={{ padding: 0 }}>
-            <Actions
-              onSubmit={async () => (await props.submitForm(), props.isValid)}
-              onRemove={
-                (isEntity(props.values) || undefined) &&
-                (async () => onRemove?.(props.values))
-              }
-            />
-          </Grid>
-        </Grid>
+    {({ isValid, submitForm, values }) => (
+      <form className={style("form")}>
+        {children}
+        <Actions
+          onSubmit={async () => (await submitForm(), isValid)}
+          onRemove={
+            (isEntity(values) || undefined) && (async () => onRemove?.(values))
+          }
+        />
       </form>
     )}
   </Formik>

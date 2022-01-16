@@ -1,10 +1,9 @@
-import { MutableRefObject } from 'react';
-import { Cell, Column as TableColumn, HeaderGroup, Row } from 'react-table';
+import { MutableRefObject } from "react";
+import { Cell, Column as TableColumn, HeaderGroup, Row } from "react-table";
 
 export interface CellEventProps<T extends object, R> {
   event: DragEvent;
   cell: Cell<T>;
-  index: number;
   rows: Row<T>[];
   columns: Column<T, R>[];
   ref: MutableRefObject<R>;

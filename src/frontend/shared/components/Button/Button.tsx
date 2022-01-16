@@ -14,38 +14,20 @@ export const Button: VFC<ButtonProps> = ({
   icon,
   onClick,
   disabled,
-}) => {
-  return (
-    <MuiButton
-      disabled={disabled}
-      onClick={onClick}
-      variant="contained"
-      startIcon={
-        icon && (
-          <span
-            style={{
-              color: "rgba(124, 77, 255, 1)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              justifyItems: "center",
-              alignContent: "center"
-            }}
-          >
-            {icon}
-          </span>
-        )
-      }
-      style={{
-        backgroundColor: "rgba(124, 77, 255, 0.05)",
-        color: "rgba(0, 0, 0, 0.87)",
-        margin: "0.4em",
-        textTransform: "none",
-        boxShadow: "none",
-        alignItems: "center",
-      }}
-    >
-      {title}
-    </MuiButton>
-  );
-};
+}) => (
+  <MuiButton
+    disabled={disabled}
+    onClick={onClick}
+    variant="contained"
+    style={{
+      backgroundColor: "rgba(124, 77, 255, 0.05)",
+      color: "rgba(0, 0, 0, 0.87)",
+      textTransform: "none",
+      boxShadow: "none",
+      minWidth: 0,
+    }}
+  >
+    <span style={{ color: "rgb(124, 77, 255)", display: "flex" }}>{icon}</span>
+    {title}
+  </MuiButton>
+);

@@ -1,5 +1,5 @@
 import { CellProps } from "react-table";
-import { format } from "date-fns";
+import { formatTime } from "shared/utils";
 
 export const HourCell = <T extends object>({ value }: CellProps<T>) =>
-  value && format(new Date(value), "HH:mm");
+  value && formatTime(new Date(value));

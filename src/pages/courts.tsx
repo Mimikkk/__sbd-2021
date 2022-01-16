@@ -2,8 +2,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
-import { CourtForm } from "components/forms";
-import { useCourtList } from "components/hooks";
+import { CourtForm } from "dedicated/forms";
+import { useCourtList } from "dedicated/hooks";
 
 export default () => {
   const [CourtList, CourtListContext] = useCourtList();

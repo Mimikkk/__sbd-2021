@@ -11,7 +11,7 @@ import { StatusCode } from "@internal/enums";
 import { SqlCommand, SqlResponse } from "$sql/types";
 import { uuid } from "@internal/types";
 
-interface GetProps<T> {
+export interface GetProps<T> {
   name: string;
   translateFn: (raw: SqlResponse) => T;
 }
@@ -40,7 +40,9 @@ export const createListPost =
 
     const [{ id, created_at }] = await select(selectNewestFootprintId(name));
     return await response.status(StatusCode.Created).json({
-      message: `successfully created new resource '${id}'.`,
+      message: `successfully created new resource`,
+      resourceId: id,
+      model: body,
       createdAt: created_at,
     });
   };

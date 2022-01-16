@@ -1,29 +1,37 @@
-import { TextField as MuiTextField, MenuItem } from "@mui/material";
+import {
+  TextField as MuiTextField,
+  MenuItem,
+  TextFieldProps,
+} from "@mui/material";
 import { FormField } from "./FormField";
-import { Discount } from '@models';
-import Entity = Discount.Entity;
+import { Option } from "shared/utils/options/types";
 
-export interface Option {
-  label: string;
-  value: string | number | boolean | Date| Entity;
-}
-
-interface Props {
+type Props<T> = {
   name: string;
-  options: Option[];
+  options: Option<T>[];
   label?: string;
-  onChange?: (value: string) => void;
-}
+  onChange?: (value: T) => void;
+  loading?: boolean;
+} & TextFieldProps;
 
-export const SelectField = ({ name, onChange, options, ...props }: Props) => (
+export const SelectField = <T,>({
+  name,
+  onChange,
+  options,
+  loading,
+  value,
+  ...props
+}: Props<T>) => (
   <FormField name={name} onChange={onChange}>
-    <MuiTextField select label="Select" fullWidth {...props}>
-      {options.sort().map((option) => (
-        //@ts-ignore
-        <MenuItem key={option.value} value={option.value} sx={{"&:focus": {
-          "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-          color: "rgba(124, 77, 255, 0.08)"}}}}>
-          {option.label}
+    <MuiTextField
+      select
+      fullWidth
+      {...props}
+      {...(loading && { label: "Loading...", disabled: true })}
+    >
+      {options.map(({ label, value }, index) => (
+        <MenuItem key={index} value={value as any}>
+          {label}
         </MenuItem>
       ))}
     </MuiTextField>
