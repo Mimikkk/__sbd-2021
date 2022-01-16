@@ -40,7 +40,9 @@ export const createListPost =
 
     const [{ id, created_at }] = await select(selectNewestFootprintId(name));
     return await response.status(StatusCode.Created).json({
-      message: `successfully created new resource '${id}'.`,
+      message: `successfully created new resource`,
+      resourceId: id,
+      model: body,
       createdAt: created_at,
     });
   };

@@ -2,6 +2,7 @@ import { useEffect, VFC } from "react";
 import { useListFetch } from "shared/hooks";
 import {
   clientService,
+  courtReservationService,
   discountService,
   employeeService,
   itemReservationService,
@@ -21,30 +22,12 @@ import { isSuccess } from "shared/utils/requests";
 import { Actions } from "shared/components/Form/Actions";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { CourtReservation } from "@models";
-import { object, Schema, string, array, number } from "yup";
+import { CourtReservation, ItemReservation } from "@models";
 import { filter } from "lodash";
 import { Formik } from "formik";
 import { pricesToOptions } from "shared/utils/options/prices";
 import { formatPrice } from "shared/utils/formats/formatPrice";
-
-interface FormValues {}
-export const pendingSchema: Schema<FormValues> = object<any>({
-  clientId: string().required("Client is required").nullable(),
-  discountId: string().nullable(),
-  teacherId: string().nullable(),
-  priceId: string().required("Price is required").nullable(),
-  itemReservations: array()
-    .of(
-      object<any>({
-        id: string().required("Item is required").nullable(),
-        count: number().required("Count is required").min(1).nullable(),
-      })
-    )
-    .min(0)
-    .max(20)
-    .required(),
-}).defined();
+import { pendingSchema } from "dedicated/components/Scheduler/components/Body/Contents/components/Reservation.validation";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -62,34 +45,23 @@ export const ReservationPendingForm: VFC<Props> = ({
   } = useListFetch(transactionService.readAll);
 
   const {
-    discountId = null,
-    clientId = null,
-    reservationId = null,
-    priceId = null,
-  } = transactions.find(
-    ({ reservationId }) => reservationId === reservation.id
-  ) || {};
-
-  const {
     list: { status: itemsStatus, items: items },
   } = useListFetch(itemService.readAll);
 
   const {
     list: { items: itemReservations },
-  } = useListFetch(() => {
-    return itemReservationService.readAll().then(({ items, ...meta }) => ({
+  } = useListFetch(() =>
+    itemReservationService.readAll().then(({ items, ...meta }) => ({
       items: items.filter(
-        ({ courtReservationId }) => courtReservationId === reservationId
+        ({ courtReservationId }) => courtReservationId === reservation.id
       ),
       ...meta,
-    }));
-  });
+    }))
+  );
+
   const {
     list: { status: pricesStatus, items: prices },
   } = useListFetch(priceService.readAll);
-
-  const itemsPrices = prices.filter(({ isItem }) => isItem);
-  const servicesPrices = prices.filter(({ isItem }) => !isItem);
 
   const {
     list: { status: employeesStatus, items: employees },
@@ -103,27 +75,78 @@ export const ReservationPendingForm: VFC<Props> = ({
     list: { status: discountsStatus, items: discounts },
   } = useListFetch(discountService.readAll);
 
+  const {
+    discountId = null,
+    clientId = null,
+    priceId = null,
+  } = transactions.find(
+    ({ reservationId }) => reservationId === reservation.id
+  ) || {};
+
+  const itemsPrices = filter(prices, ["isItem", true]);
+  const servicesPrices = filter(prices, ["isItem", false]);
   const teachers = filter(employees, "isTeacher");
 
   const handleSuccess = async (values: any) => {
-    console.log({ values });
+    const [, ...itemResponses] = await Promise.all([
+      courtReservationService.update(reservation.id, {
+        courtId,
+        teacherId: values.teacherId,
+        start,
+        end,
+      }),
+      ...values.itemReservations
+        .filter(
+          ({ itemId, priceId, count }: ItemReservation.Model) =>
+            itemId && priceId && count
+        )
+        .map(({ itemId, priceId, count }: ItemReservation.Model) =>
+          itemReservationService.create({
+            itemId,
+            start,
+            end,
+            courtId,
+            priceId,
+            count,
+            courtReservationId: reservation.id,
+          })
+        ),
+    ]);
+    return Promise.all([
+      transactionService.create({
+        clientId: values.clientId,
+        reservationId: reservation.id,
+        priceId: values.priceId,
+        discountId: values.discountId,
+      }),
+      ...itemResponses.map(({ resourceId, model: { priceId } }: any) =>
+        transactionService.create({
+          reservationId: resourceId,
+          discountId: values.discountId,
+          clientId: values.clientId,
+          priceId: priceId,
+        })
+      ),
+    ]);
+  };
+
+  const initialValues = {
+    courtId,
+    teacherId,
+    priceId,
+    clientId,
+    discountId,
+    itemReservations,
+    reservation: {
+      start: formatTime(start),
+      end: formatTime(end),
+    },
   };
 
   return (
     <Formik
       validationSchema={pendingSchema}
-      initialValues={{
-        courtId,
-        teacherId,
-        priceId,
-        clientId,
-        discountId,
-        itemReservations,
-        reservation: {
-          start: formatTime(start),
-          end: formatTime(end),
-        },
-      }}
+      initialValues={initialValues}
       onSubmit={handleSuccess}
       enableReinitialize
       validateOnMount
@@ -132,7 +155,7 @@ export const ReservationPendingForm: VFC<Props> = ({
         const addItem = () =>
           setFieldValue("itemReservations", [
             ...values.itemReservations,
-            { id: null, count: null, cost: 0, priceId: null },
+            { itemId: null, count: null, cost: null, priceId: null },
           ]);
 
         const removeItem = (index: number) => () =>
@@ -151,7 +174,7 @@ export const ReservationPendingForm: VFC<Props> = ({
           const { cost: serviceValue } = service;
 
           const itemsValue = values.itemReservations
-            .filter(({ id, priceId, count }) => id && priceId && count)
+            .filter(({ itemId, priceId, count }) => itemId && priceId && count)
             .map(
               ({ priceId, count }) =>
                 itemsPrices.find(({ id }) => id === priceId)!.cost * count
@@ -173,7 +196,23 @@ export const ReservationPendingForm: VFC<Props> = ({
               : discountValue;
           }
           setFieldValue("cost", formatPrice(Math.max(0, total)));
-        }, [values]);
+        }, [values, initialValues]);
+        useEffect(() => {
+          values.itemReservations.map((itemReservation, index) => {
+            const price = itemsPrices.find(
+              ({ id }) => id === itemReservation.priceId
+            );
+            if (!price) {
+              setFieldValue(`itemReservations.${index}.cost`, null);
+              return;
+            }
+
+            setFieldValue(
+              `itemReservations.${index}.cost`,
+              `${(itemReservation.count * price.cost).toFixed(2)}zł`
+            );
+          });
+        }, [values, initialValues]);
 
         return (
           <form onSubmit={handleSubmit}>
@@ -210,7 +249,7 @@ export const ReservationPendingForm: VFC<Props> = ({
             {values.itemReservations.map((item, index) => (
               <div className={style("form--split")}>
                 <SelectField
-                  name={`itemReservations.${index}.id`}
+                  name={`itemReservations.${index}.itemId`}
                   label="Item"
                   size="small"
                   options={itemsToOptions(items)}
@@ -231,20 +270,6 @@ export const ReservationPendingForm: VFC<Props> = ({
                   size="small"
                   type="number"
                   disabled={disabled}
-                  onChange={(value) => {
-                    const price = itemsPrices.find(
-                      ({ id }) => id === values.itemReservations[index].priceId
-                    );
-                    if (!price) {
-                      setFieldValue(`itemReservations.${index}.cost`, 0);
-                      return;
-                    }
-
-                    setFieldValue(
-                      `itemReservations.${index}.cost`,
-                      `${(Number(value) * price.cost).toFixed(2)}zł`
-                    );
-                  }}
                 />
                 <TextField
                   name={`itemReservations.${index}.cost`}

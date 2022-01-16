@@ -37,7 +37,7 @@ export const FormField = <T,>({
       onChange?.(event.target.value);
     },
     InputLabelProps: {
-      shrink: value !== null && value !== "",
+      shrink: value !== null && value !== "" && value !== undefined,
     },
   };
   const extend = useCallback(

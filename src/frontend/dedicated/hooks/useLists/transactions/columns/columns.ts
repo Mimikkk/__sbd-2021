@@ -29,10 +29,6 @@ export const getColumns = ({
       value && discounts[value] ? discounts[value].name : "-",
   },
   {
-    accessor: "cost",
-    Header: "Cost",
-  },
-  {
     id: "edit",
     Header: "Edit",
     Cell: EditCell,
