@@ -2,8 +2,7 @@ import { useCallback, useMemo } from "react";
 import { SchedulerContext } from "./useSchedulerContext";
 import { useDate, useListFetch } from "shared/hooks";
 import { courtReservationService, courtService } from "@services";
-import { isFailed, isLoading, isSuccess } from "shared/utils/requests";
-import { RequestStatus } from "@internal/enums";
+import { concatenateStatuses } from "@internal/enums";
 
 export const useScheduler = () => {
   const {
@@ -16,13 +15,10 @@ export const useScheduler = () => {
   } = useListFetch(courtReservationService.readAll);
 
   const day = useDate();
-  const status = useMemo(() => {
-    const statuses = [courtsStatus, reservationsStatus];
-    if (statuses.some(isFailed)) return RequestStatus.Failed;
-    if (statuses.some(isLoading)) return RequestStatus.Loading;
-    if (statuses.every(isSuccess)) return RequestStatus.Success;
-    return RequestStatus.Idle;
-  }, [courtsStatus, reservationsStatus]);
+  const status = useMemo(
+    () => concatenateStatuses(courtsStatus, reservationsStatus),
+    [courtsStatus, reservationsStatus]
+  );
 
   const SchedulerProvider = useCallback(
     ({ children }) => (

@@ -28,6 +28,8 @@ import { Formik } from "formik";
 import { pricesToOptions } from "shared/utils/options/prices";
 import { formatPrice } from "shared/utils/formats/formatPrice";
 import { pendingSchema } from "./Reservation.validation";
+import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
+import { concatenateStatuses } from "@internal/enums";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -39,9 +41,10 @@ export const ReservationPendingForm: VFC<Props> = ({
   disabled,
 }) => {
   const { start, end, courtId, teacherId } = reservation;
+  const { refresh } = useSchedulerContext();
 
   const {
-    list: { items: transactions },
+    list: { status: transactionsStatus, items: transactions },
   } = useListFetch(transactionService.readAll);
 
   const {
@@ -49,7 +52,7 @@ export const ReservationPendingForm: VFC<Props> = ({
   } = useListFetch(itemService.readAll);
 
   const {
-    list: { items: itemReservations },
+    list: { status: itemReservationsStatus, items: itemReservations },
   } = useListFetch(() =>
     itemReservationService.readAll().then(({ items, ...meta }) => ({
       items: items.filter(
@@ -87,6 +90,18 @@ export const ReservationPendingForm: VFC<Props> = ({
   const servicesPrices = filter(prices, ["isItem", false]);
   const teachers = filter(employees, "isTeacher");
 
+  const loading = !isSuccess(
+    concatenateStatuses(
+      itemsStatus,
+      pricesStatus,
+      employeesStatus,
+      clientsStatus,
+      discountsStatus,
+      transactionsStatus,
+      itemReservationsStatus
+    )
+  );
+
   const handleSuccess = async (values: any) => {
     const [, ...itemResponses] = await Promise.all([
       courtReservationService.update(reservation.id, {
@@ -112,7 +127,7 @@ export const ReservationPendingForm: VFC<Props> = ({
           })
         ),
     ]);
-    return Promise.all([
+    await Promise.all([
       transactionService.create({
         clientId: values.clientId,
         reservationId: reservation.id,
@@ -128,13 +143,20 @@ export const ReservationPendingForm: VFC<Props> = ({
         })
       ),
     ]);
+    refresh();
   };
+  const handleRemove = async () => {
+    const itemReservationIds = itemReservations
+      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
+      .flatMap(({ id }) => id);
 
-  const handleRemove = (values: any) => async () => {
-    await Promise.all([
-      courtReservationService.delete(reservation.id),
-      ...itemReservations.map(({ id }) => itemReservationService.delete(id)),
-    ]);
+    await Promise.all(itemReservationIds.map(itemReservationService.delete));
+    await courtReservationService.delete(reservation.id);
+
+    const itemTransactionsIds = itemReservations
+      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
+      .flatMap(({ id }) => id);
+    await Promise.all(itemTransactionsIds.map(transactionService.delete));
 
     const courtTransactionId = transactions.find(
       ({ reservationId }) => reservationId === reservation.id
@@ -142,12 +164,7 @@ export const ReservationPendingForm: VFC<Props> = ({
 
     if (!courtTransactionId) return;
     await transactionService.delete(courtTransactionId);
-
-    const itemTransactionsIds = itemReservations
-      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
-      .flatMap(({ id }) => id);
-
-    await Promise.all(itemTransactionsIds.map(transactionService.delete));
+    refresh();
   };
 
   const initialValues = {
@@ -241,14 +258,14 @@ export const ReservationPendingForm: VFC<Props> = ({
                 name="clientId"
                 label="Client"
                 options={peopleToOptions(clients)}
-                loading={!isSuccess(clientsStatus)}
+                loading={loading}
                 disabled={disabled}
               />
               <SelectField
                 name="teacherId"
                 label="Teacher"
                 options={peopleToOptions(teachers)}
-                loading={!isSuccess(employeesStatus)}
+                loading={loading}
                 disabled={disabled}
               />
             </div>
@@ -256,14 +273,14 @@ export const ReservationPendingForm: VFC<Props> = ({
               name="discountId"
               label="Discount"
               options={discountsToOptions(discounts)}
-              loading={!isSuccess(discountsStatus)}
+              loading={loading}
               disabled={disabled}
             />
             <SelectField
               name="priceId"
               label="Price"
               options={pricesToOptions(servicesPrices)}
-              loading={!isSuccess(pricesStatus)}
+              loading={loading}
               disabled={disabled}
             />
             {values.itemReservations.map((item, index) => (
@@ -273,7 +290,7 @@ export const ReservationPendingForm: VFC<Props> = ({
                   label="Item"
                   size="small"
                   options={itemsToOptions(items)}
-                  loading={!isSuccess(itemsStatus)}
+                  loading={loading}
                   disabled={disabled}
                 />
                 <SelectField
@@ -281,7 +298,7 @@ export const ReservationPendingForm: VFC<Props> = ({
                   label="Price"
                   size="small"
                   options={pricesToOptions(itemsPrices)}
-                  loading={!isSuccess(itemsStatus)}
+                  loading={loading}
                   disabled={disabled}
                 />
                 <TextField
@@ -318,7 +335,9 @@ export const ReservationPendingForm: VFC<Props> = ({
               onSubmit={
                 !disabled && (async () => (await submitForm(), isValid))
               }
-              onRemove={disabled && handleRemove(values)}
+              onRemove={disabled && handleRemove}
+              disabledSubmit={loading}
+              disabledRemove={loading}
             />
           </form>
         );
