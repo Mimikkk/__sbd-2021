@@ -10,6 +10,7 @@ import {
 import { StatusCode } from "@internal/enums";
 import { SqlCommand, SqlResponse } from "$sql/types";
 import { uuid } from "@internal/types";
+import { snakeCase } from "lodash";
 
 export interface GetProps<T> {
   name: string;
@@ -25,6 +26,35 @@ export const createListGet =
     return await response
       .status(StatusCode.Ok)
       .json({ items, total: items.length });
+  };
+export interface GetProps<T> {
+  name: string;
+  translateFn: (raw: SqlResponse) => T;
+}
+
+const formatFilters = <T extends object>(filters: T) =>
+  Object.keys(filters)
+    .map((filter) => `${snakeCase(filter)}='${filters[filter as keyof T]}'`)
+    .join(",");
+
+export const createFilteredListGet =
+  <T>({ translateFn, name }: GetProps<T>): ApiFn =>
+  async ({ request, response }) => {
+    const { filters } = request.query;
+    if (!filters) {
+      return createListGet({ name, translateFn })({ response, request });
+    }
+
+    const total = (await select(`select count(*) from ${name}`)) as number;
+
+    const query = `${name} where ${formatFilters(
+      JSON.parse(atob(filters as string))
+    )}`;
+    const items = (await selectWith(
+      translateFn
+    )`select * from ${query} order by created_at desc`) as [];
+
+    return await response.status(StatusCode.Ok).json({ items, total });
   };
 
 interface PostProps<T> {

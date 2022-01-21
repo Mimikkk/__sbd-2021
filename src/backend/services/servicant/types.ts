@@ -1,4 +1,4 @@
-import { uuid } from '@internal/types';
+import { uuid } from "@internal/types";
 export interface ApiProps {
   url: string;
   errorMessage?: string;
@@ -11,6 +11,7 @@ export interface ApiDeleteProps extends ApiProps {
 
 export interface ApiReadProps extends ApiProps {
   id?: uuid;
+  filters?: object;
 }
 
 export interface ApiUpdateProps<T> extends ApiProps {
