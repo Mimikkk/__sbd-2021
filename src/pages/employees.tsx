@@ -1,4 +1,4 @@
-import { Button, EmptyPage, Tile } from "shared/components";
+import { Button, Tile } from "shared/components";
 import { useEmployeeList } from "dedicated/hooks";
 import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -38,7 +38,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {EmployeeList.length !== 0 ? <EmployeeList /> : <EmptyPage />}
+            <EmployeeList />
           </div>
         </div>
       </EmployeeListContext>

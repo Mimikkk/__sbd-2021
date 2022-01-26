@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Typography } from "@mui/material";
-import { Button, EmptyPage, Tile } from "shared/components";
+import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
 import { CourtForm } from "dedicated/forms";
 import { useCourtList } from "dedicated/hooks";
@@ -60,7 +60,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {CourtList.length !== 0 ? <CourtList /> : <EmptyPage />}
+            <CourtList />
           </div>
         </div>
       </CourtListContext>

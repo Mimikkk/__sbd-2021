@@ -26,6 +26,8 @@ export const ListPagination: VFC<Props> = ({
   pageIndex,
   pageCount,
 }) => {
+  if (pageCount === 0) return null;
+
   return (
     <Grid container style={{ display: "flex", alignItems: "center" }}>
       <Grid item style={{ display: "flex", justifyContent: "center" }}>

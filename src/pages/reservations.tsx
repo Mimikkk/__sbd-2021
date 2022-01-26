@@ -1,5 +1,5 @@
 import { useCourtReservationList } from "dedicated/hooks";
-import { EmptyPage, Tile } from "shared/components";
+import { Tile } from "shared/components";
 import { Typography } from "@mui/material";
 
 export default () => {
@@ -27,11 +27,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {CourtReservationList.length !== 0 ? (
-              <CourtReservationList />
-            ) : (
-              <EmptyPage />
-            )}
+            <CourtReservationList />
           </div>
         </div>
       </CourtReservationListContext>

@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Typography } from "@mui/material";
-import { Button, EmptyPage, Tile } from "shared/components";
+import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
 import { PriceForm } from "dedicated/forms";
 import { usePriceList } from "dedicated/hooks";
@@ -40,7 +40,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {PriceList.length !== 0 ? <PriceList /> : <EmptyPage />}
+            <PriceList />
           </div>
         </div>
       </PriceListContext>

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { EmptyPage, Tile } from "shared/components";
+import { Tile } from "shared/components";
 import { useTransactionList } from "dedicated/hooks";
 
 export default () => {
@@ -26,7 +26,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {TransactionList.length !== 0 ? <TransactionList /> : <EmptyPage />}
+            <TransactionList />
           </div>
         </div>
       </TransactionListContext>

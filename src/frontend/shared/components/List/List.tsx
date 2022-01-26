@@ -1,6 +1,12 @@
 import { useTable, usePagination, useFlexLayout } from "react-table";
 import { HTMLAttributes, useRef } from "react";
-import { ListBody, ListHeader, ListPagination, ListEmpty } from "./components";
+import {
+  ListBody,
+  ListHeader,
+  ListPagination,
+  ListLoading,
+  ListEmpty,
+} from "./components";
 import { cx } from "shared/utils";
 import { style } from "styles";
 import { compact, each } from "lodash";
@@ -76,12 +82,14 @@ export const List = <T extends object, R = undefined>({
         >
           <ListHeader groups={groups} />
           {loading ? (
-            <ListEmpty />
-          ) : (
+            <ListLoading />
+          ) : rows.length > 0 ? (
             <ListBody
               rows={pagination ? page : rows}
               {...getTableBodyProps()}
             />
+          ) : (
+            <ListEmpty />
           )}
         </table>
       </div>

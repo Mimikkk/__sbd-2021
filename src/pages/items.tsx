@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Typography } from "@mui/material";
-import { Button, EmptyPage, Tile } from "shared/components";
+import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
 import { ItemForm } from "dedicated/forms";
 import { useItemList } from "dedicated/hooks";
@@ -33,7 +33,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {ItemList.length !== 0 ? <ItemList /> : <EmptyPage />}
+            <ItemList />
           </div>
         </div>
       </ItemListContext>

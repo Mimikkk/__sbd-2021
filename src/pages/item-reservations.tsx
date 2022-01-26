@@ -1,4 +1,4 @@
-import { EmptyPage, Tile } from "shared/components";
+import { Tile } from "shared/components";
 import { useItemReservationList } from "dedicated/hooks";
 import { Typography } from "@mui/material";
 
@@ -27,11 +27,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {ItemReservationList.length !== 0 ? (
-              <ItemReservationList />
-            ) : (
-              <EmptyPage />
-            )}
+            <ItemReservationList />
           </div>
         </div>
       </ItemReservationListContext>
