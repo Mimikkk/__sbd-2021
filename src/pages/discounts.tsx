@@ -2,12 +2,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
-import { DiscountForm } from "components/forms";
-import { useDiscountList } from "components/hooks";
+import { DiscountForm } from "dedicated/forms";
+import { useDiscountList } from "dedicated/hooks";
 
 export default () => {
   const [DiscountList, DiscountListContext] = useDiscountList();
-  const [DiscountModal, open] = useModal(<DiscountForm/>, "Add new discount");
+  const [DiscountModal, open] = useModal(<DiscountForm />, "Add new discount");
 
   return (
     <Tile>

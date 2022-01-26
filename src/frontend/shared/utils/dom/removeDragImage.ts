@@ -5,7 +5,7 @@ const imageFromString = (source: string) => {
 };
 
 const transparent =
-  'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
 
 export const removeDragImage = (event: DragEvent) =>
-  event.dataTransfer!.setDragImage(imageFromString(transparent), 0, 0);
+  event.dataTransfer?.setDragImage(imageFromString(transparent), 0, 0);

@@ -1,12 +1,11 @@
 import { BaseModel } from "./base.model";
 
 export module Court {
-  export type Model = {
+  export interface Model {
     name: string;
     floor: string;
     isCovered: boolean;
-    isUnderMaintenance: boolean;
-  };
-  export type Entity = BaseModel & Model;
-  export type Row = Entity;
+  }
+  export interface Entity extends BaseModel, Model {}
+  export interface Row extends Entity {}
 }

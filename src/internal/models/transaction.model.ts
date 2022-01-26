@@ -3,7 +3,7 @@ import { BaseModel } from "@models";
 
 export module Transaction {
   export interface Model {
-    cost: number;
+    priceId: uuid;
     clientId: uuid;
     discountId?: uuid;
     reservationId: uuid;

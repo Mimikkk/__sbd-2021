@@ -16,7 +16,7 @@ export const discountService = {
       url,
       item,
       id,
-      successMessage: "Updated a client",
+      successMessage: "Updated a discount",
     }),
 
   delete: (id: uuid) =>

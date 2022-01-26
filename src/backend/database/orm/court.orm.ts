@@ -15,13 +15,11 @@ import { identity } from "lodash";
 const sql: SqlMap<Court.Entity> = {
   ...footprintTranslation,
   name: identity,
-  isUnderMaintenance: identity,
   isCovered: identity,
   floor: identity,
 };
 const translations: TranslationMap<Court.Model> = {
   name: str,
-  isUnderMaintenance: num,
   isCovered: num,
   floor: str,
 };

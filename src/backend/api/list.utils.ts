@@ -10,8 +10,9 @@ import {
 import { StatusCode } from "@internal/enums";
 import { SqlCommand, SqlResponse } from "$sql/types";
 import { uuid } from "@internal/types";
+import { snakeCase } from "lodash";
 
-interface GetProps<T> {
+export interface GetProps<T> {
   name: string;
   translateFn: (raw: SqlResponse) => T;
 }
@@ -26,6 +27,35 @@ export const createListGet =
       .status(StatusCode.Ok)
       .json({ items, total: items.length });
   };
+export interface GetProps<T> {
+  name: string;
+  translateFn: (raw: SqlResponse) => T;
+}
+
+const formatFilters = <T extends object>(filters: T) =>
+  Object.keys(filters)
+    .map((filter) => `${snakeCase(filter)}='${filters[filter as keyof T]}'`)
+    .join(",");
+
+export const createFilteredListGet =
+  <T>({ translateFn, name }: GetProps<T>): ApiFn =>
+  async ({ request, response }) => {
+    const { filters } = request.query;
+    if (!filters) {
+      return createListGet({ name, translateFn })({ response, request });
+    }
+
+    const total = (await select(`select count(*) from ${name}`)) as number;
+
+    const query = `${name} where ${formatFilters(
+      JSON.parse(atob(filters as string))
+    )}`;
+    const items = (await selectWith(
+      translateFn
+    )`select * from ${query} order by created_at desc`) as [];
+
+    return await response.status(StatusCode.Ok).json({ items, total });
+  };
 
 interface PostProps<T> {
   name: string;
@@ -36,14 +66,13 @@ export const createListPost =
   async ({ request, response }) => {
     const { body } = request;
 
-    console.log(body);
-    console.log(createFn(body));
-
     await run(createFn(body));
 
     const [{ id, created_at }] = await select(selectNewestFootprintId(name));
     return await response.status(StatusCode.Created).json({
-      message: `successfully created new resource '${id}'.`,
+      message: `successfully created new resource`,
+      resourceId: id,
+      model: body,
       createdAt: created_at,
     });
   };
@@ -56,7 +85,13 @@ export const createListDelete =
   async ({ request, response }) => {
     const { id } = request.query;
 
-    await run(deleteFn(id as string));
+    try {
+      await run(deleteFn(id as string));
+    } catch {
+      return await response
+        .status(StatusCode.Teapot)
+        .json({ message: `Would affect constraints.` });
+    }
 
     await response
       .status(StatusCode.Ok)

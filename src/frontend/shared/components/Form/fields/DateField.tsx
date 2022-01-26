@@ -1,19 +1,44 @@
-import { FormField } from "./FormField";
-import React, { useState, VFC } from 'react';
-import { DateSelect } from '../../fields';
+import { VFC } from "react";
+import { TextField } from "@mui/material";
+import { Nullable } from "@internal/types";
+import { useField } from "formik";
+import { DesktopDatePicker } from "@mui/lab";
 
-interface Props<T> {
+export interface Props {
+  value?: Nullable<Date>;
   name: string;
-  date?: Date;
-  value?: T;
-  label?: string;
-  onChange?: (value: Date) => void;
+  label: string;
+  minYear: number;
+  maxYear: number;
+  onChange?: (date: Nullable<Date>) => void;
 }
 
-export const DateField = <T,>({ name, onChange, ...props }: Props<T>) => {
-  const [value, setValue] = useState(new Date());
-  return(
-    <FormField name={name} onChange={onChange}>
-      <DateSelect onChange={setValue} {...props}/>
-    </FormField>
-  )};
+export const DateField: VFC<Props> = ({
+  name,
+  label,
+  minYear,
+  maxYear,
+  onChange,
+}) => {
+  const [field, meta, helpers] = useField({ name });
+
+  return (
+    <DesktopDatePicker
+      minDate={new Date(minYear, 0)}
+      maxDate={new Date(maxYear, 11, 31)}
+      renderInput={(props) => (
+        <TextField
+          {...props}
+          error={meta.touched && Boolean(meta.error)}
+          helperText={meta.touched && meta.error}
+        />
+      )}
+      onChange={(date) => {
+        onChange?.(date);
+        helpers.setValue(date);
+      }}
+      label={label}
+      value={field.value}
+    />
+  );
+};

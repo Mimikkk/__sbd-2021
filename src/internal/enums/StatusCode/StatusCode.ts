@@ -7,4 +7,5 @@ export enum StatusCode {
   Forbidden = 403,
   NotFound = 404,
   MethodNotAllowed = 405,
+  Teapot = 418,
 }

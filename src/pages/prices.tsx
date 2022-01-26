@@ -2,8 +2,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { Grid, Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
-import { PriceForm } from "components/forms";
-import { usePriceList } from "components/hooks";
+import { PriceForm } from "dedicated/forms";
+import { usePriceList } from "dedicated/hooks";
 
 export default () => {
   const [PriceList, PriceListContext] = usePriceList();

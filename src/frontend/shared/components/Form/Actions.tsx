@@ -1,42 +1,61 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Grid } from "@mui/material";
 import { Button } from "shared/components";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useModalContext } from "shared/contexts";
+import { useToggle } from "shared/hooks";
 
 interface Props<T extends object> {
-  onSubmit: () => Promise<boolean>;
-  onRemove?: () => Promise<void>;
+  onSubmit?: false | (() => Promise<boolean>);
+  onRemove?: false | (() => Promise<void>);
+  disabledSubmit?: boolean;
+  disabledRemove?: boolean;
 }
 
-export const Actions = <T extends object>({ onSubmit, onRemove }: Props<T>) => {
+export const Actions = <T extends object>({
+  onSubmit,
+  onRemove,
+  disabledRemove,
+  disabledSubmit,
+}: Props<T>) => {
   const { close } = useModalContext();
+  const [isSubmit, toggleSubmit] = useToggle(false);
   const handleSubmit = async () => {
+    if (!onSubmit) return;
+    toggleSubmit();
     if (await onSubmit()) close();
+    toggleSubmit();
   };
   const handleRemove = async () => {
-    await onRemove?.();
+    if (!onRemove) return;
+
+    toggleSubmit();
+    await onRemove();
     close();
+    toggleSubmit();
   };
 
   return (
-    <Grid container style={{ justifyContent: "center", padding: "0.5em"}}>
-      <Grid item xs={4} style={{ justifyContent: "center" }}>
-        <Button title={"Submit"} icon={<AddIcon />} onClick={handleSubmit} />
-      </Grid>
-      <Grid item xs={4} style={{ justifyContent: "center" }}>
-        <Button title={"Close"} icon={<CloseIcon />} onClick={close} />
-      </Grid>
-      {onRemove && (
-        <Grid item xs={4} style={{ justifyContent: "center" }}>
-          <Button
-            title={"Delete"}
-            icon={<DeleteIcon />}
-            onClick={handleRemove}
-          />
-        </Grid>
+    <div
+      style={{ display: "flex", columnGap: "8px", justifyContent: "center" }}
+    >
+      {onSubmit && (
+        <Button
+          title={"Submit"}
+          icon={<AddIcon />}
+          onClick={handleSubmit}
+          disabled={disabledSubmit || isSubmit}
+        />
       )}
-    </Grid>
+      <Button title={"Close"} icon={<CloseIcon />} onClick={close} />
+      {onRemove && (
+        <Button
+          title={"Delete"}
+          icon={<DeleteIcon />}
+          onClick={handleRemove}
+          disabled={disabledRemove || isSubmit}
+        />
+      )}
+    </div>
   );
 };

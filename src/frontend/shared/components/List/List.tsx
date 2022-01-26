@@ -13,7 +13,7 @@ export interface ListProps<T extends object, R = undefined>
   columns: Column<T, R>[];
   items: T[];
   pagination?: boolean;
-  initialRef?: R;
+  cellRef?: R;
   loading?: boolean;
 }
 
@@ -22,12 +22,12 @@ export const List = <T extends object, R = undefined>({
   items,
   pagination = false,
   className,
-  initialRef,
   loading,
+  cellRef,
   ...props
 }: ListProps<T, R>) => {
-  const ref = useRef<R>();
-  if (!ref.current) ref.current = initialRef;
+  const reference = useRef<R>();
+  if (!reference.current) reference.current = cellRef;
 
   const {
     columns: cols,
@@ -54,8 +54,8 @@ export const List = <T extends object, R = undefined>({
     ...compact([pagination && usePagination, useFlexLayout])
   );
 
-  prepareCells(each(rows, prepareRow), cols, ref);
-  prepareHeaders(groups, rows, cols, ref);
+  prepareCells(each(rows, prepareRow), cols, reference);
+  prepareHeaders(groups, rows, cols, reference);
 
   return (
     <Grid

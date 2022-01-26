@@ -1,12 +1,9 @@
 import { Button, Tile } from "shared/components";
-import {
-  useEmployeeList,
-} from "components/hooks";
-import { Grid, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useModal } from '../frontend/shared/hooks';
-import { EmployeeForm} from '../frontend/components/forms';
-
+import { useEmployeeList } from "dedicated/hooks";
+import { Grid, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useModal } from "shared/hooks";
+import { EmployeeForm } from "dedicated/forms";
 
 export default () => {
   const [EmployeeList, EmployeeListContext] = useEmployeeList();

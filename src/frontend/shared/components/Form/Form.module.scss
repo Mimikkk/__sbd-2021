@@ -1,16 +1,16 @@
 .form {
-  padding: 0 2em;
-}
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  row-gap: 12px;
+  padding: 12px;
 
-
-.menu__item {
-  &:before {
-    & .MuiListItemIcon-root {
-      color: rgba(124, 77, 255, 0.08);
-    }
-
-    & .MuiListItemText-primary {
-      borderColor: red;
-    }
+  &--split {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    column-gap: 12px;
   }
 }
