@@ -60,7 +60,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {CourtList.length != 0 ? <CourtList /> : <EmptyPage />}
+            {CourtList.length !== 0 ? <CourtList /> : <EmptyPage />}
           </div>
         </div>
       </CourtListContext>

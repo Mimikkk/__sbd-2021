@@ -33,7 +33,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {ItemList.length != 0 ? <ItemList /> : <EmptyPage />}
+            {ItemList.length !== 0 ? <ItemList /> : <EmptyPage />}
           </div>
         </div>
       </ItemListContext>

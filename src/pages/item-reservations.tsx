@@ -27,7 +27,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {ItemReservationList.length != 0 ? (
+            {ItemReservationList.length !== 0 ? (
               <ItemReservationList />
             ) : (
               <EmptyPage />

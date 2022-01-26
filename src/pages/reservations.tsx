@@ -27,7 +27,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {CourtReservationList.length != 0 ? (
+            {CourtReservationList.length !== 0 ? (
               <CourtReservationList />
             ) : (
               <EmptyPage />

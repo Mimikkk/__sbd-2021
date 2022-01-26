@@ -26,7 +26,7 @@ export default () => {
           </div>
 
           <div style={{ flex: 1 }}>
-            {TransactionList.length != 0 ? <TransactionList /> : <EmptyPage />}
+            {TransactionList.length !== 0 ? <TransactionList /> : <EmptyPage />}
           </div>
         </div>
       </TransactionListContext>
