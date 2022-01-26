@@ -1,6 +1,6 @@
-import { Tile } from "shared/components";
+import { EmptyPage, Tile } from "shared/components";
 import { useItemReservationList } from "dedicated/hooks";
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export default () => {
   const [ItemReservationList, ItemReservationListContext] =
@@ -9,16 +9,31 @@ export default () => {
   return (
     <Tile>
       <ItemReservationListContext>
-        <Grid container spacing={2} style={{ width: "100%" }}>
-          <Grid item container justifyContent={"space-between"}>
-            <Grid item>
-              <Typography variant="h3">Item reservations</Typography>
-            </Grid>
-          </Grid>
-          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
-            <ItemReservationList />
-          </Grid>
-        </Grid>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h3">Item reservations</Typography>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            {ItemReservationList.length != 0 ? (
+              <ItemReservationList />
+            ) : (
+              <EmptyPage />
+            )}
+          </div>
+        </div>
       </ItemReservationListContext>
     </Tile>
   );

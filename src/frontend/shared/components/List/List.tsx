@@ -1,6 +1,5 @@
 import { useTable, usePagination, useFlexLayout } from "react-table";
 import { HTMLAttributes, useRef } from "react";
-import { Grid } from "@mui/material";
 import { ListBody, ListHeader, ListPagination, ListEmpty } from "./components";
 import { cx } from "shared/utils";
 import { style } from "styles";
@@ -58,19 +57,18 @@ export const List = <T extends object, R = undefined>({
   prepareHeaders(groups, rows, cols, reference);
 
   return (
-    <Grid
-      container
+    <div
       style={{
         display: "flex",
         width: "100%",
-        height: "fit-content",
+        height: "90%",
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         alignContent: "space-between",
       }}
     >
-      <Grid item container style={{ width: "inherit", display: "flex" }}>
+      <div style={{ width: "inherit", display: "flex" }}>
         <table
           {...getTableProps()}
           className={cx(style("list"), className)}
@@ -86,9 +84,9 @@ export const List = <T extends object, R = undefined>({
             />
           )}
         </table>
-      </Grid>
+      </div>
       {pagination ? (
-        <Grid item>
+        <div>
           <ListPagination
             gotoPage={gotoPage}
             canPreviousPage={canPreviousPage}
@@ -99,8 +97,8 @@ export const List = <T extends object, R = undefined>({
             pageIndex={pageIndex}
             pageCount={pageCount}
           />
-        </Grid>
+        </div>
       ) : null}
-    </Grid>
+    </div>
   );
 };

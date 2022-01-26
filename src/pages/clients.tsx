@@ -1,6 +1,6 @@
-import { Button, Tile } from "shared/components";
+import { Button, EmptyPage, Tile } from "shared/components";
 import { useClientList } from "dedicated/hooks";
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useModal } from "shared/hooks";
 import { ClientForm } from "dedicated/forms";
@@ -12,28 +12,35 @@ export default () => {
   return (
     <Tile>
       <ClientListContext>
-        <Grid container spacing={2} style={{ width: "100%" }}>
-          <Grid item container justifyContent="space-between">
-            <Grid item>
-              <Typography variant="h3">Clients</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <Button
-                    title="Add new client"
-                    icon={<AddIcon />}
-                    onClick={open}
-                  />
-                  <ClientModal />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
-            <ClientList />
-          </Grid>
-        </Grid>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h3">Clients</Typography>
+            <div style={{ display: "flex", height: "40px", columnGap: "4px" }}>
+              <Button
+                title="Add new client"
+                icon={<AddIcon />}
+                onClick={open}
+              />
+              <ClientModal />
+            </div>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            {ClientList.length != 0 ? <ClientList /> : <EmptyPage />}
+          </div>
+        </div>
       </ClientListContext>
     </Tile>
   );
