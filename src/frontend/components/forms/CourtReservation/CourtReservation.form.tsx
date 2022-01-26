@@ -61,7 +61,7 @@ export const CourtReservationForm = <T extends CourtReservation.Model>({ initial
           <DateSelect date={date} onChange={setDate} min={useMemo(() => new Date(), [])}/>
         </Grid>
         <Grid item xs={12}>
-          <TimePicker date={date} name={"start"} label={"Start time"}/>
+          <TimePicker date={date} onChange={setDate} name={"start"} label={"Start time"}/>
         </Grid>
         <Grid item xs={12}>
           <TimePicker date={date} name={"end"} label={"End time"}/>

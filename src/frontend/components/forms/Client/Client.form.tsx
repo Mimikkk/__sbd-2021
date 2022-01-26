@@ -7,6 +7,8 @@ import { DateSelect, Form, SelectField, TextField } from 'shared/components';
 import { useListContext } from "shared/contexts";
 import { clientSchema } from './Client.validation';
 import { useFormReducer } from '../../Scheduler/components/SchedulerHeader/reducer';
+import { DateField } from '../../../shared/components/Form/fields/DateField';
+import { useState } from 'react';
 
 const createClientValues = <T extends Client.Model>(): T =>
   ({
@@ -53,9 +55,8 @@ export const ClientForm = <T extends Client.Model>({ initialValues, }: FormProps
           <Grid item xs={12}>
             <TextField name="address" label="Address" />
           </Grid>
-
-          <Grid item xs={6}>
-              <DateSelect  date={date} onChange={setDate}/>
+          <Grid item xs={12}>
+              <DateSelect onChange={setDate}/>
           </Grid>
           <Grid item xs={12}>
             <TextField name="phone" label="Phone number" />

@@ -5,7 +5,7 @@ import { DesktopDatePicker } from "@mui/lab";
 import { style } from "styles";
 
 interface Props {
-  date: Date;
+  date?: Date;
   min?: Date;
   max?: Date;
   onChange: (date: Date) => void;

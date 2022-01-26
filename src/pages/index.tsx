@@ -2,6 +2,6 @@ import { Tile } from "shared/components";
 
 export default () => (
   <Tile>
-    <p>DUPA DUPA</p>
+    <p> Welcome in the hell</p>
   </Tile>
 );

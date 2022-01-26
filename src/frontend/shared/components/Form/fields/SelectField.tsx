@@ -2,6 +2,8 @@ import { TextField as MuiTextField, MenuItem } from "@mui/material";
 import { FormField } from "./FormField";
 import { Discount } from '@models';
 import Entity = Discount.Entity;
+import { style } from "styles";
+import { cx } from '../../../utils';
 
 export interface Option {
   label: string;
@@ -20,12 +22,11 @@ export const SelectField = ({ name, onChange, options, ...props }: Props) => (
     <MuiTextField select label="Select" fullWidth {...props}>
       {options.sort().map((option) => (
         //@ts-ignore
-        <MenuItem key={option.value} value={option.value} sx={{"&:focus": {
-          "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-          color: "rgba(124, 77, 255, 0.08)"}}}}>
+        <MenuItem key={option.value} value={option.value} className={style('menu__item')}>
           {option.label}
         </MenuItem>
       ))}
     </MuiTextField>
   </FormField>
 );
+
