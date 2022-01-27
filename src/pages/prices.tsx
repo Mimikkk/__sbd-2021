@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Button, Tile } from "shared/components";
 import { useModal } from "shared/hooks";
 import { PriceForm } from "dedicated/forms";
@@ -12,28 +12,37 @@ export default () => {
   return (
     <Tile>
       <PriceListContext>
-        <Grid container spacing={2} style={{ width: "100%" }}>
-          <Grid item container justifyContent={"space-between"}>
-            <Grid item>
-              <Typography variant="h3">Services and prices</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <Button
-                    title={"Add new service"}
-                    icon={<AddIcon />}
-                    onClick={open}
-                  />
-                  <PriceModal />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            rowGap: "10px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+            }}
+          >
+            <Typography variant="h3">Prices</Typography>
+            <div style={{ display: "flex", height: "40px", columnGap: "4px" }}>
+              <Button
+                title="Add new service"
+                icon={<AddIcon />}
+                onClick={open}
+              />
+              <PriceModal />
+            </div>
+          </div>
+
+          <div style={{ flex: 1 }}>
             <PriceList />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </PriceListContext>
     </Tile>
   );

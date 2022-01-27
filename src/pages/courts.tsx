@@ -37,15 +37,32 @@ export default () => {
   return (
     <Tile>
       <CourtListContext>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h3">Courts</Typography>
-          <div style={{ display: "flex", height: "40px", columnGap: "4px" }}>
-            <FilterField value={floorFilter} setValue={setFloorFilter} />
-            <Button title="Add new court" icon={<AddIcon />} onClick={open} />
-            <CourtModal />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h3">Courts</Typography>
+            <div style={{ display: "flex", height: "40px", columnGap: "20px" }}>
+              <FilterField value={floorFilter} setValue={setFloorFilter} />
+              <Button title="Add new court" icon={<AddIcon />} onClick={open} />
+              <CourtModal />
+            </div>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <CourtList />
           </div>
         </div>
-        <CourtList />
       </CourtListContext>
     </Tile>
   );

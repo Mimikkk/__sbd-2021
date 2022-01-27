@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Tile } from "shared/components";
 import { useTransactionList } from "dedicated/hooks";
 
@@ -8,16 +8,27 @@ export default () => {
   return (
     <Tile>
       <TransactionListContext>
-        <Grid container spacing={2} style={{ width: "100%" }}>
-          <Grid item container justifyContent={"space-between"}>
-            <Grid item>
-              <Typography variant="h3">Transactions</Typography>
-            </Grid>
-          </Grid>
-          <Grid item style={{ display: "flex", width: "100%", height: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h3">Transactions</Typography>
+          </div>
+
+          <div style={{ flex: 1 }}>
             <TransactionList />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </TransactionListContext>
     </Tile>
   );

@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/lab";
 
 interface Props {
-  date: Date;
+  date?: Date;
   min?: Date;
   max?: Date;
   onChange: (date: Date) => void;
