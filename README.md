@@ -24,5 +24,5 @@ Aplikacja symulująca działanie systemu administracyjnego w firmie zarządzają
 https://sbd-tennis.herokuapp.com/
 
 Autorzy:
-- Monika Zielińska [143719]
+- [143719]
 - Daniel Zdancewicz [145317]
