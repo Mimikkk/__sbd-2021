@@ -120,7 +120,6 @@ export const ReservationPendingForm: VFC<Props> = ({
             itemId,
             start,
             end,
-            courtId,
             priceId,
             count,
             courtReservationId: reservation.id,

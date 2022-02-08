@@ -4,7 +4,6 @@ import { Reservation } from "./reservation.model";
 export module ItemReservation {
   export interface Model extends Reservation.Model {
     courtReservationId: uuid;
-    courtId: uuid;
     itemId: uuid;
     priceId: uuid;
     count: number;
