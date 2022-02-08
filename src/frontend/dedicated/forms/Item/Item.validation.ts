@@ -5,4 +5,4 @@ export const ItemSchema: Schema<Item.Model> = object<Item.Model>({
   count: number().min(1).max(1000).required(),
   description: string().required(),
   name: string().required(),
-}).defined();
+} as any).defined();

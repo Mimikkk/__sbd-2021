@@ -8,7 +8,7 @@ export const employeeSchema: Schema<Employee.Model> = object<Employee.Model>({
   email: string().required(),
   isTeacher: boolean().required(),
   name: string().required(),
-  payroll: number().required(),
+  payroll: number().min(0).max(2500).required(),
   phone: string().required(),
   surname: string().required(),
 }).defined();
