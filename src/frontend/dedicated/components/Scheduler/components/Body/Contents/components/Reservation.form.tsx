@@ -178,6 +178,7 @@ export const ReservationPendingForm: VFC<Props> = ({
       start: formatTime(start),
       end: formatTime(end),
     },
+    items,
   };
 
   return (
@@ -299,14 +300,14 @@ export const ReservationPendingForm: VFC<Props> = ({
                   size="small"
                   options={pricesToOptions(itemsPrices)}
                   loading={loading}
-                  disabled={disabled}
+                  disabled={disabled || !values.itemReservations[index].itemId}
                 />
                 <TextField
                   name={`itemReservations.${index}.count`}
                   label="Count"
                   size="small"
                   type="number"
-                  disabled={disabled}
+                  disabled={disabled || !values.itemReservations[index].itemId}
                 />
                 <TextField
                   name={`itemReservations.${index}.cost`}

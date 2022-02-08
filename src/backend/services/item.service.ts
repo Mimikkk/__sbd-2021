@@ -20,5 +20,10 @@ export const itemService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed an items" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed an items",
+      errorMessage: "Reservation exists for this item",
+    }),
 };

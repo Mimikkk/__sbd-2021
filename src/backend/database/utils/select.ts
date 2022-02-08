@@ -15,9 +15,7 @@ export const selectWith =
   ): Promise<T | T[]> => {
     const raw = await select(`${first}${name}${second}`);
 
-    return Array.isArray(raw)
-      ? map(raw, (item) => translate(item))
-      : (translate(raw) as any);
+    return Array.isArray(raw) ? map(raw, translate) : (translate(raw) as any);
   };
 
 export const selectNewestFootprintId = (name: string): SqlCommand => `

@@ -20,5 +20,10 @@ export const discountService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed a discount" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed a discount",
+      errorMessage: "Discount is used in a transaction",
+    }),
 };

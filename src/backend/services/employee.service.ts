@@ -20,5 +20,10 @@ export const employeeService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed an employee" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed an employee",
+      errorMessage: "Employee is defined in a transaction",
+    }),
 };
