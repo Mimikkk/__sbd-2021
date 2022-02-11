@@ -85,6 +85,15 @@ export const createListDelete =
   async ({ request, response }) => {
     const { id } = request.query;
 
+    const [{ exists }] = await select(
+      `select exists(select * from footprint where id = '${id}')`
+    );
+    if (!exists) {
+      return await response
+        .status(StatusCode.NotFound)
+        .json({ message: `resource not found.` });
+    }
+
     try {
       await run(deleteFn(id as string));
     } catch {
@@ -106,6 +115,15 @@ export const createListPut =
   async ({ request, response }) => {
     const { body } = request;
     const { id } = request.query;
+
+    const [{ exists }] = await select(
+      `select exists(select * from footprint where id = '${id}')`
+    );
+    if (!exists) {
+      return await response
+        .status(StatusCode.NotFound)
+        .json({ message: `resource not found.` });
+    }
 
     await run(updateFn(id as string, body));
     const [{ id: updatedId, updated_at }] = await select(

@@ -20,5 +20,10 @@ export const clientService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed a client" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed a client",
+      errorMessage: "Client has a reservation",
+    }),
 };

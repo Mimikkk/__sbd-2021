@@ -20,5 +20,10 @@ export const priceService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed a price" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed a price",
+      errorMessage: "Price is used in a transaction",
+    }),
 };

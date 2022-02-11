@@ -1,6 +1,7 @@
 import { Column, OptionalCell } from "shared/components";
 import { Item } from "@models";
-import { EditCell } from './EditCell';
+import { EditCell } from "./EditCell";
+import { CountCell } from "./CountCell";
 
 export const columns: Column<Item.Row>[] = [
   {
@@ -10,6 +11,7 @@ export const columns: Column<Item.Row>[] = [
   {
     accessor: "count",
     Header: "Available",
+    Cell: CountCell,
   },
   {
     accessor: "description",
@@ -17,8 +19,8 @@ export const columns: Column<Item.Row>[] = [
     Cell: OptionalCell,
   },
   {
-  id: "edit",
-  Header: "Edit",
-  Cell: EditCell,
-},
+    id: "edit",
+    Header: "Edit",
+    Cell: EditCell,
+  },
 ];

@@ -25,5 +25,10 @@ export const courtService = {
     }),
 
   delete: (id: uuid) =>
-    servicant.delete({ url, id, successMessage: "Removed a court" }),
+    servicant.delete({
+      url,
+      id,
+      successMessage: "Removed a court",
+      errorMessage: "Court has a reservation",
+    }),
 };

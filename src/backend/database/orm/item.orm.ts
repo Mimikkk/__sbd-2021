@@ -17,10 +17,12 @@ const translations: TranslationMap<Item.Model> = {
   name: str,
   count: num,
   description: str,
-};
+} as any;
+
 const sql: SqlMap<Item.Entity> = {
   ...footprintTranslation,
   name: identity,
+  reserved: identity,
   description: identity,
   count: identity,
 };

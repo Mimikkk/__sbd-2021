@@ -50,7 +50,7 @@ export const ClientForm = <T extends Client.Model>({
       <DateField
         name="birthdate"
         label="Birthdate"
-        minYear={1950}
+        minYear={1960}
         maxYear={2010}
       />
       <TextField name="phone" label="Phone number" />

@@ -15,6 +15,11 @@ export const handleError =
       toast.warn(message || error.response.data.message);
       return undefined as never;
     }
+    if (error.response.status === StatusCode.NotFound) {
+      toast.error("Resource no longer exists");
+      return undefined as never;
+    }
+
     if (message || error.message) toast.error(message || error.message);
     throw error;
   };
