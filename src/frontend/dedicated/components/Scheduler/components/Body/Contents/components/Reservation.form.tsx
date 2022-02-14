@@ -312,7 +312,13 @@ export const ReservationPendingForm: VFC<Props> = ({
                   name={`itemReservations.${index}.itemId`}
                   label="Item"
                   size="small"
-                  options={itemsToOptions(items)}
+                  options={itemsToOptions(items).map(({ value, label }) => ({
+                    value,
+                    label,
+                    disabled: values.itemReservations.some(
+                      ({ itemId }) => value === itemId
+                    ),
+                  }))}
                   loading={loading}
                   disabled={disabled}
                 />
