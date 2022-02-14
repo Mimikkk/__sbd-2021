@@ -8,6 +8,7 @@ import {
   itemReservationService,
   itemService,
   priceService,
+  schedulerService,
   transactionService,
 } from "@services";
 import {
@@ -24,7 +25,7 @@ import { isSuccess } from "shared/utils/requests";
 import { Actions } from "shared/components/Form/Actions";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { CourtReservation, ItemReservation } from "@models";
+import { CourtReservation } from "@models";
 import { compact, filter } from "lodash";
 import { Formik } from "formik";
 import { itemPricesToOptions } from "shared/utils/options/prices";
@@ -107,45 +108,7 @@ export const ReservationPendingForm: VFC<Props> = ({
   );
 
   const handleSuccess = async (values: any) => {
-    const [, ...itemResponses] = await Promise.all([
-      courtReservationService.update(reservation.id, {
-        courtId,
-        teacherId: values.teacherId,
-        start,
-        end,
-      }),
-      ...values.itemReservations
-        .filter(
-          ({ itemId, priceId, count }: ItemReservation.Model) =>
-            itemId && priceId && count
-        )
-        .map(({ itemId, priceId, count }: ItemReservation.Model) =>
-          itemReservationService.create({
-            itemId,
-            start,
-            end,
-            priceId,
-            count,
-            courtReservationId: reservation.id,
-          })
-        ),
-    ]);
-    await Promise.all([
-      transactionService.create({
-        clientId: values.clientId,
-        reservationId: reservation.id,
-        priceId: values.priceId,
-        discountId: values.discountId,
-      }),
-      ...itemResponses.map(({ resourceId, model: { priceId } }: any) =>
-        transactionService.create({
-          reservationId: resourceId,
-          discountId: values.discountId,
-          clientId: values.clientId,
-          priceId: priceId,
-        })
-      ),
-    ]);
+    await schedulerService.create(reservation.id, values);
     refresh();
   };
   const handleRemove = async () => {
@@ -223,7 +186,6 @@ export const ReservationPendingForm: VFC<Props> = ({
             )
             .reduce((acc, cur) => acc + cur, 0);
 
-          console.log({ x: values.reservation.between });
           let total = serviceValue * values.reservation.between + itemsValue;
 
           const discount = discounts.find(({ id }) => id === values.discountId);
