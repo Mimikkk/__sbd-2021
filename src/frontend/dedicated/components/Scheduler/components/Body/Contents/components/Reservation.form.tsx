@@ -33,13 +33,13 @@ import { pendingSchema } from "./Reservation.validation";
 import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 import { concatenateStatuses } from "@internal/enums";
 import { differenceInMinutes } from "date-fns";
+import { permanentClientDiscountId } from "shared/constants/discounts";
 
 interface Props {
   reservation: CourtReservation.Entity;
   disabled?: boolean;
 }
 
-const permanentClientDiscount = "d1b31a98-7f82-11ec-ba10-022c73556905";
 export const ReservationPendingForm: VFC<Props> = ({
   reservation,
   disabled,
@@ -269,8 +269,12 @@ export const ReservationPendingForm: VFC<Props> = ({
                 disabled={disabled}
                 onChange={(clientId) => {
                   const client = clients.find(({ id }) => id === clientId);
-                  if (!client || !client.isPermanent) return;
-                  setFieldValue("discountId", permanentClientDiscount);
+                  setFieldValue(
+                    "discountId",
+                    client && client.isPermanent
+                      ? permanentClientDiscountId
+                      : null
+                  );
                 }}
               />
               <SelectField
@@ -286,11 +290,15 @@ export const ReservationPendingForm: VFC<Props> = ({
               label="Discount"
               options={compact([
                 ...discountsToOptions(
-                  discounts.filter(({ id }) => id !== permanentClientDiscount)
+                  discounts.filter(({ id }) => id !== permanentClientDiscountId)
                 ),
-                discounts.find(({ id }) => id === permanentClientDiscount) && {
+                discounts.find(
+                  ({ id }) => id === permanentClientDiscountId
+                ) && {
                   ...discountToOption(
-                    discounts.find(({ id }) => id === permanentClientDiscount)!
+                    discounts.find(
+                      ({ id }) => id === permanentClientDiscountId
+                    )!
                   ),
                   disabled: !clients.find(({ id }) => values.clientId === id)
                     ?.isPermanent,
