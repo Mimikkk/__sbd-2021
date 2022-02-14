@@ -12,9 +12,11 @@ import {
 } from "@services";
 import {
   discountsToOptions,
+  discountToOption,
   formatTime,
   itemsToOptions,
   peopleToOptions,
+  servicePricesToOptions,
 } from "shared/utils";
 import { style } from "styles";
 import { Button, SelectField, TextField } from "shared/components";
@@ -23,19 +25,21 @@ import { Actions } from "shared/components/Form/Actions";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { CourtReservation, ItemReservation } from "@models";
-import { filter } from "lodash";
+import { compact, filter } from "lodash";
 import { Formik } from "formik";
-import { pricesToOptions } from "shared/utils/options/prices";
+import { itemPricesToOptions } from "shared/utils/options/prices";
 import { formatPrice } from "shared/utils/formats/formatPrice";
 import { pendingSchema } from "./Reservation.validation";
 import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 import { concatenateStatuses } from "@internal/enums";
+import { differenceInMinutes } from "date-fns";
 
 interface Props {
   reservation: CourtReservation.Entity;
   disabled?: boolean;
 }
 
+const permanentClientDiscount = "d1b31a98-7f82-11ec-ba10-022c73556905";
 export const ReservationPendingForm: VFC<Props> = ({
   reservation,
   disabled,
@@ -176,6 +180,7 @@ export const ReservationPendingForm: VFC<Props> = ({
     reservation: {
       start: formatTime(start),
       end: formatTime(end),
+      between: differenceInMinutes(end, start) / 30,
     },
     items,
   };
@@ -218,7 +223,8 @@ export const ReservationPendingForm: VFC<Props> = ({
             )
             .reduce((acc, cur) => acc + cur, 0);
 
-          let total = serviceValue + itemsValue;
+          console.log({ x: values.reservation.between });
+          let total = serviceValue * values.reservation.between + itemsValue;
 
           const discount = discounts.find(({ id }) => id === values.discountId);
           if (discount) {
@@ -232,6 +238,7 @@ export const ReservationPendingForm: VFC<Props> = ({
               ? total * discountValue
               : discountValue;
           }
+
           setFieldValue("cost", formatPrice(Math.max(0, total)));
         }, [values, initialValues]);
         useEffect(() => {
@@ -260,6 +267,11 @@ export const ReservationPendingForm: VFC<Props> = ({
                 options={peopleToOptions(clients)}
                 loading={loading}
                 disabled={disabled}
+                onChange={(clientId) => {
+                  const client = clients.find(({ id }) => id === clientId);
+                  if (!client || !client.isPermanent) return;
+                  setFieldValue("discountId", permanentClientDiscount);
+                }}
               />
               <SelectField
                 name="teacherId"
@@ -272,14 +284,25 @@ export const ReservationPendingForm: VFC<Props> = ({
             <SelectField
               name="discountId"
               label="Discount"
-              options={discountsToOptions(discounts)}
+              options={compact([
+                ...discountsToOptions(
+                  discounts.filter(({ id }) => id !== permanentClientDiscount)
+                ),
+                discounts.find(({ id }) => id === permanentClientDiscount) && {
+                  ...discountToOption(
+                    discounts.find(({ id }) => id === permanentClientDiscount)!
+                  ),
+                  disabled: !clients.find(({ id }) => values.clientId === id)
+                    ?.isPermanent,
+                },
+              ])}
               loading={loading}
               disabled={disabled}
             />
             <SelectField
               name="priceId"
               label="Price"
-              options={pricesToOptions(servicesPrices)}
+              options={servicePricesToOptions(servicesPrices)}
               loading={loading}
               disabled={disabled}
             />
@@ -297,7 +320,7 @@ export const ReservationPendingForm: VFC<Props> = ({
                   name={`itemReservations.${index}.priceId`}
                   label="Price"
                   size="small"
-                  options={pricesToOptions(itemsPrices)}
+                  options={itemPricesToOptions(itemsPrices)}
                   loading={loading}
                   disabled={disabled || !values.itemReservations[index].itemId}
                 />

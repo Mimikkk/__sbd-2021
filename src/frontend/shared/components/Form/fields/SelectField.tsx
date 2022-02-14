@@ -29,8 +29,8 @@ export const SelectField = <T,>({
       {...props}
       {...(loading && { label: "Loading...", disabled: true })}
     >
-      {options.map(({ label, value }, index) => (
-        <MenuItem key={index} value={value as any}>
+      {options.map(({ label, value, disabled }, index) => (
+        <MenuItem key={index} value={value as any} disabled={disabled}>
           {label}
         </MenuItem>
       ))}
