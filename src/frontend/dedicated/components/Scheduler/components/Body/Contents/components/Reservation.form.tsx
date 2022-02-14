@@ -2,7 +2,6 @@ import { useEffect, VFC } from "react";
 import { useListFetch } from "shared/hooks";
 import {
   clientService,
-  courtReservationService,
   discountService,
   employeeService,
   itemReservationService,
@@ -112,24 +111,7 @@ export const ReservationPendingForm: VFC<Props> = ({
     refresh();
   };
   const handleRemove = async () => {
-    const itemReservationIds = itemReservations
-      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
-      .flatMap(({ id }) => id);
-
-    await Promise.all(itemReservationIds.map(itemReservationService.delete));
-    await courtReservationService.delete(reservation.id);
-
-    const itemTransactionsIds = itemReservations
-      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
-      .flatMap(({ id }) => id);
-    await Promise.all(itemTransactionsIds.map(transactionService.delete));
-
-    const courtTransactionId = transactions.find(
-      ({ reservationId }) => reservationId === reservation.id
-    )?.id;
-
-    if (!courtTransactionId) return;
-    await transactionService.delete(courtTransactionId);
+    await schedulerService.delete(reservation.id);
     refresh();
   };
 

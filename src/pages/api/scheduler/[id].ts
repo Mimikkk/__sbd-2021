@@ -5,15 +5,11 @@ import { StatusCode } from "@internal/enums";
 import {
   createItemReservation,
   createTransaction,
+  deleteCourtReservation,
   updateCourtReservation,
 } from "$sql/orm";
 import { ItemReservation } from "@models";
 import { uuid } from "@internal/types";
-import {
-  courtReservationService,
-  itemReservationService,
-  transactionService,
-} from "@services";
 
 const post: ApiFn = async ({ request, response }) => {
   const {
@@ -92,33 +88,23 @@ const post: ApiFn = async ({ request, response }) => {
 };
 
 const $delete: ApiFn = async ({ request, response }) => {
-  const { body } = request;
-  const {
-    courtReservationId,
-    itemReservationIds,
-    itemReservations,
-    transactions,
-  } = body;
+  const courtReservationId = request.query.id as string;
 
-  await Promise.all(itemReservationIds.map(itemReservationService.delete));
-  await courtReservationService.delete(courtReservationId);
-
-  const itemTransactionsIds = itemReservations
-    .filter(
-      ({ courtReservationId }: any) => courtReservationId === courtReservationId
-    )
-    .flatMap(({ id }: any) => id);
-  await Promise.all(itemTransactionsIds.map(transactionService.delete));
-
-  const courtTransactionId = transactions.find(
-    ({ reservationId }: any) => reservationId === courtReservationId
-  )?.id;
-
-  if (!courtTransactionId) return;
-  await transactionService.delete(courtTransactionId);
+  await execute(
+    `delete from item_reservation where court_reservation_id = ${str(
+      courtReservationId
+    )}`
+  );
+  await execute(deleteCourtReservation(courtReservationId));
+  await execute(
+    `delete
+     from transaction
+     where reservation_id = 'ddba3746-8de1-11ec-a20f-022c73556905'
+        or (reservation_id not in (select id from reservation))`
+  );
 
   return await response.status(StatusCode.Created).json({
-    message: `successfully created transaction bundle`,
+    message: `successfully deleted transaction bundle`,
   });
 };
 

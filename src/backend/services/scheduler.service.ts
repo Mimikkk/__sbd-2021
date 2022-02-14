@@ -9,11 +9,10 @@ export const schedulerService = {
       item: values,
       successMessage: "Created schedule reservation",
     }),
-  delete: (courtReservationId: uuid, values: any) =>
+  delete: (courtReservationId: uuid) =>
     servicant.delete({
       id: courtReservationId,
       url,
-      data: values,
       successMessage: "removed schedule reservations",
     }),
 };
