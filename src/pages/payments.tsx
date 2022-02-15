@@ -22,9 +22,8 @@ export default () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h3">Transactions</Typography>
+            <Typography variant="h3">Payments</Typography>
           </div>
-
           <div style={{ flex: 1 }}>
             <TransactionList />
           </div>

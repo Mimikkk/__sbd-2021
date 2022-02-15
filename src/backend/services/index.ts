@@ -7,3 +7,4 @@ export * from "./item.service";
 export * from "./price.service";
 export * from "./transaction.service";
 export * from "./item-reservation.service";
+export * from "./scheduler.service";

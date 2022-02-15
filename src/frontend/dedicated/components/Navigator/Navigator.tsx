@@ -69,8 +69,8 @@ const menus: MenuProps[] = [
     icon: <CalendarTodayIcon />,
   },
   {
-    title: "Transactions",
-    path: "transactions",
+    title: "Payments",
+    path: "payments",
     icon: <ReceiptIcon />,
   },
 ];

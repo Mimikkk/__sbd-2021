@@ -11,7 +11,7 @@ import { findContainingInterval } from "./utils";
 
 const timeColumn: Scheduler.Column = {
   accessor: "time",
-  Header: "Czas",
+  Header: "Time",
   Cell: HourCell,
   width: 40,
 };
@@ -21,7 +21,7 @@ const createCourtColumn = (
   court: Court.Entity,
   index: number
 ): Scheduler.Column => ({
-  Header: `Kort - ${court.name}`,
+  Header: `Court - ${court.name}`,
   id: `${index}`,
   Cell: CourtCell,
   onCellDragStart: ({ cell, event, ref, rows }) => {

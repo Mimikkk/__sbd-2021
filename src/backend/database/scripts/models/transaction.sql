@@ -19,3 +19,12 @@ create table transaction
 ) inherits (footprint);
 
 create index pending_reservation on transaction (reservation_id);
+
+update court_reservation
+set "start"      = '2022-02-14T06:30:00+00:00',
+    "end"        = '2022-02-14T09:30:00+00:00',
+    "court_id"   = 'a2ca210e-8dd8-11ec-a41a-022c73556905',
+    "teacher_id" = null
+where id = 'a2ca210e-8dd8-11ec-a41a-022c73556905';
+select * from court;
+select * from court_reservation;

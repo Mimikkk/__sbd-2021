@@ -6,7 +6,8 @@ export interface ApiProps {
 }
 
 export interface ApiDeleteProps extends ApiProps {
-  id: uuid;
+  id?: uuid;
+  data?: any;
 }
 
 export interface ApiReadProps extends ApiProps {

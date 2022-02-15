@@ -7,6 +7,8 @@ export const select = (
 ): Promise<SqlResponse> =>
   typeof str === "string" ? client.$queryRawUnsafe(str) : client.$queryRaw(str);
 
+export const execute = select;
+
 export const selectWith =
   <T = any>(translate: (item: SqlResponse) => T) =>
   async (

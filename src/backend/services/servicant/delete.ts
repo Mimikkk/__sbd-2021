@@ -7,8 +7,9 @@ export const $delete = ({
   id,
   successMessage,
   errorMessage,
+  data,
 }: ApiDeleteProps): Promise<void> =>
   axios
-    .delete(`${url}/${id || ""}`)
+    .delete(`${url}${id ? `/${id}` : ""}`, { data })
     .then(handleSuccess(successMessage))
     .catch(handleError(errorMessage)) as any;

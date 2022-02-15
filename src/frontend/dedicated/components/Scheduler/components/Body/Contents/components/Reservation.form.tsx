@@ -2,19 +2,21 @@ import { useEffect, VFC } from "react";
 import { useListFetch } from "shared/hooks";
 import {
   clientService,
-  courtReservationService,
   discountService,
   employeeService,
   itemReservationService,
   itemService,
   priceService,
+  schedulerService,
   transactionService,
 } from "@services";
 import {
   discountsToOptions,
+  discountToOption,
   formatTime,
   itemsToOptions,
   peopleToOptions,
+  servicePricesToOptions,
 } from "shared/utils";
 import { style } from "styles";
 import { Button, SelectField, TextField } from "shared/components";
@@ -22,14 +24,16 @@ import { isSuccess } from "shared/utils/requests";
 import { Actions } from "shared/components/Form/Actions";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { CourtReservation, ItemReservation } from "@models";
-import { filter } from "lodash";
+import { CourtReservation } from "@models";
+import { compact, filter } from "lodash";
 import { Formik } from "formik";
-import { pricesToOptions } from "shared/utils/options/prices";
+import { itemPricesToOptions } from "shared/utils/options/prices";
 import { formatPrice } from "shared/utils/formats/formatPrice";
 import { pendingSchema } from "./Reservation.validation";
 import { useSchedulerContext } from "dedicated/components/Scheduler/hooks";
 import { concatenateStatuses } from "@internal/enums";
+import { differenceInMinutes } from "date-fns";
+import { permanentClientDiscountId } from "shared/constants/discounts";
 
 interface Props {
   reservation: CourtReservation.Entity;
@@ -103,66 +107,11 @@ export const ReservationPendingForm: VFC<Props> = ({
   );
 
   const handleSuccess = async (values: any) => {
-    const [, ...itemResponses] = await Promise.all([
-      courtReservationService.update(reservation.id, {
-        courtId,
-        teacherId: values.teacherId,
-        start,
-        end,
-      }),
-      ...values.itemReservations
-        .filter(
-          ({ itemId, priceId, count }: ItemReservation.Model) =>
-            itemId && priceId && count
-        )
-        .map(({ itemId, priceId, count }: ItemReservation.Model) =>
-          itemReservationService.create({
-            itemId,
-            start,
-            end,
-            priceId,
-            count,
-            courtReservationId: reservation.id,
-          })
-        ),
-    ]);
-    await Promise.all([
-      transactionService.create({
-        clientId: values.clientId,
-        reservationId: reservation.id,
-        priceId: values.priceId,
-        discountId: values.discountId,
-      }),
-      ...itemResponses.map(({ resourceId, model: { priceId } }: any) =>
-        transactionService.create({
-          reservationId: resourceId,
-          discountId: values.discountId,
-          clientId: values.clientId,
-          priceId: priceId,
-        })
-      ),
-    ]);
+    await schedulerService.create(reservation.id, values);
     refresh();
   };
   const handleRemove = async () => {
-    const itemReservationIds = itemReservations
-      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
-      .flatMap(({ id }) => id);
-
-    await Promise.all(itemReservationIds.map(itemReservationService.delete));
-    await courtReservationService.delete(reservation.id);
-
-    const itemTransactionsIds = itemReservations
-      .filter(({ courtReservationId }) => reservation.id === courtReservationId)
-      .flatMap(({ id }) => id);
-    await Promise.all(itemTransactionsIds.map(transactionService.delete));
-
-    const courtTransactionId = transactions.find(
-      ({ reservationId }) => reservationId === reservation.id
-    )?.id;
-
-    if (!courtTransactionId) return;
-    await transactionService.delete(courtTransactionId);
+    await schedulerService.delete(reservation.id);
     refresh();
   };
 
@@ -176,6 +125,7 @@ export const ReservationPendingForm: VFC<Props> = ({
     reservation: {
       start: formatTime(start),
       end: formatTime(end),
+      between: differenceInMinutes(end, start) / 30,
     },
     items,
   };
@@ -218,7 +168,7 @@ export const ReservationPendingForm: VFC<Props> = ({
             )
             .reduce((acc, cur) => acc + cur, 0);
 
-          let total = serviceValue + itemsValue;
+          let total = serviceValue * values.reservation.between + itemsValue;
 
           const discount = discounts.find(({ id }) => id === values.discountId);
           if (discount) {
@@ -232,6 +182,7 @@ export const ReservationPendingForm: VFC<Props> = ({
               ? total * discountValue
               : discountValue;
           }
+
           setFieldValue("cost", formatPrice(Math.max(0, total)));
         }, [values, initialValues]);
         useEffect(() => {
@@ -260,6 +211,15 @@ export const ReservationPendingForm: VFC<Props> = ({
                 options={peopleToOptions(clients)}
                 loading={loading}
                 disabled={disabled}
+                onChange={(clientId) => {
+                  const client = clients.find(({ id }) => id === clientId);
+                  setFieldValue(
+                    "discountId",
+                    client && client.isPermanent
+                      ? permanentClientDiscountId
+                      : null
+                  );
+                }}
               />
               <SelectField
                 name="teacherId"
@@ -272,14 +232,29 @@ export const ReservationPendingForm: VFC<Props> = ({
             <SelectField
               name="discountId"
               label="Discount"
-              options={discountsToOptions(discounts)}
+              options={compact([
+                ...discountsToOptions(
+                  discounts.filter(({ id }) => id !== permanentClientDiscountId)
+                ),
+                discounts.find(
+                  ({ id }) => id === permanentClientDiscountId
+                ) && {
+                  ...discountToOption(
+                    discounts.find(
+                      ({ id }) => id === permanentClientDiscountId
+                    )!
+                  ),
+                  disabled: !clients.find(({ id }) => values.clientId === id)
+                    ?.isPermanent,
+                },
+              ])}
               loading={loading}
               disabled={disabled}
             />
             <SelectField
               name="priceId"
               label="Price"
-              options={pricesToOptions(servicesPrices)}
+              options={servicePricesToOptions(servicesPrices)}
               loading={loading}
               disabled={disabled}
             />
@@ -289,7 +264,13 @@ export const ReservationPendingForm: VFC<Props> = ({
                   name={`itemReservations.${index}.itemId`}
                   label="Item"
                   size="small"
-                  options={itemsToOptions(items)}
+                  options={itemsToOptions(items).map(({ value, label }) => ({
+                    value,
+                    label,
+                    disabled: values.itemReservations.some(
+                      ({ itemId }) => value === itemId
+                    ),
+                  }))}
                   loading={loading}
                   disabled={disabled}
                 />
@@ -297,7 +278,7 @@ export const ReservationPendingForm: VFC<Props> = ({
                   name={`itemReservations.${index}.priceId`}
                   label="Price"
                   size="small"
-                  options={pricesToOptions(itemsPrices)}
+                  options={itemPricesToOptions(itemsPrices)}
                   loading={loading}
                   disabled={disabled || !values.itemReservations[index].itemId}
                 />

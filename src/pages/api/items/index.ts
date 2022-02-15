@@ -8,7 +8,7 @@ import { map } from "lodash";
 const get: ApiFn = async ({ response }) => {
   const items = map(
     await select(
-      "select *, count - (select sum(count) from item_reservation where item_id = item.id) reserved from item order by created_at desc;"
+      "select *, count - coalesce((select sum(count) from item_reservation where item_id = item.id),0) reserved from item order by created_at desc;"
     ),
     translateItem
   );

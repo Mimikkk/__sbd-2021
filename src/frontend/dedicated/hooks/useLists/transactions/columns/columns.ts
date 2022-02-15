@@ -4,6 +4,7 @@ import { uuid } from "@internal/types";
 import { translate } from "shared/utils/translate";
 import { PersonCell } from "shared/components/List/components/cells/PersonCell";
 import { formatDiscount, formatPrice } from "shared/utils";
+import { differenceInMinutes } from "date-fns";
 
 interface Props {
   clients: Record<uuid, Client.Entity>;
@@ -51,10 +52,16 @@ export const getColumns = ({
     id: "cost",
     Header: "Cost",
     Cell: ({ row }: any) => {
+      const reservation = translate(row.original!.reservationId, reservations);
       const discount = translate(row.original!.discountId, discounts);
       const price = translate(row.original!.priceId, prices);
+      let cost = price?.cost || 0;
 
-      if (discount && price) {
+      if (reservation && price && !price.isItem) {
+        cost *= differenceInMinutes(reservation.end, reservation.start) / 30;
+      }
+
+      if (reservation && discount && price) {
         const discountValue = discount
           ? discount.isPercentage
             ? discount.value / 100
@@ -62,12 +69,11 @@ export const getColumns = ({
           : 0;
 
         return formatPrice(
-          price.cost -
-            (discount.isPercentage ? price.cost * discountValue : discountValue)
+          cost - (discount.isPercentage ? cost * discountValue : discountValue)
         );
       }
 
-      return price ? formatPrice(price.cost) : "-";
+      return price ? formatPrice(cost) : "-";
     },
   },
   {
