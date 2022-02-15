@@ -36,6 +36,7 @@ export const useTransactionList = () => {
   const [reservations, setReservations] = useState<
     Record<uuid, Reservation.Entity>
   >({});
+
   useEffect(() => {
     Promise.all([
       courtReservationService.readAll(),

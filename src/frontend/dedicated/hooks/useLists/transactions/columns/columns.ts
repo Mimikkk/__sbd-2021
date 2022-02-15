@@ -55,6 +55,11 @@ export const getColumns = ({
       const reservation = translate(row.original!.reservationId, reservations);
       const discount = translate(row.original!.discountId, discounts);
       const price = translate(row.original!.priceId, prices);
+      let cost = price?.cost || 0;
+
+      if (reservation && price && !price.isItem) {
+        cost *= differenceInMinutes(reservation.end, reservation.start) / 30;
+      }
 
       if (reservation && discount && price) {
         const discountValue = discount
@@ -63,19 +68,12 @@ export const getColumns = ({
             : discount.value
           : 0;
 
-        if (price.isItem) {
-          const times =
-            differenceInMinutes(reservation.end, reservation.start) / 30;
-          price.cost = price.cost * times;
-        }
-
         return formatPrice(
-          price.cost -
-            (discount.isPercentage ? price.cost * discountValue : discountValue)
+          cost - (discount.isPercentage ? cost * discountValue : discountValue)
         );
       }
 
-      return price ? formatPrice(price.cost) : "-";
+      return price ? formatPrice(cost) : "-";
     },
   },
   {
