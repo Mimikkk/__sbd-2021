@@ -15,39 +15,45 @@ import { style } from "styles";
 const menus: MenuProps[] = [
   {
     title: "Scheduler",
-    subtitle: "Reservation scheduler",
+    subtitle: "View of a reservation scheduler",
     path: "scheduler",
     icon: <CalendarTodayIcon />,
   },
   {
     title: "Clients",
-    subtitle: "List of clients",
+    subtitle: "List of registered clients",
     path: "clients",
     icon: <PersonIcon />,
   },
   {
     title: "Courts",
-    subtitle: "Court specifications",
+    subtitle: "Current courts specifications",
     path: "courts",
     icon: <SportsBaseballIcon />,
   },
   {
     title: "Discounts",
-    subtitle: "Available discounts",
+    subtitle: "List of available discounts",
     path: "discounts",
     icon: <LocalOfferIcon />,
   },
   {
     title: "Employees",
-    subtitle: "List of employees",
+    subtitle: "List of current employees",
     path: "employees",
     icon: <WorkIcon />,
   },
   {
-    title: "Item",
+    title: "Items",
     subtitle: "List of available items",
     path: "items",
     icon: <SportsTennisIcon />,
+  },
+  {
+    title: "Prices",
+    subtitle: "Actual prices",
+    path: "prices",
+    icon: <PaidIcon />,
   },
   {
     title: "Item reservations",
@@ -56,15 +62,9 @@ const menus: MenuProps[] = [
     icon: <ListIcon />,
   },
   {
-    title: "Price List",
-    subtitle: "Actual prices",
-    path: "prices",
-    icon: <PaidIcon />,
-  },
-  {
-    title: "Reservations",
-    subtitle: "Court reservations",
-    path: "reservations",
+    title: "Court reservations",
+    subtitle: "List of court reservations",
+    path: "court-reservations",
     icon: <ListIcon />,
   },
   {

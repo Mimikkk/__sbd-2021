@@ -19,22 +19,13 @@ export const Menu: FC<MenuProps> = ({ title, subtitle, icon, path }) => {
   return (
     <ListItem
       sx={{
-        color: "rgba(0, 0, 0, 0.87)",
-        height: 70,
-        borderRadius: "15px",
-        "&:hover": {
-          background: "rgba(124, 77, 255, 0.08)",
-          borderRadius: "4px;",
-        },
+        borderRadius: "4px",
+        "&:hover .MuiListItemIcon-root": { color: "rgba(124, 77, 255, 1)" },
       }}
       button
       onClick={() => router.push(path)}
     >
-      <ListItemIcon
-        sx={{ color: "rgba(120, 144, 156, 1)", justifyContent: "center" }}
-      >
-        {icon}
-      </ListItemIcon>
+      <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText
         primary={
           <Typography sx={{ color: "rgba(0, 0, 0, 0.87)", fontSize: 16 }}>
@@ -46,7 +37,6 @@ export const Menu: FC<MenuProps> = ({ title, subtitle, icon, path }) => {
             {subtitle}
           </Typography>
         }
-        sx={{ textAlign: "left" }}
       />
     </ListItem>
   );
