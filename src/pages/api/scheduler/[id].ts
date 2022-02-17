@@ -20,12 +20,11 @@ const post: ApiFn = async ({ request, response }) => {
       ) status_code`
   );
   if (statusCode === StatusCode.Teapot) {
-    return await response.status(StatusCode.Teapot).json({
+    return response.status(StatusCode.Teapot).json({
       message: `Reservation made earlier`,
     });
   }
-
-  return await response.status(StatusCode.Created).json({
+  return response.status(StatusCode.Created).json({
     message: `successfully created transaction bundle`,
   });
 };

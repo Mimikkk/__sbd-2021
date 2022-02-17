@@ -13,7 +13,12 @@ import { useFactory } from "shared/hooks";
 import { style } from "styles";
 
 const menus: MenuProps[] = [
-  { title: "Go home", path: "/" },
+  {
+    title: "Scheduler",
+    subtitle: "Reservation scheduler",
+    path: "scheduler",
+    icon: <CalendarTodayIcon />,
+  },
   {
     title: "Clients",
     subtitle: "List of clients",
@@ -63,13 +68,8 @@ const menus: MenuProps[] = [
     icon: <ListIcon />,
   },
   {
-    title: "Scheduler",
-    subtitle: "Reservation scheduler",
-    path: "scheduler",
-    icon: <CalendarTodayIcon />,
-  },
-  {
     title: "Payments",
+    subtitle: "List of payments",
     path: "payments",
     icon: <ReceiptIcon />,
   },
