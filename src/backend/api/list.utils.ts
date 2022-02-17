@@ -34,7 +34,10 @@ export interface GetProps<T> {
 
 const formatFilters = <T extends object>(filters: T) =>
   Object.keys(filters)
-    .map((filter) => `${snakeCase(filter)}='${filters[filter as keyof T]}'`)
+    .map(
+      (filter) =>
+        `lower(${snakeCase(filter)})=lower('${filters[filter as keyof T]}')`
+    )
     .join(",");
 
 export const createFilteredListGet =
